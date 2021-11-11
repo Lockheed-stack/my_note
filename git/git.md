@@ -184,3 +184,17 @@ git push origin --delete [branch-name]
 git branch -dr [remote/branch]
 ```
 
+#### 6.Q&A
+>Git中的origin到底是什么？
+
+  Answer：就是远程仓库链接的别名，github默认叫origin，即使用命令 git remote add [\<option>]\<name>\<url> 时，对应的name，叫阿猫，阿狗都行。
+
+<br></br>
+
+>命令“git branch --set-upstream master origin/next”中的选项“--set-upstream”是什么意思？
+
+Answer：在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系(tracking)。比如，在git clone的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的master分支自动”追踪”origin/master分支。
+
+Git也允许手动建立追踪关系。上面命令指定master分支追踪origin/next分支。如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。
+
+在使用命令“git pull origin"时，可能会出现"xxxx --set-upstream"的错误提示，就是在告诉你需要设置"追踪关系"，本地的当前分支无法自动与对应的origin主机”追踪分支”(remote-tracking branch)进行合并。
