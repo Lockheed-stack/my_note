@@ -198,3 +198,5 @@ Answer：在某些场合，Git会自动在本地分支与远程分支之间，�
 Git也允许手动建立追踪关系。上面命令指定master分支追踪origin/next分支。如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。
 
 在使用命令“git pull origin"时，可能会出现"xxxx --set-upstream"的错误提示，就是在告诉你需要设置"追踪关系"，本地的当前分支无法自动与对应的origin主机”追踪分支”(remote-tracking branch)进行合并。
+
+<br></br>
