@@ -2,9 +2,11 @@
 
 
 
-### [1]Şahin Bünyamin. New network entropy: The domination entropy of graphs[J]. Information Processing Letters,2022,174:
+### 新网络熵：图的支配熵
 
-### 起源
+**[1]Şahin Bünyamin. New network entropy: The domination entropy of graphs[J]. Information Processing Letters,2022,174:**
+
+### 1.起源
 
 > 熵entropy：香农在1948年提出的概念。
 >
@@ -34,7 +36,7 @@
 
 
 
-### 关于本文
+### 2.关于本文
 
 > 支配（domination）也是图的一个重要的属性。
 >
@@ -48,13 +50,13 @@
 
 
 
-### 名词、概念
+### 3.名词、概念
 
 
 
 cardinality：[n] 基数；集合的势
 
-subdivide:
+subdivide: [vi]细分；[vt]把...细分
 
 
 
@@ -86,22 +88,33 @@ subdivide:
 
 
 
-##### 总支配数$\gamma_t(G)$
+##### 总支配集total dominating set
 
-> 用于表示图 G 的总支配数，它是具有最小阶数的总支配集的基数
+> 对于图 G 和顶点集 V(G) 的子集 $S^t$，用 $N_G^t[S^t]$ 表示 G 中与 $S^t$ 中的顶点相邻的顶点集（G中的所有点都至少与$S^t$中的一个点相邻）。如果 $N_G^t[S^t]=V(G)$，则称 $S^t$ 是一个总支配集（G 中的顶点）。因为总支配集的成员必须与另一个顶点相邻，所以没有为具有孤立顶点的图定义总支配集。
+>
+> 总支配集与普通支配集的区别在于，在全支配集 $S^t$ 中，要求 $S^t$ 的成员自身与 $S^t$ 中的一个顶点相邻，而在普通支配集 S 中，  S 的成员可以在 S 本身或与 S 中的顶点相邻。
+> ![img](https://mathworld.wolfram.com/images/eps-gif/TotalDominatingSet_1000.gif)
+
+
+
+##### 总支配数total domination number，$\gamma_t(G)$
+
+> 用于表示图 G 的总支配数（the total domination number of a graph G），这是最小总支配集的基数（which is the cardinality of a total dominating set with minimum order）。
+>
+> 例如，在上图所示的彼得森图中，$\gamma(P)=3$，因为集合 $S=\{1,2,9\}$ 是最小支配集（左图），而 $\gamma_t(P)=4$ 因为 $S^t=  \{4,8,9,10\}$ 是最小总支配集（右图）。
 
 
 
 ##### 支配多项式domination polynomial，$D(G,x)$
 
-> $D(G, i)$ 表示基数为 i 的 G 的支配集族，$d_i$ 表示 $D(G, i)$ 的基数，使得 $d_i(G) =|D(G, i)|$。
+> $D(G, i)$ 表示基数为 i 的 G 的支配集族（也是一个集合），$d_i$ 表示 $D(G, i)$ 的基数，使得 $d_i(G) =|D(G, i)|$。
 > $$
 > D(G,x) = \sum ^{V(G)}_{i=\gamma(G)} d_i(G)x^i
 > $$
 >
 > 例子：
 >
-> 考虑路径图 $P4:v1v2v3v4$。 为了支配图$P_4$，取支配其他两个顶点的两个顶点就足够了。 因此$\gamma(P_4) =2$。  $P_4$ 的总支配集是 $\{v2, v3\}$ 并且 $γ_t(P_4) =2$。 基数为 2 的 $P_4$ 的支配集是 $D(G, 2) =\{ \{v1, v3\}, \{v1, v4\}, \{v2, v3\}, \{v2, v4\} \}$且$d——2(G) =4$  . 此外，基数为3的$P_4$的支配集为$D(G, 3) = \{\{v1, v2, v3\}, \{v1, v2, v4\}, \{v1, v3, v4\}, \{v2, v3, v4  \}\}$，$d_3(G) =4$。 最后，基数为 4 的 $P_4$ 的支配集是 $D(G, 4) =\{v1, v2, v3, v4\} $和 $d_4(G) =1$。
+> 考虑路径图 $P4:v_1v_2v_3v_4$。 为了支配图$P_4$，取能够支配其他两个顶点的两个顶点就足够了。 因此$\gamma(P_4) =2$。  $P_4$ 的总支配集是 $\{v2, v3\}$ 并且 $γ_t(P_4) =2$。 基数为 2 的 $P_4$ 的支配集是 $D(G, 2) =\{ \{v1, v3\}, \{v1, v4\}, \{v2, v3\}, \{v2, v4\} \}$且$d_2(G) =4$  . 此外，基数为3的$P_4$的支配集为$D(G, 3) = \{\{v1, v2, v3\}, \{v1, v2, v4\}, \{v1, v3, v4\}, \{v2, v3, v4  \}\}$，$d_3(G) =4$。 最后，基数为 4 的 $P_4$ 的支配集是 $D(G, 4) =\{v1, v2, v3, v4\} $和 $d_4(G) =1$。
 >
 > **因此，$P_4$的支配多项式为$D(G,P_4)=x^4+4x^3+4x^2$。**
 >
@@ -113,7 +126,7 @@ subdivide:
 > > $$
 > > \gamma_s(G) = \sum ^{|V(G|}_{i=\gamma(G)}d_i(G)
 > > $$
-> > $γ_s$ 来表示支配集的总数，该符号与图的总支配数 $γ_t$ 是一个意思。很明显，$γ_s$ 等于图 G 的支配多项式的**系数之和**。
+> > $γ_s$ 来表示支配集的总数（We use the notation $γ_s$ to denote the total number of dominating sets.）。**注意，不要和总支配数 $\gamma_t$ 混淆。**很明显，$γ_s$ 等于图 G 的支配多项式的**系数之和**。
 >
 > 
 
@@ -137,17 +150,51 @@ subdivide:
 
 > 对图 G ，$|V| =n$ 且没有孤立的顶点，我们引入信息泛函使得 $f := d_i(G)$，其中$d_i(G)=|D(G,i)|$。
 >
-> ![image-20211121200204211](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211121200204211.png)
+> ![image-20211123155608263](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123155608263.png)
 >
-> *划线部分怎么理解？什么意思？*
+> 
 >
 > 
 
 
 
+##### 基于匹配的熵度量(Hosoya index, or Z-index)
+
+>具有 k 条边的匹配数用 $z_k(G)$ 表示。 假设空集是匹配的，并且 $z_0(G) =1$。
+>
+>图 G 的 Hosoya 指数（或 Z 指数）计算为 $Z(G)=\sum^m_{k=0} Z_k(G)$。
+>
+>![image-20211123163634021](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123163634021.png)
 
 
-### 一些图的支配熵
+
+##### 基于独立集的熵度量（Merrifield-Simmons index ，or σ-index)
+
+>$\sigma_k(G)$ 表示基数为 k 的独立集合的数量。空集可以认为是一个独立的集，$\sigma_0(G) =1$。
+>
+>图 G 的 Merrifield-Simmons 指数（或 σ-index）计算为 $\sigma(G)=\sum^n_{k=0}\sigma_k(G)$。
+>
+>![image-20211123164504706](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123164504706.png)
+
+
+
+##### 基于度幂(degree power)的熵度量
+
+> ![image-20211123170640782](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123170640782.png)
+>
+> 当k=1时，可得到 first-degree entropy。
+>
+> ![image-20211123170752093](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123170752093.png)
+
+
+
+##### 拓扑信息内容（topological information content）
+
+> ![image-20211123171117903](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123171117903.png)
+
+
+
+### 4.一些图的支配熵
 
 > 假设$H_1$和$H_2$是两个连通图，$H=H_1∪H_2$分别是$H_1$和$H_2$的不相交并集。 我们得到:
 > $$
@@ -216,3 +263,21 @@ subdivide:
 >
 > 
 
+
+
+### 5.支配熵与其他熵度量的比较
+
+<img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123193719860.png" alt="image-20211123193719860" style="zoom: 67%;" />
+
+<img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123193754648.png" alt="image-20211123193754648" style="zoom: 67%;" />
+
+> 第一个重要结果是图3的$I_{nis}$等于图3的$I_{dom}$。图3是星形图$S_5$。
+>
+> ![image-20211123210729810](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123210729810.png)
+>
+> 感觉作者是不是写错了？应该是蓝线部分相等，才有$I_{nis}=I_{dom}$。
+
+>如表1所示，$I_α$的度量顺序为1.522七次、1.922五次、0.971三次、0.722三次、0两次和1.371一次。 图4和图21是正则图，它们的自同构群根据它们的对称结构由一个轨道组成。 图 21 在 21 图中具有最大的拓扑复杂度度量。 但是，它的 $I_α$ 值为零。
+>
+>
+>从表1可以看出，由于图4和图21是正则图，对于n个顶点，它们的first-degree熵等于logn。 但是，也可以看出这些图的拓扑复杂度存在显着差异。 这些图的first-degree熵和拓扑复杂度值之间没有显着相关性。 而且，表中P5的复杂度最小，完全图K5的拓扑复杂度最大。
