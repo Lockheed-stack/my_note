@@ -250,7 +250,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 > 借助杨辉三角，可得以下规律：
 >
-> <img src="H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20211126203351186.png" alt="image-20211126203351186" style="zoom: 50%;" />
+> <img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211126203351186.png" alt="image-20211126203351186" style="zoom: 50%;" />
 >
 > 支配多项式的系数为n-1行，所以写成$(1+x)^{n-1}$；
 >
@@ -339,13 +339,13 @@ subdivide: [vi]细分；[vt]把...细分
 >
 >`初步观察:`
 >
->![image-20211124214505697](H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20211124214505697.png)
+>![image-20211124214505697](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211124214505697.png)
 >
 >有点规律，但好像又说明不了什么。
 >
 >`再看看支配熵的表现：`
 >
-><img src="H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20211124215157534.png" alt="image-20211124215157534" style="zoom:80%;" />
+><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211124215157534.png" alt="image-20211124215157534" style="zoom:80%;" />
 >
 >$K_n$和$P_n$的$I_{dom}$差异比较明显，对比3~6阶相同图的$I_{fd}$差异。差异是相对明显了，但没有规律。作者也没有继续进行说明。
 
