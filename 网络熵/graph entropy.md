@@ -208,7 +208,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 > 图 G 的顶点在自同构作用下的等价类称为顶点轨道。 边的等价类称为边轨道。
 >
-> ![image-20211201205727270](H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20211201205727270.png)
+> ![image-20211201205727270](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211201205727270.png)
 
 
 
