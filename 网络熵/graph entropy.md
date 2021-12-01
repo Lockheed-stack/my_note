@@ -88,6 +88,12 @@ subdivide: [vi]细分；[vt]把...细分
 
 
 
+##### 度序列degree sequence
+
+> 假设 $V(G) = \{v_1, .  .  .  , v_n\}$ 和 $deg(v_k ) = d_k$, $k = 1,\dots,n$。 序列 $D(G) = (d_1, d_2, . . , d_n)$ 称为 G 的度序列。
+
+
+
 ##### 总支配集total dominating set
 
 > 对于图 G 和顶点集 V(G) 的子集 $S^t$，用 $N_G^t[S^t]$ 表示 G 中与 $S^t$ 中的顶点相邻的顶点集（G中的所有点都至少与$S^t$中的一个点相邻）。如果 $N_G^t[S^t]=V(G)$，则称 $S^t$ 是一个总支配集（G 中的顶点）。因为总支配集的成员必须与另一个顶点相邻，所以没有为具有孤立顶点的图定义总支配集。
@@ -180,6 +186,10 @@ subdivide: [vi]细分；[vt]把...细分
 
 ##### 基于度幂(degree power)的熵度量
 
+*相关文章：Extremality of degree-based graph entropies*
+
+> 这个度幂degree power，就是字面意思，度的n次方。
+>
 > ![image-20211123170640782](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123170640782.png)
 >
 > 当k=1时，可得到 first-degree entropy。
@@ -191,6 +201,14 @@ subdivide: [vi]细分；[vt]把...细分
 ##### 拓扑信息内容（topological information content）
 
 > ![image-20211123171117903](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123171117903.png)
+>
+> *什么是 orbit of G ??*
+>
+> 答：The equivalence classes of the vertices of a graph G under the action of the automorphisms are called vertex orbits. The equivalence classes of the edges are called edge orbits.
+>
+> 图 G 的顶点在自同构作用下的等价类称为顶点轨道。 边的等价类称为边轨道。
+>
+> ![image-20211201205727270](H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20211201205727270.png)
 
 
 
@@ -202,7 +220,7 @@ subdivide: [vi]细分；[vt]把...细分
 > I_{dom} = \log (\sum^n_{i=\gamma(H)}{d_i(H)})-\frac 1 {\sum ^n_{i=\gamma(H)}d_i(H)}\sum^n_{i=1}d_i(H)\log(d_i(H))
 > \end{align*}
 > $$
-> 这样可得$γ(H)=γ(H_1)+γ(H_2)$和$d_i(H) =\sum^i_{j=γ(H_1)}d_j(H_1)d_{i−j}(H_2)$.
+> 使得$γ(H)=γ(H_1)+γ(H_2)$和$d_i(H) =\sum^i_{j=γ(H_1)}d_j(H_1)d_{i−j}(H_2)$.  *怎么得来的？*
 
 
 
@@ -210,7 +228,8 @@ subdivide: [vi]细分；[vt]把...细分
 > $$
 > I_{dom}(K_n)=\log(2^n-1)-\frac 1 {2^n-1}\sum^n_{i=1}C^i_n \log(C_n^i)
 > $$
-> 
+>
+> 证明：支配多项式$D(G,x)=(1+x)^n-1$，通过二项式展开定理，可得$\gamma_s(G)=2^n-1$，$d_i(G)=C_n^i,1\le i \le n$。**（为什么要减1？答：因为二项式展开的第一项为$C_n^0 1^n \times x^0 =1$，而$d_0(G)=0$，因此这项对于该图来说并不存在，所以要减1）**
 
 
 
@@ -218,6 +237,30 @@ subdivide: [vi]细分；[vt]把...细分
 > $$
 > I_{dom}(S_n)=\log(2^{n-1}+1)-\frac 1 {2^{n-1}+1}(\sum^{n-3}_{i=1}C^i_{n-1}\log(C^i_{n-1}))-\frac {n\log n} {2^{n-1}+1}
 > $$
+> 推导：
+>
+> 先推导$S_n$的支配多项式（找规律）：
+>
+> 1. n=1：$d_1(G)=1$
+> 2. n=2：$d_1(G)=2,d_2(G)=1$
+> 3. n=3：$d_1(G)=1,d_2(G)=3,d_3(G)=1$
+> 4. n=4：$d_1(G)=1,d_2(G)=3,d_3(G)=4,d_4(G)=1$
+> 5. n=5：$d_1(G)=1,d_2(G)=4,d_3(G)=6,d_4(G)=5,d_5(G)=1$
+> 6. ....
+>
+> 借助杨辉三角，可得以下规律：
+>
+> <img src="H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20211126203351186.png" alt="image-20211126203351186" style="zoom: 50%;" />
+>
+> 支配多项式的系数为n-1行，所以写成$(1+x)^{n-1}$；
+>
+> 但这样所有x的幂都少了1，所以再乘一个x，得$x(1+x)^{n-1}$；
+>
+> 而第n-1个的系数需要加1，因此加一个$x^{n-1}$，得$D(S_n,x)=x^{n-1}+x(1+x)^{n-1}$。
+>
+> 那么也就易得$\gamma_s(S_n)=\sum^n_{i=\gamma(S_n)=1}d_i(G)=2^{n-1}+1$。
+>
+> 带入之前的公式，即可得出。
 
 
 
@@ -261,6 +304,17 @@ subdivide: [vi]细分；[vt]把...细分
 > $$
 > <img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211122194947317.png" alt="image-20211122194947317" style="zoom:67%;" />
 >
+> 推导：*该图的支配多项式是由作者推导出的，其他图的支配多项式别人已经推导出了*
+>
+> $\because$ 要支配$S_k^*$，那么每个臂（arm）都至少要有一个点在支配集中。
+>
+> $\therefore \ \gamma(S_k^*)=k$ ，并有以下两种情形：
+>
+> 1. 在每个臂上，有1个基数为2的集合(取臂上的2个点) ， 2个基数为1的集合(臂上的2个点2选1)，中心点可选可不选，则可得到$(x^2+2x)^k(x+1)=x^k(x+2)^k(x+1)$。
+> 2. 满足1的情况下，只有一种情况不是支配集：就是全部由度为1的点组成的集合。因此要把这种情况去除。因而可得$x^k(x+2)^k(x+1)-x^k$。
+>
+> $\therefore D(S_k^*,x)=\sum^{n=2k+1}_{i=k}d_i(G)x^i=x^k(x+2)^k(x+1)-x^k$。
+>
 > 
 
 
@@ -300,4 +354,9 @@ subdivide: [vi]细分；[vt]把...细分
 
 
 ### 6.结论
+
+1. 我们得到了完全图、星图、双星图、梳状图、友谊图和细分星图的支配熵；
+2. 我们定义了细分星图的支配多项式。
+3. 我们对21个图表的五个熵度量进行了一些观察。 
+4. 我们发现星星的 $I_{dom}$ 和 $I_{nis}$ 是相等的。
 
