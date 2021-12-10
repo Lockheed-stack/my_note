@@ -2,7 +2,9 @@
 
 
 
-### 新网络熵：图的支配熵
+### 一、新网络熵：图的支配熵
+
+**Information Processing Letters**
 
 **[1]Şahin Bünyamin. New network entropy: The domination entropy of graphs[J]. Information Processing Letters,2022,174:**
 
@@ -360,3 +362,139 @@ subdivide: [vi]细分；[vt]把...细分
 3. 我们对21个图表的五个熵度量进行了一些观察。 
 4. 我们发现星星的 $I_{dom}$ 和 $I_{nis}$ 是相等的。
 
+
+
+
+
+
+
+----------------------------------
+
+### 二、图的冯诺依曼熵
+
+**Discrete Applied Mathematics**
+
+**[2]Giorgia Minello,Luca Rossi 0004,Andrea Torsello. On the von Neumann entropy of graphs.[J]. J. Complex Networks,2019,7(4):**
+
+
+
+#### 1.简介
+
+非空图的冯诺依曼熵提供了一种表征物理系统**量子态信息内容的方法**。
+
+本文利用图参数，给出了非空图的冯诺依曼熵的上下界，并且在到达上下界时，表征出图的性质。
+
+#### 2.名词、概念
+
+##### 厄密特矩阵hermitian matrix
+
+> **共轭conjugate：**复数中的概念。任意复数可表达为$x+iy$，前半部分为实部，后半部分为虚部，$x,y$皆为实数。
+>
+> 共轭复数，即实数部分相同，虚数部分互为相反数的两个复数。
+
+> **矩阵的共轭转置（conjugate transpose）：**把矩阵转置后，再把每一个数换成它的共轭复数。**记为$A^H$。**
+
+> **厄密特矩阵hermitian matrix：**记矩阵$A=(a_{ij})$，如果$A=A^H$，则矩阵A为hermitian矩阵。
+>
+> 例子：
+> $$
+> \begin{array}{**lr**}
+> A=\left(
+> \begin{matrix}
+> 	1&2+i\\
+> 	2-i&1
+> \end{matrix}
+> \right)\\
+> 
+> A^T=\begin{pmatrix}
+> 	1&2-i\\
+> 	2+i&1
+> \end{pmatrix}\\
+> 
+> A^H=\begin{pmatrix}
+> 	1&2+i\\
+> 	2-i&1
+> \end{pmatrix}=A
+> \end{array}
+> $$
+> **一些性质：**
+>
+> 1. 主对角线上的元素都是实数。
+> 2. 特征值也是实数。
+> 3. 实对称矩阵是厄密特矩阵的特例。
+
+##### 半正定厄密特矩阵positive semi-definite hermitian matrix
+
+>**正定矩阵positive definite matrix：**一个$n\times n$的复数矩阵（complex matrix）$A$，对于所有非零复数向量$x\in C^n$，$x^*$为$x$的共轭转置向量，如果有 $R[x^*Ax]>0$ ，则$A$为正定矩阵。
+>
+>当A为实数矩阵时，则为$x^TAx>0$。
+
+> **半正定矩阵positive semi-definite matrix：**是正定矩阵的推广。
+>
+> 设A是n阶方阵，如果对任何非零向量X，都有$x^TAx≥0$​，就称A为半正定矩阵。
+>
+> [知乎中的一篇关于正定矩阵、半正定矩阵的文章](https://zhuanlan.zhihu.com/p/44860862)
+
+> **半正定厄密特矩阵：**就是厄密特矩阵+半正定。
+
+##### 密度矩阵density matrix
+
+> 在量子力学中，物理系统的状态由一个具有单位迹的半正定厄密矩阵表示，称为密度矩阵。
+>
+> <img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211207105534572.png" alt="image-20211207105534572" style="zoom:67%;" />
+>
+> *注：Normalization 归一化。*相关参考文章：[知乎](https://zhuanlan.zhihu.com/p/39448632)；[芝加哥大学](http://home.uchicago.edu/~tokmakoff/TDQMS/Notes/9._Density_Matrix_3-19-09.pdf)
+
+
+##### 拉普拉斯矩阵Laplacian Matrix
+
+> 在简单图G中，拉普拉斯矩阵$L(G)=D(G)-A(G)$，其中$D(G)=diag(d_1,d_2,...,d_n)$为G的度对角矩阵，$A(G)$为图G的邻接矩阵。
+>
+> 显然，拉普拉斯矩阵的对角线元素为顶点的度$d_G(v)$。
+
+##### 量子态的冯诺依曼熵  
+> 量子态的冯诺依曼熵被定义为与其密度矩阵的**特征值**相关的香农熵。
+
+##### 简单图G的冯诺依曼熵S(G)
+
+> $$
+> S(G)=-\sum^n_{i=1} \rho_i\log_2\rho_i
+> $$
+>
+> 对于非空图G，令$\sigma(G)=\frac 1 {d_G}L(G)$，$d_G$为$L(G)$的迹，即图G的度数之和。
+>
+> $\sigma(G)$是具有单位迹的半正定厄密特矩阵。
+>
+> 令$\rho_1,\rho_2,...,\rho_n$为$\sigma(G)$的特征值，以非递增的顺序排列*（直接说递减不就行了）*。那么 <u>$ρ_n = 0$</u> *（为什么？？？我试了一下 $P_3$ 的图，确实有一个特征值为0，但一般情况怎么推导证明？**答：矩阵的Perron-Frobenius定理。**[stanford的课文。](https://stanford.edu/class/ee363/lectures/pf.pdf)）*并且 $σ(G)$ 的<u>特征值 0 的重数</u>等于<u>图G 的分量数</u>。
+>
+>
+> 令$\lambda_1,\lambda_2,...,\lambda_n$为图G的拉普拉斯特征值($L(G)$的特征值)，则有$\lambda_i=2m\rho_i$。(*和 $\sigma(G)=\frac 1 {d_G}L(G)$ 有关。好像是特征值的性质？*$m=|E(G)|$，2m就是度数之和)。并有以下关系：
+> $$
+> \sum^{n-1}_{i=1}\rho_i=tr(\sigma(G))=1
+> $$
+>
+> 
+>
+>
+> 最后为了方便，令$0\log_2 0=0$，得：
+> $$
+> S(G)=-\sum^{n-1}_{i=1} \rho_i \log_2 \rho_i
+> $$
+> **一些性质：**
+>
+> 1. Braunstein等人证明，n个顶点的非空图G，有$0\le S(G) \le \log_2{(n-1)}$。左等式当且仅当 G 有一条边，右等式当且仅当 G 是（同构于）完整图 $K_n$。
+> 2. n个顶点，$m\ge1$条边的图，令$Z=Z(G)=\sum_{u\in V(G)}d_u^2$。记$S_n$为n个顶点的星图，Dairyko等人证明，$S(G)\ge-\log_2{\frac {2m+Z} {4m^2}}$。
+>
+> 
+>
+> **一些助于理解的文章：**
+>
+> 1. [矩阵的特征：特征值，特征向量，行列式，trace](https://zhuanlan.zhihu.com/p/25955676)
+> 2. [理解矩阵](https://blog.csdn.net/myan/article/details/647511)
+> 3. **Recommend:**[线性代数的本质 - 01 - 向量究竟是什么？](https://www.bilibili.com/video/av5987715?from=search&seid=16213828939248415146)
+
+
+
+#### 3.一些定理、结论
+
+>
