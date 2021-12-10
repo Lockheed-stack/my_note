@@ -465,10 +465,44 @@ subdivide: [vi]细分；[vt]把...细分
 >
 > $\sigma(G)$是具有单位迹的半正定厄密特矩阵。
 >
-> 令$\rho_1,\rho_2,...,\rho_n$为$\sigma(G)$的特征值，以非递增的顺序排列*（直接说递减不就行了）*。那么 <u>$ρ_n = 0$</u> *（为什么？？？我试了一下 $P_3$ 的图，确实有一个特征值为0，但一般情况怎么推导证明？**答：矩阵的Perron-Frobenius定理。**[stanford的课文。](https://stanford.edu/class/ee363/lectures/pf.pdf)）*并且 $σ(G)$ 的<u>特征值 0 的重数</u>等于<u>图G 的分量数</u>。
+> 令$\rho_1,\rho_2,...,\rho_n$为$\sigma(G)$的特征值，以非递增的顺序排列*（直接说递减不就行了）*。那么 <u>$ρ_n = 0$</u> 并且 $σ(G)$ 的<u>特征值 0 的重数</u>等于<u>图G 的分量数</u>。
 >
+> `Question:`为什么$ρ_n = 0$？我试了一下 $P_3$ 的图，确实有一个特征值为0，但一般情况怎么推导证明？
 >
-> 令$\lambda_1,\lambda_2,...,\lambda_n$为图G的拉普拉斯特征值($L(G)$的特征值)，则有$\lambda_i=2m\rho_i$。(*和 $\sigma(G)=\frac 1 {d_G}L(G)$ 有关。好像是特征值的性质？*$m=|E(G)|$，2m就是度数之和)。并有以下关系：
+> ` Answer:`
+>
+> 1. 相关文章**M. Fiedler, Algebraic connectivity of graphs, Czechoslovak Math. J. 23 (1973) 298–305.**  
+>
+> 2. 在这篇文章中提到的：“Any <u>square matrix M with all zero row sums has an eiegnvalue 0 and corresponding eiegnvector is e</u> ($e=(1,1,..,1)^T$)。拉普拉斯矩阵具有这种特点，显然有这结论。
+>
+> 3. 至于证明，很简单，文章中都懒得证明。这结论的出处肯定不是这篇文章，只是我恰好看到罢了。我自己证明：
+>    $$
+>    \begin{align}
+>    &设矩阵A，A的每行元素之和为a，需证明存在非零向量\alpha，使得A\alpha=\lambda\alpha \\
+>    &证:取\alpha=\begin{pmatrix}
+>    		1\\1\\1\\ \vdots \\1
+>    		\end{pmatrix}
+>    
+>    ,可得A\alpha=\begin{pmatrix}
+>    			A第一行和\\
+>    			A第二行和\\
+>    			\vdots
+>    			\end{pmatrix}
+>    \\
+>    &因为A行和相同，等于a，所以A\alpha=\begin{pmatrix}
+>    									a\\a\\ \vdots \\ a
+>    								\end{pmatrix}
+>    								=a\cdot \begin{pmatrix}
+>    								1\\1\\ \vdots \\1
+>                                    \end{pmatrix}\\
+>    &所以A的一个特征值a。
+>    \end{align}
+>    $$
+>    
+>
+> 
+>
+> 令$\lambda_1,\lambda_2,...,\lambda_n$为图G的拉普拉斯特征值($L(G)$的特征值)，<u>则$\lambda_{n-1}$为图的代数连通性</u>（*同样在上述的相关文章中提到的，叫做* **Courant's theorem**）。基于上述的定义，显然有$\lambda_i=2m\rho_i$。(*和 $\sigma(G)=\frac 1 {d_G}L(G)$ 有关。也是特征值的性质*。 $m=|E(G)|$，2m就是度数之和)。并有以下关系：
 > $$
 > \sum^{n-1}_{i=1}\rho_i=tr(\sigma(G))=1
 > $$
