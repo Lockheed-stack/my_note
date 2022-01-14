@@ -145,9 +145,10 @@ subdivide: [vi]细分；[vt]把...细分
 > 设 G 是一个图，$f:S\rightarrow R_+$ 是定义在 $S=\{s_1, s_2, ..., s_k\}$ 上的信息泛函，使得 S 是 G 的一组元素。定义如下(log以2为底)：
 > $$
 > \begin{align*}
-> I_f(G) &= -\sum ^k_{i=1} \frac {f(s_i)} {\sum^k_{j=1}f(s_j)} \log(\frac {f(s_i)} {\sum^k_{j=1}f(s_j)}) \\&=\log (\sum^k_{i=1}{f(s_i)})-\frac {\sum ^k_{i=1}f(s_i)\log f(s_i)} {\sum^k_{j=1}f(s_j)}
-> \end{align*}
->    $$
+> I_f(G) &= -\sum ^k_{i=1} \frac {f(s_i)} {\sum^k_{j=1}f(s_j)} \log(\frac {f(s_i)} {\sum^k_{j=1}f(s_j)}) \\
+> &=\log (\sum^k_{i=1}{f(s_i)})-\frac {\sum ^k_{i=1}f(s_i)\log f(s_i)} {\sum^k_{j=1}f(s_j)}
+>    \end{align*}
+> $$
 > 
 
 
@@ -480,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->       
+>                         
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -530,3 +531,197 @@ subdivide: [vi]细分；[vt]把...细分
 #### 3.一些定理、结论
 
 >
+
+
+
+
+
+--------------------------------------------------------
+
+
+
+### 三、计算正则超图中的独立集
+
+**Journal of Combinatorial Theory, Series A**
+
+**[3]Balogh József,Bollobás Béla,Narayanan Bhargav. Counting independent sets in regular hypergraphs[J]. Journal of Combinatorial Theory, Series A,2021,180:**
+
+
+
+#### 1、为什么这篇文章记录在这份笔记中
+
+> 1. 老师给的，说有个巧妙的计算独立集的方法。
+> 2. 里面有提到用一个**Kahn的熵** *（An Entropy Approach to the Hard-Core Model on Bipartite Graphs）*方法去验证超图中的一个问题，相当于熵在图中的一个应用了。
+
+#### 2、名词、概念
+
+##### 超图hypergraph
+
+>关于超图的一些基本概念已经记载在“[图论入门](https://gitee.com/Lockheed_LEE/my_note.git)”笔记当中，这里只简单回顾一下：
+>
+>- k-一致超图 k-uniform hypergraph：每条超边都正好包含 k 个顶点的超图；
+>- d-正则超图 d-regular hypergraph：每个顶点的度数都是 𝑑 的超图；
+>- <u>顶点集的大小</u>被称为**超图的阶数 order of the hypergraph**。
+>- <u>边集的大小</u>被称为**超图的大小 size of the hypergraph**。
+
+
+
+##### r-graph
+
+> 本文r-uniform hypergraph的简称。
+
+##### $\mathcal{H^r_d}$
+
+> 在本文表示d-regular r-partite r-graph，d正则、r部分、r一致的超图，**有rd个顶点，$d^2$条边**。
+
+##### the link $\mathcal{L}(v)$
+
+> 在r-graph $\mathcal{G}$中，顶点 v 的链接 $\mathcal{L}(v)$， 是 (r−1)-graph中边的集合 S， 使得 S∪{v} 是 $\mathcal{G}$ 的边。
+>
+> :question:  "并且其顶点集正是这些边的跨度 "，and whose vertex set is precisely the span of these edges，不太清楚什么意思。
+>
+> :a:[Mathworld网站](https://mathworld.wolfram.com/GraphEdge.html)中对于“link”的解释：The terms "arc," "branch," "line," "link," and "1-simplex" are sometimes used instead of edge. 所以我感觉就是代表超图的边的意思。
+
+##### Quasi-bipartite hypergraph(拟二部超图、准二部超图)  
+
+> **Quasi-bipartite graph：** *（从Wikipedia上摘抄下来的）*  在图论的数学领域中，如果G中的非末端顶点形成一个独立的集合，即如果每条边都与至少一个末端相关联，则Steiner树问题的一个实例（由无向图G和必须相互连接的末端顶点集合R组成）被称为准二部。这推广了二部图的概念：如果G是二部图，并且R是二部图一侧的顶点集，那么R的集是自动独立的。
+>
+> > :question: non-terminal vertices非终端顶点是什么？
+> > :a:先说 terminal vertex ，它是在有根。树中没有后继的顶点，也被称为叶子节点。那么non-terminal vertices 就是非叶子节点。
+>
+> **quasi-bipartite hypergraph：**我们说一个 r-graph $\mathcal{G}$ 是quasi-bipartite ，如果它的点可以按以下方式分成A、B两个部分：
+>
+> 1. G的每条边与A恰好在1个顶点相交。(every edge of G intersects A in exactly one vertex)
+> 2. 对于每个$a\in A$，a的连接$\mathcal{L}(a)$是一个匹配。(for each a ∈A, the link L(a) of a is a matching)
+
+#### 3、本文核心
+
+**A brief word about notation: a subset of the vertex set of an r-graph is independent if it induces no edge**
+
+> 对于$r\ge2,d\in \mathbb{N}$，将$\mathcal{H}_d^r$的$d^2$条边进行以下操作：
+>
+> 1. 标记一个顶点集的子集*(当中的点)*，该子集的阶数为d。
+> 2. 剩余的$(r-1)d$个点，划分为d个集合，每个集合$(r-1)$个点。
+> 3. 因此可以得到一个(r-1)-uniform matching。
+> 4. 最后，将**标记的顶点**和**匹配边**组成的 r-set（r个顶点的集合），放入$\mathcal{H}^r_d$的边集中。
+>
+> **例子：**
+>
+> $\mathcal{H}^2_d$：表示完全二部图$K_{d,d}$。
+>
+> $\mathcal{H}^3_d$：表示图中3d个顶点上的一组三角形，其中d个顶点分别连接到覆盖其他2d个顶点的匹配的所有边的两端。*(英文原文和翻译都看的不是很懂，自己摸索画了一下)*
+>
+> **具体示例：**
+>
+> > #### $\mathcal{H}^3_1$：
+> >
+> > ![image-20211214200230792](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211214200230792.png)
+> >
+> > 总共3*1=3个点，$1^2$条超边。
+> >
+> > 顶点集$X=\{v_1,v_2,v_3\}$。
+> >
+> > 超边集$E=\{e_1\}=\{v_1,v_2,v_3\}$。$e_1$就是图中连接顶点的黑线，忘了标出来。
+>
+> >#### $\mathcal{H}_2^3$：图分成3个部分，每个部分2个顶点
+> >
+> >按照上述的说法来画一下
+> >
+> >step1：
+> >
+> ><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215164415559.png" alt="image-20211215164415559" style="zoom: 67%;" />
+> >
+> >step2:其中d个点，也就是2个点，取$v_1,v_2$，分别连接到其他2d个点。
+> >
+> ><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215164639373.png" alt="image-20211215164639373" style="zoom:67%;" />
+> >
+> >step3:按照step2的方式，画完整个图。
+> >
+> ><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215165209830.png" alt="image-20211215165209830" style="zoom:67%;" />
+> >
+> >总共3*2=6个点，$2^2=4$条超边。
+> >
+> >蓝、红、棕、绿线分别为$e_1,e_2,e_3,e_4$。
+> >
+> >顶点集$X=\{v_1,v_2,..,v_6\}$。
+> >
+> >超边集$E=\{e_1,e_2,e_3,e_4\}=\{\{v_1,v_3,v_4\},\{v_1,v_5,v_6\},\{v_2,v_3,v_4\},\{v_2,v_5,v_6\}\}$。
+> >
+> >
+> >
+> >最后将$\mathcal{H}^2_3$和$\mathcal{H}^3_2$对比一下，就清楚多了：
+> >
+> >![image-20211215170319102](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215170319102.png)
+>
+> 
+>
+> 
+>
+>
+> $ind(\mathcal{G})$: 表示$r-graph \ \mathcal{G}$中独立集的数量。计算公式如下：
+> $$
+> ind(\mathcal{H}^r_d) = 2^{(r-1)d}+(2^d-1)(2^{r-1}-1)^d
+> $$
+> **定理：**如果$\mathcal{G}$是d正则、准二部、r一致的n个顶点的图，则
+> $$
+> ind(\mathcal{G})\le ind(\mathcal{H}^r_d)^{n/rd}
+> $$
+> **Proof：**
+>
+> 将G的顶点分为A，B，$A\cup B$表示G的全部顶点。
+>
+> 令X为随机选中的独立集的特征向量。
+>
+> 对于顶点集合S，令$X_S$为X的子向量（subvector），该子向量由S中的顶点索引，将$X_{\{v\}}$缩写为$X_v$。*(子向量是什么？搜了一下好像没标准的定义。)*
+>
+> 则$X=(X_A,X_B)$。令$H(X)$为X的熵，记为：$\log (ind(\mathcal{G}))=H(X)=H(X_B)+H(X_A|X_B)$。
+>
+> 还可得到$\{V(\mathcal{L}(a)):a\in V\}$是B的d-covering。
+>
+> 因此，通过Shearer's lemma，可得：
+> $$
+> H(X_B)\le \frac 1 d \sum_{a\in A}H(X_{V(\mathcal{L}(a))})
+> $$
+>
+>
+> 所以$H(X_A|X_B)\le \sum_{a\in A}H(X_a|X_B)=\sum_{a\in A}H(X_a|X_{V(\mathcal{L}(a))})$。
+>
+> 最后将这些结果合起来，得：
+> $$
+> H(X)\le \frac 1 d (\sum_{a\in A}H(X_{V(\mathcal{L}(a))})+d \cdot H(X_a|X_{V(\mathcal{L}(a))}))
+> $$
+>
+> 
+>
+>
+> 此时，固定任意一个a($a\in A$)，取集合$I$为G的独立集，$I\subset V(\mathcal{L}(a))$。用$p(I)$表示$X_{V(\mathcal{L}(a))}=I$的概率，和 λ(I) 表示 a 可以添加到 $I$（1 或 2）同时保持 G 中的独立性的方式数。可得：
+> $$
+> H(X_{V(\mathcal{L}(a))})+d \cdot H(X_a|X_{V(\mathcal{L}(a))})=
+> \sum_Ip(I)
+> \left(\log (\frac 1 {p(I)})+d \cdot H(X_a|\{X_{V(\mathcal{L}(a))}=I\})
+> \right)
+> $$
+> 又因为$H(X_a|X_{V({\mathcal{L}(a)})}=I)\le \log (\lambda(I))$，可得：
+> $$
+> \sum_I p(I)
+> \left(
+> \log \frac 1 {p(I)} +d \cdot \log(\lambda(I))
+> \right)
+> =\sum_I p(I) \log (\frac {\lambda(I)^d} {p(I)})\le \log (\sum_I {\lambda(I)^d})
+> $$
+> 注意， $I$ 的范围是在 G 中独立的 $V(\mathcal{L}(a))$ 的子集，可得：
+> $$
+> \sum_I\lambda(I)^d \le 2^{|V(\mathcal{L}(a))|} +(2^d-1)ind(\mathcal{L}(a))\le 2^{(r-1)d} + (2^d-1)(2^{r-1}-1)^d=ind(\mathcal{H}^r_d)
+> $$
+> 对于上面的第一个不等式，$V(\mathcal{L}(a))$ 的每个子集对左边的和最多贡献 1，除非它碰巧在 $\mathcal{L}(a)$ 中是独立的，在这种情况下，它贡献了额外的 $2^d−1$。
+>
+> 要了解为什么上面的第二个不等式成立，首先我们简单地有 $|V(\mathcal{L}(a))| \le (r−1)d$。然后，我们可以使用[熵的次可加性(subadditivity)](https://en.wikipedia.org/wiki/Strong_subadditivity_of_quantum_entropy)再次绑定 $ind(\mathcal{L}(a))$（Shearer's lamma 的平凡情况）：
+>
+> 用$S_1,S_2,...,S_d$表示 (r-1)-graph $\mathcal{L}(a)$的d条边，从$\mathcal{L}(a)$中随机选择一个独立集的特征向量Y，可得出结论$H(Y)\le \sum^d_{i=1}H(Y_{S_i})$，并且观察到对于每个$1\le i \le d$，$H(Y_{S_i})\le \log(x^{r-1}-1)$产生所需的界限。
+>
+> 最后，将这些估计放在一起，并使用 $|A|=n/r$ 的事实，因为 G 是 d 正则的，让我们得出结论：
+> $$
+> H(X)\le \frac n {rd}\log (ind(\mathcal{H}^r_d))
+> $$
+> 
+
