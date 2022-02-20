@@ -16,19 +16,19 @@
 
 > 本地版本控制
 
-![image-20211109150306963](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109150306963.png)
+![image-20211109150306963](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109150306963.png)
 
 > 集中版本控制（代表：SVN）
 
-![image-20211109150641349](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109150641349.png)
+![image-20211109150641349](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109150641349.png)
 
 > 分布式版本控制（代表：Git）
 
-![image-20211109150909621](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109150909621.png)
+![image-20211109150909621](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109150909621.png)
 
 > Git与SVN最主要的区别
 
-<img src="https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109151317797.png" alt="image-20211109151317797"  />
+<img src="https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109151317797.png" alt="image-20211109151317797"  />
 
 
 
@@ -47,13 +47,13 @@ Git本地有三个工作区域：
 
 如果加上远程的git仓库（remote directory）就可以分为四个工作区域。文件在这四个区域之间的转换关系如下：
 
-![image-20211109160634273](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109160634273.png)
+![image-20211109160634273](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109160634273.png)
 
 
 
 本地的三个区域确切的说应该是git仓库中HEAD指向的版本：
 
-![image-20211109161204664](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109161204664.png)
+![image-20211109161204664](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109161204664.png)
 
 
 
@@ -73,7 +73,7 @@ git管理的文件有三种状态：已修改（modified）、已暂存（staged
 
 
 
-![image-20211109161959055](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109161959055.png)
+![image-20211109161959055](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109161959055.png)
 
 > 本地仓库搭建
 
@@ -158,7 +158,7 @@ doc/*.txt	#忽略 doc/*.txt ，但不包括doc/server/arch.txt
 
 #### 5.Git分支
 
-![image-20211109214149704](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211109214149704.png)
+![image-20211109214149704](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109214149704.png)
 
 ```bash
 # 列出所有本地分支
