@@ -147,8 +147,13 @@ subdivide: [vi]细分；[vt]把...细分
 > \begin{align*}
 > I_f(G) &= -\sum ^k_{i=1} \frac {f(s_i)} {\sum^k_{j=1}f(s_j)} \log(\frac {f(s_i)} {\sum^k_{j=1}f(s_j)}) \\
 > &=\log (\sum^k_{i=1}{f(s_i)})-\frac {\sum ^k_{i=1}f(s_i)\log f(s_i)} {\sum^k_{j=1}f(s_j)}
+<<<<<<< HEAD
 >    \end{align*}
 > $$
+=======
+> \end{align*}
+>    $$
+>>>>>>> e9f6096b833174e21e348f0a6014b1e9631908fd
 > 
 
 

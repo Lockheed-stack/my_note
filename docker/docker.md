@@ -8,13 +8,13 @@
 
 ​							   3.启动慢。
 
-<img src="https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210923161538494.png" alt="image-20210923161538494" style="zoom:80%;" />
+<img src="https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210923161538494.png" alt="image-20210923161538494" style="zoom:80%;" />
 
 
 
 容器化技术：不是模拟一个完整的操作系统。
 
-<img src="https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210923161626449.png" alt="image-20210923161626449" style="zoom:80%;" />
+<img src="https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210923161626449.png" alt="image-20210923161626449" style="zoom:80%;" />
 
 
 
@@ -52,7 +52,7 @@ Docker是内核级别的虚拟化，可以在一个物理机上运行很多容�
 
 ### 2.docker基本组成
 
-![image-20210924154311561](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924154311561.png)
+![image-20210924154311561](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924154311561.png)
 
 > **镜像（image）：**docker镜像类似模板，可以通过这个模板来创建容器服务。通过这个镜像可以创建多个容器（最终服务运行或者项目运行是在容器中的）。
 >
@@ -68,7 +68,7 @@ Docker是内核级别的虚拟化，可以在一个物理机上运行很多容�
 
 ### 3.运行hello world镜像的流程
 
-![image-20210924153824117](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924153824117.png)
+![image-20210924153824117](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924153824117.png)
 
 *run 的运行流程*
 
@@ -82,7 +82,7 @@ docker是一个CS结构的系统，docker的守护进程（或者称为服务）
 
 DockerServer接收到DockerClient的指令，就执行这个命令。
 
-![image-20210924161252373](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924161252373.png)
+![image-20210924161252373](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924161252373.png)
 
 
 
@@ -91,7 +91,7 @@ DockerServer接收到DockerClient的指令，就执行这个命令。
 1. docker有着比虚拟机更少的抽象层。
 2. docker利用的是宿主机的内核，vm需要是Guest OS
 
-![image-20210924162116699](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924162116699.png)
+![image-20210924162116699](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924162116699.png)
 
 *hypervisor：物理层和OS之间的中间件，允许多个操作系统和应用共享硬件。*
 
@@ -172,7 +172,7 @@ docker pull [OPTIONS] NAME[:TAG|@DIGEST]
 
 To download a particular image, or set of images (i.e., a repository), use `docker pull`. If no tag is provided, Docker Engine uses the `:latest` tag as a default. This command pulls the `debian:latest` image:
 
-![image-20210924202718970](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924202718970.png)
+![image-20210924202718970](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924202718970.png)
 
 *（默认下载 latest 版本，digest为签名信息）*
 
@@ -180,7 +180,7 @@ Docker images can consist of multiple layers. In the example above, the image co
 
 Layers can be reused by images. For example, the `debian:jessie` image shares both layers with `debian:latest`. Pulling the `debian:jessie` image therefore only pulls its metadata, but not its layers, because all layers are already present locally:
 
-![image-20210924203111272](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924203111272.png)
+![image-20210924203111272](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924203111272.png)
 
 **相同的镜像层（layer）可以重复利用，节省内存**
 
@@ -333,7 +333,7 @@ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 
 This example runs a container named `test` using the `debian:latest` image. The `-it` instructs Docker to allocate a pseudo-TTY connected to the container’s stdin; creating an interactive `bash` shell in the container. In the example, the `bash` shell is quit by entering `exit 13`.
 
-![image-20210924220930747](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20210924220930747.png)
+![image-20210924220930747](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20210924220930747.png)
 
 
 
@@ -435,7 +435,7 @@ This example runs a container named `test` using the `debian:latest` image. The 
   
   In order to retrieve logs before a specific point in time, run:
   
-  ![image-20211006213955750](https://raw.githubusercontent.com/Lockheed-stack/typora_image/main/images/image-20211006213955750.png)
+  ![image-20211006213955750](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211006213955750.png)
   
   
   
