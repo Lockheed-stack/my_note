@@ -570,12 +570,12 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >     <h1>Welcome to nginx!</h1>
 >     <p>If you see this page, the nginx web server is successfully installed and
 >     working. Further configuration is required.</p>
->                             
+>                                         
 >     <p>For online documentation and support please refer to
 >     <a href="http://nginx.org/">nginx.org</a>.<br/>
 >     Commercial support is available at
 >     <a href="http://nginx.com/">nginx.com</a>.</p>
->                             
+>                                         
 >     <p><em>Thank you for using nginx.</em></p>
 >     </body>
 >     </html>
@@ -880,14 +880,18 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >    CMD /bin/bash
 >    ```
 >
->    
+> 
 >
-> 2. 执行命令`docker build -f dockerfile1 -t buildtest:1.0.0 ./`，输出以下结果：![image-20220222212225672](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222212225672.png)
->    不难看出，是一层层构建的。通过命令可以看到自己新建的镜像：![image-20220222212955426](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222212955426.png)
+> 2. 执行命令`docker build -f dockerfile1 -t buildtest:1.0.0 ./`，输出以下结果：
+>    ![image-20220222212225672](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222212225672.png)
+>    不难看出，是一层层构建的。通过命令可以看到自己新建的镜像：
+>    ![image-20220222212955426](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222212955426.png)
+> 3. 运行并进入容器，可以看到有volume1和volume2
+>    ![image-20220222213813386](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222213813386.png)
+>    这两个卷肯定和外部有关联。由于是匿名挂载，所以是一串随机字符串。
 >
-> 3. 运行并进入容器，可以看到有volume1和volume2![image-20220222213813386](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222213813386.png)这两个卷肯定和外部有关联。由于是匿名挂载，所以是一串随机字符串。
->
-> 4. 用`docker inspect`查看容器，可看到挂载的地方![image-20220222215055138](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222215055138.png)
+> 4. 用`docker inspect`查看容器，可看到挂载的地方
+>    ![image-20220222215055138](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222215055138.png)
 
 #### 数据卷容器
 
@@ -905,11 +909,13 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >    docker run -it --name ubuntu_container02 --volumes-from ubuntu_container01 buildtest:1.0.0
 >    ```
 >
-> 3. 在`ubuntucontainer01`中volume01目录下创建一个文件`createBycontainer01`，再进入`ubuntucontainer02`中volume01目录下查看，发现多了一个文件，同步成功。![image-20220223161911982](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220223161911982.png)
+> 3. 在`ubuntucontainer01`中volume01目录下创建一个文件`createBycontainer01`，再进入`ubuntucontainer02`中volume01目录下查看，发现多了一个文件，同步成功。
+>    ![image-20220223161911982](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220223161911982.png)
 >
 > 4. 反之在`ubuntu_container02`中的volume01目录下创建文件，也能同步，都可以共享。把``ubuntu_container01`删除后，共享的文件也不会丢失。
 >
-> 5. **小结：拷贝的概念，是一种双向拷贝。数据卷的生命周期一直持续到没有容器使用为止。**![image-20220223162634992](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220223162634992.png)
+> 5. **小结：拷贝的概念，是一种双向拷贝。数据卷的生命周期一直持续到没有容器使用为止。**
+>    ![image-20220223162634992](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220223162634992.png)
 
 ### dockerfile
 
@@ -982,6 +988,8 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > > # syntax=docker.io/docker/dockerfile:1
 > > # syntax=example.com/user/repo:tag@sha256:abcdef...
 > > ```
+> >
+> > *待续。。。。。。。。*
 
 #### dockerfile的指令
 
@@ -1027,9 +1035,12 @@ docker hub中99%的镜像都是从`scratch`这个基础镜像而来，`FROM scra
 >    CMD /bin/bash
 > ```
 >
-> 3. 注意步骤2的问题即可`build`成功，输出内容很长就不截图了。输入`docker images`命令可以发现多了一个镜像，由于没有指定版本，因此默认tag是`lastest`。![image-20220224155314920](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220224155314920.png)
-> 4. 进入容器，默认的工作目录已经改为`/usr/local`，`ifconfig`、`vim`等指令都可直接使用。![image-20220224160046052](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220224160046052.png)
-> 5. 使用`docker history`查看一下本地进行的变更历史![image-20220224161500204](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220224161500204.png)
+> 3. 注意步骤2的问题即可`build`成功，输出内容很长就不截图了。输入`docker images`命令可以发现多了一个镜像，由于没有指定版本，因此默认tag是`lastest`。
+>    ![image-20220224155314920](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220224155314920.png)
+> 4. 进入容器，默认的工作目录已经改为`/usr/local`，`ifconfig`、`vim`等指令都可直接使用。
+>    ![image-20220224160046052](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220224160046052.png)
+> 5. 使用`docker history`查看一下本地进行的变更历史
+>    ![image-20220224161500204](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220224161500204.png)
 
 #### CMD和ENTRYPOINT的区别
 
@@ -1133,8 +1144,527 @@ docker hub中99%的镜像都是从`scratch`这个基础镜像而来，`FROM scra
 >    root@lee:/home/lee/dockerfile_test#
 >    ```
 
-#### 练习：tomcat镜像
+#### 练习：diy一个tomcat镜像
 
 > 大致步骤：
-> 1. 准备镜像文件 tomcat压缩包、jdk压缩包。
+> 1. 准备镜像文件 tomcat压缩包、jdk压缩包。(都放在同一个目录中)
+>
 > 2. dockerfile文件的编写。
+>
+>    ```dockerfile
+>    FROM ubuntu
+>    MAINTAINER lockheedlee
+>
+>    COPY readme.txt /usr/local/readme.txt
+>    # 会自动解压
+>    ADD apache-tomcat-9.0.58.tar.gz /usr/local
+>    ADD jdk-8u202-linux-x64.tar.gz /usr/local
+>
+>    # 加点命令进去。先更新一下再下载。默认确定安装，超时不确认也无法完成build
+>    RUN apt-get update
+>    RUN apt-get -y install vim
+>
+>    # 设置环境变量
+>    # 工作目录
+>    ENV MYPATH=/usr/local
+>    WORKDIR $MYPATH
+>    # java
+>    ENV JAVA_HOME=/usr/local/jdk1.8.0_202
+>    ENV CLASSPATH=$JAVA_HOME/lib/
+>    # tomcat
+>    ENV CATALINA_HOME=/usr/local/apache-tomcat-9.0.58
+>    ENV CATALINA_BASH=/usr/local/apache-tomcat-9.0.58
+>    # PATH = PATH:/XXX/  保留原PATH设置，并添加新的设置。冒号就是分隔符的意思。
+>    ENV PATH=$PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+>
+>    # 暴露个8080端口
+>    EXPOSE 8080
+>
+>    # 启动时的执行的命令
+>    CMD /usr/local/apache-tomcat-9.0.58/bin/startup.sh && tail -F /url/local/apache-tomcat-9.0.58/bin/logs/catalina.out
+>    ```
+>
+> 3. build、运行生成的镜像，并挂载两个目录`webapps/publish_test`和`tomcat_logs`
+>
+>    ```bash
+>    docker run -d -p 8080:8080 --name diy_tomcat01 -v /home/lee/dockerfile_test/tomcat/publish_test:/usr/local/apache-tomcat-9.0.58/webapps/publish_test -v /home/lee/dockerfile_test/tomcat/tomcat_logs:/usr/local/apache-tomcat-9.0.58/logs diy_tomcat
+>    ```
+>
+> 4. 测试访问，ok
+>
+> 5. 发布项目，直接在宿主机`webapps/publish_test`目录下修改即可。添加`WEB-INF/web.xml`、`index.jsp`进行测试。
+>
+>    ```xml
+>    <?xml version="1.0" encoding="UTF-8"?>
+>    <web-app version="2.4" 
+>        xmlns="http://java.sun.com/xml/ns/j2ee" 
+>        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+>            http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+>    </web-app>
+>    ```
+>
+>    ```jsp
+>    <html>
+>    <head>
+>    <title>Hello World</title>
+>    </head>
+>    <body>
+>    Hello World!<br/>
+>    <% 
+>    out.println("Your IP address is " + request.getRemoteAddr()); 
+>    %>
+>    <%
+>    System.out.println("a test of web logs,FROM: "+request.getRemoteAddr());
+>    %>
+>    </body>
+>    </html>
+>    ```
+>
+> 6. 成功！日志中也有记录。
+>    ![image-20220225160018163](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220225160018163.png)
+>    
+>    ![image-20220225160921566](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220225160921566.png)
+
+#### 发布自己的镜像
+
+**发布到Dockerhub**
+
+>1. 注册dockerhub
+>
+>2. 在服务器上用`docker login`命令登录
+>
+>3. 直接提交，报错。因为没有我的dockerhub上还没有一个称为`diy_tomcat`的仓库。
+>
+>   ```bash
+>   root@lee:/home/lee# docker push diy_tomcat
+>   Using default tag: latest
+>   The push refers to repository [docker.io/library/diy_tomcat]
+>   4b04d6d4e001: Preparing
+>   5173323fd6cc: Preparing
+>   bb54c2a54ce6: Preparing
+>   a2a68ef8c822: Preparing
+>   05ac142c7ed9: Preparing
+>   da55b45d310b: Waiting
+>   denied: requested access to the resource is denied
+>   root@lee:/home/lee#
+>   ```
+>
+>4. 解决方法：在dockerhub上创建一个仓库`lockheedlee/diy_tomcat`；然后在本地修改镜像的标签，修改完后多了一个镜像。
+>
+>   ```bash
+>   root@lee:/home/lee# docker tag diy_tomcat lockheedlee/diy_tomcat
+>   root@lee:/home/lee# docker images
+>   REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
+>   diy_tomcat               latest    a89f10c4a1b8   20 hours ago   593MB
+>   lockheedlee/diy_tomcat   latest    a89f10c4a1b8   20 hours ago   593MB
+>   entrypoint_test          latest    0b3a037dc431   24 hours ago   204MB
+>   cmd_test                 latest    eb273e387cda   25 hours ago   204MB
+>   mycentos                 latest    ee6d07e1a74f   26 hours ago   439MB
+>   buildtest                1.0.0     7d96764a9d31   2 days ago     72.8MB
+>   mysql                    latest    17b062d639f4   7 days ago     519MB
+>   tomcat                   latest    52691d316146   13 days ago    680MB
+>   redis                    latest    f1b6973564e9   4 weeks ago    113MB
+>   nginx                    latest    87a94228f133   4 months ago   133MB
+>   ubuntu                   latest    597ce1600cf4   4 months ago   72.8MB
+>   centos                   7         eeb6ee3f44bd   5 months ago   204MB
+>   root@lee:/home/lee#
+>   ```
+>
+>5. 再次上传，成功。（也是一层层上传的）。
+>
+>   ```bash
+>   root@lee:/home/lee# docker push lockheedlee/diy_tomcat
+>   Using default tag: latest
+>   The push refers to repository [docker.io/lockheedlee/diy_tomcat]
+>   4b04d6d4e001: Pushed
+>   5173323fd6cc: Pushed
+>   bb54c2a54ce6: Pushed
+>   a2a68ef8c822: Pushed
+>   05ac142c7ed9: Pushed
+>   da55b45d310b: Pushed
+>   latest: digest: sha256:ce9cf2614298645a23f2a796228832476bad79ea05313edf277439b26dcf648c size: 1585
+>   root@lee:/home/lee#
+>   ```
+
+
+
+#### 小结
+
+![img](https://img2018.cnblogs.com/blog/795254/201910/795254-20191016222826155-876647045.png)
+
+
+
+### docker网络
+
+**docker0**
+
+> 先关闭、删除所有运行的容器。使用命令`ip addr`查看地址，docker0是docker生成的一个网卡。
+>
+> ```bash
+> root@lee:~# ip addr
+> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+>     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>     inet 127.0.0.1/8 scope host lo
+>        valid_lft forever preferred_lft forever
+>     inet6 ::1/128 scope host
+>        valid_lft forever preferred_lft forever
+> 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+>     link/ether 00:22:48:68:7f:4d brd ff:ff:ff:ff:ff:ff
+>     inet 10.0.0.4/24 brd 10.0.0.255 scope global eth0
+>        valid_lft forever preferred_lft forever
+>     inet6 fe80::222:48ff:fe68:7f4d/64 scope link
+>        valid_lft forever preferred_lft forever
+> 3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+>     link/ether 02:42:86:9f:e5:ea brd ff:ff:ff:ff:ff:ff
+>     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+>        valid_lft forever preferred_lft forever
+>     inet6 fe80::42:86ff:fe9f:e5ea/64 scope link
+>        valid_lft forever preferred_lft forever
+> root@lee:~#
+> ```
+>
+> 可以看到有3类地址：本机、Azure的内网地址和docker0的地址。
+>
+> 
+>
+> 现在运行一个容器，在容器中执行`ip addr`命令（提示没有命令就安装一下）
+>
+> ```bash
+> root@lee:~# docker exec tomcat_DockerNet ip addr
+> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+>     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>     inet 127.0.0.1/8 scope host lo
+>        valid_lft forever preferred_lft forever
+> 60: eth0@if61: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+>     link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+>     inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+>        valid_lft forever preferred_lft forever
+> root@lee:~#
+> ```
+>
+> 可以看到有一个`60:eth0@if61`，地址为172.17.0.2。可以通过宿主机ping通。
+>
+> ```bash
+> root@lee:~# ping -c 3 172.17.0.2
+> PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+> 64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.044 ms
+> 64 bytes from 172.17.0.2: icmp_seq=2 ttl=64 time=0.075 ms
+> 64 bytes from 172.17.0.2: icmp_seq=3 ttl=64 time=0.061 ms
+> 
+> --- 172.17.0.2 ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2051ms
+> rtt min/avg/max/mdev = 0.044/0.060/0.075/0.012 ms
+> root@lee:~#
+> ```
+>
+> 再次运行`ip addr`命令，多了一个`61: veth6dc9d2a@if60`
+>
+> ```bash
+> root@lee:~# ip addr
+> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+>     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>     inet 127.0.0.1/8 scope host lo
+>        valid_lft forever preferred_lft forever
+>     inet6 ::1/128 scope host
+>        valid_lft forever preferred_lft forever
+> 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+>     link/ether 00:22:48:68:7f:4d brd ff:ff:ff:ff:ff:ff
+>     inet 10.0.0.4/24 brd 10.0.0.255 scope global eth0
+>        valid_lft forever preferred_lft forever
+>     inet6 fe80::222:48ff:fe68:7f4d/64 scope link
+>        valid_lft forever preferred_lft forever
+> 3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+>     link/ether 02:42:86:9f:e5:ea brd ff:ff:ff:ff:ff:ff
+>     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+>        valid_lft forever preferred_lft forever
+>     inet6 fe80::42:86ff:fe9f:e5ea/64 scope link
+>        valid_lft forever preferred_lft forever
+> 61: veth6dc9d2a@if60: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default
+>     link/ether 76:fb:82:65:26:65 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+>     inet6 fe80::74fb:82ff:fe65:2665/64 scope link
+>        valid_lft forever preferred_lft forever
+> root@lee:~#
+> ```
+>
+> 再启动一个容器，也能ping通第一个容器
+>
+> ```bash
+> root@3a7560dc4a73:/# ping -c 3 172.17.0.2
+> PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+> 64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.115 ms
+> 64 bytes from 172.17.0.2: icmp_seq=2 ttl=64 time=0.072 ms
+> 64 bytes from 172.17.0.2: icmp_seq=3 ttl=64 time=0.067 ms
+> 
+> --- 172.17.0.2 ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2023ms
+> rtt min/avg/max/mdev = 0.067/0.084/0.115/0.021 ms
+> root@3a7560dc4a73:/#
+> ```
+>
+> **原理**
+>
+> 1. 每启动一个docker容器，docker就会分配一个网卡/ip，且是成对的。
+> 2. 这是使用了桥接模式，veth-pair（Virtual Ethernet Pair）技术，就是一对的虚拟设备接口，成对出现，一段连接协议，一段彼此相连。因此veth-pair充当一个桥梁，连接各种虚拟网络设备。
+> 3. docker0就像一个路由器，所有容器不指定网络的情况下，都是docker0路由的，docker会给我们的容器分配一个默认的可用ip
+>    ![image-20220225214033221](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220225214033221.png)
+>    ![image-20220225214424863](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220225214424863.png)
+
+ 
+
+#### --link选项(已经是比较老的技术，不推荐使用)
+
+> 思考一个场景：当我们编写了一个微服务，database url=ip，项目不重启，数据库ip换了。此时我们希望可以通过名字来进行容器的访问。
+>
+> 直接`ping container_name`肯定不行。此时便可用`--link`选项，便可以进行这种操作。
+>
+> ```bash
+> root@lee:~# docker run -it --name net_ubuntu02 --link net_ubuntu ubuntu /bin/bash
+> root@592dcde78d98:/# ping -c 3 net_ubuntu
+> PING net_ubuntu (172.17.0.3) 56(84) bytes of data.
+> 64 bytes from net_ubuntu (172.17.0.3): icmp_seq=1 ttl=64 time=0.081 ms
+> 64 bytes from net_ubuntu (172.17.0.3): icmp_seq=2 ttl=64 time=0.112 ms
+> 64 bytes from net_ubuntu (172.17.0.3): icmp_seq=3 ttl=64 time=0.125 ms
+> 
+> --- net_ubuntu ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2049ms
+> rtt min/avg/max/mdev = 0.081/0.106/0.125/0.018 ms
+> root@592dcde78d98:/#
+> ```
+>
+> 原理其实就是域名解析，进入到容器中查看`hosts`文件
+>
+> ```shell
+> root@592dcde78d98:/etc# cat hosts
+> 127.0.0.1       localhost
+> ::1     localhost ip6-localhost ip6-loopback
+> fe00::0 ip6-localnet
+> ff00::0 ip6-mcastprefix
+> ff02::1 ip6-allnodes
+> ff02::2 ip6-allrouters
+> 172.17.0.3      net_ubuntu 3a7560dc4a73
+> 172.17.0.4      592dcde78d98
+> root@592dcde78d98:/etc#
+> ```
+
+#### 自定义网络
+
+> 查看所有的docker网络
+>
+> ```bash
+> docker network ls
+> ```
+
+**网络模式**
+
+> bridge：桥接模式（默认）
+>
+> none：不配置网络
+>
+> host：和宿主机共享网络
+>
+> container：容器网络连通（用的少）
+
+测试
+
+> 1. 默认启动`run`时，`--net`的默认参数是`bridge`，即`docker0`。默认的`docker0`不能用域名访问，需要设置`--link`参数。
+>
+> 2. 创建一个网络`docker network create`
+>
+>    ```bash
+>    root@lee:/home/lee# docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 my_net
+>    16eeabf74b18f51b8994428a7cdcc1325c18528cfd79a2ccb288436efb23bb4b
+>    root@lee:/home/lee# docker network ls
+>    NETWORK ID     NAME      DRIVER    SCOPE
+>    aa3de58ccd98   bridge    bridge    local
+>    3c5683516836   host      host      local
+>    16eeabf74b18   my_net    bridge    local
+>    d3518d15dd93   none      null      local
+>    root@lee:/home/lee#
+>    ```
+>
+> 3. 创建两个运行在`my_net`网络下的容器
+>
+>    ```bash
+>    root@lee:/home/lee# docker run -d -P --name tomcat_my_net --network my_net tomcat
+>    58a2fd388145bd16cb9b9abc806b0f4e1ef575e6764bea51b84c4c629981ab7c
+>    root@lee:/home/lee# docker run -d -P --name tomcat_my_net2 --network my_net tomcat
+>    e47bbb3735aabfb5a19f32fe38a2df2101c086f313b960e56026fb90e1d8b0d8
+>    root@lee:/home/lee#
+>    ```
+>
+>    
+>
+> 4. 使用`docker network inspect my_net`查看，两个容器已经分配了地址。
+>
+>    ![image-20220226163205862](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220226163205862.png)
+>
+> 5. 进入其中一个容器，可直接用域名ping通。
+>
+>    ```bash
+>    root@58a2fd388145:/usr/local/tomcat# ping -c 3 tomcat_my_net2
+>    PING tomcat_my_net2 (192.168.0.3) 56(84) bytes of data.
+>    64 bytes from tomcat_my_net2.my_net (192.168.0.3): icmp_seq=1 ttl=64 time=0.077 ms
+>    64 bytes from tomcat_my_net2.my_net (192.168.0.3): icmp_seq=2 ttl=64 time=0.077 ms
+>    64 bytes from tomcat_my_net2.my_net (192.168.0.3): icmp_seq=3 ttl=64 time=0.074 ms
+>    
+>    --- tomcat_my_net2 ping statistics ---
+>    3 packets transmitted, 3 received, 0% packet loss, time 2031ms
+>    rtt min/avg/max/mdev = 0.074/0.076/0.077/0.001 ms
+>    root@58a2fd388145:/usr/local/tomcat#
+>    ```
+>
+> 6. 好处：不同的集群使用不同的网络，保证集群是安全的。如redis放在一个网络中，mysql放在一个网络中。
+
+#### 网络连通
+
+Q：如何连接docker中的不同网络？
+
+A：`docker network connect`
+
+```
+root@lee:/home/lee# docker network --help
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+
+Run 'docker network COMMAND --help' for more information on a command.
+root@lee:/home/lee#
+```
+
+> 现在有两个网络：docker0、my_net。通过以上命令，使得其中一个网络中的容器能访问另一网络中的容器。
+>
+> 1. 将`docker0`中的`net_ubuntu`与`my_net`连通
+>
+>    ```bash
+>    root@lee:/home/lee# docker network connect my_net net_ubuntu
+>    ```
+>
+> 2. 使用命令`docker network inspect my_net`，可看到，实际上就是把`net_ubuntu`放到了`my_net`网络中。**一个容器，两个ip**。
+>    ![image-20220226173339326](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220226173339326.png)
+>
+> 3. 测试，可以双向ping通
+>
+>    ```bash
+>    root@lee:/home/lee# docker exec tomcat_my_net ping -c 3 net_ubuntu
+>    PING net_ubuntu (192.168.0.4) 56(84) bytes of data.
+>    64 bytes from net_ubuntu.my_net (192.168.0.4): icmp_seq=1 ttl=64 time=0.093 ms
+>    64 bytes from net_ubuntu.my_net (192.168.0.4): icmp_seq=2 ttl=64 time=0.074 ms
+>    64 bytes from net_ubuntu.my_net (192.168.0.4): icmp_seq=3 ttl=64 time=0.090 ms
+>    
+>    --- net_ubuntu ping statistics ---
+>    3 packets transmitted, 3 received, 0% packet loss, time 2046ms
+>    rtt min/avg/max/mdev = 0.074/0.085/0.093/0.008 ms
+>    root@lee:/home/lee# docker exec net_ubuntu ping -c 3 tomcat_my_net
+>    PING tomcat_my_net (192.168.0.2) 56(84) bytes of data.
+>    64 bytes from tomcat_my_net.my_net (192.168.0.2): icmp_seq=1 ttl=64 time=0.065 ms
+>    64 bytes from tomcat_my_net.my_net (192.168.0.2): icmp_seq=2 ttl=64 time=0.072 ms
+>    64 bytes from tomcat_my_net.my_net (192.168.0.2): icmp_seq=3 ttl=64 time=0.066 ms
+>    
+>    --- tomcat_my_net ping statistics ---
+>    3 packets transmitted, 3 received, 0% packet loss, time 2029ms
+>    rtt min/avg/max/mdev = 0.065/0.067/0.072/0.003 ms
+>    root@lee:/home/lee#
+>    ```
+
+#### 实战：部署Redis集群
+
+**结构**
+
+![image-20220226192809046](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220226192809046.png)
+
+> 当master挂了，slave要顶上
+
+> 1. 创建一个redis集群的网络
+>
+>    ```bash
+>    docker network create --subnet 172.38.0.0/16 redis_net
+>    ```
+>
+> 2. 通过shell脚本配置六个redis
+>
+>    ```shell
+>    for port in $(seq 1 6);\
+>    do \
+>    mkdir -p /home/lee/cluster/redis/node-${port}/conf
+>    touch /home/lee/cluster/redis/node-${port}/conf/redis.conf
+>    cat << EOF >/home/lee/cluster/redis/node-${port}/conf/redis.conf
+>    port 6379
+>    bind 0.0.0.0
+>    cluster-enabled yes
+>    cluster-config-file nodes.conf
+>    cluster-node-timeout 5000
+>    cluster-announce-ip 172.38.0.1${port}
+>    cluster-announce-port 6379
+>    cluster-announce-bus-port 16379
+>    appendonly yes
+>    EOF
+>    done
+>    ```
+>
+> 3. 启动容器
+>
+>    ```bash
+>    root@lee:~# docker run -p 6371:6379 -p 16371:16379 --name redis-1 -v /home/lee/cluster/redis/node-1/data:/data  -v /home/lee/cluster/redis/node-1/conf/redis.conf:/etc/redis/redis.conf -d --network redis_net --ip 172.38.0.11 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+>    ```
+>
+>    直接写个shell脚本启动6个容器
+>
+>    ```shell
+>    #!/bin/bash
+>    for port in $(seq 2 6);
+>    do
+>    docker run -p 637${port}:6379 -p 1637${port}:16379 --name redis-${port} -v /home/lee/cluster/redis/node-${port}/data:/data  -v /home/lee/cluster/redis/node-${port}/conf/redis.conf:/etc/redis/redis.conf -d --network redis_net --ip 172.38.0.1${port} redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+>    done
+>    ```
+>
+> 4. 进入容器中，配置集群（redis容器只有/bin/sh，没有/bin/bash）
+>
+>    ```sh
+>    redis-cli --cluster create 172.38.0.11:6379 172.38.0.12:6379 172.38.0.13:6379 172.38.0.14:6379 172.38.0.15:6379 172.38.0.16:6379 --cluster-replicas
+>    ```
+>
+> 5. 看看情况。`cluster info`、`cluster nodes`。
+>
+>    ```sh
+>    /data # redis-cli -c
+>    127.0.0.1:6379> cluster info
+>    cluster_state:ok
+>    cluster_slots_assigned:16384
+>    cluster_slots_ok:16384
+>    cluster_slots_pfail:0
+>    cluster_slots_fail:0
+>    cluster_known_nodes:6
+>    cluster_size:3
+>    cluster_current_epoch:6
+>    cluster_my_epoch:1
+>    cluster_stats_messages_ping_sent:296
+>    cluster_stats_messages_pong_sent:300
+>    cluster_stats_messages_sent:596
+>    cluster_stats_messages_ping_received:295
+>    cluster_stats_messages_pong_received:296
+>    cluster_stats_messages_meet_received:5
+>    cluster_stats_messages_received:596
+>    ```
+>
+>    ```sh
+>    127.0.0.1:6379> cluster nodes
+>    757d1c4ffd77a406ebb70eecbd6b6560b62084f7 172.38.0.14:6379@16379 slave ddcf7ee9eaeb173de9dc47b874f5c2b15d2577b3 0 1645880115000 4 connected
+>    5415e8fb9a79966be3a88c6d06d3d262b6b00c38 172.38.0.15:6379@16379 slave a5c6d6a88f4ffaae3b1dd94c54d3e3a2ab985032 0 1645880115502 5 connected
+>    ddcf7ee9eaeb173de9dc47b874f5c2b15d2577b3 172.38.0.13:6379@16379 master - 0 1645880116704 3 connected 10923-16383
+>    e81d5cfde2304cee6404092dd63e01f8f7f63ca8 172.38.0.12:6379@16379 master - 0 1645880116504 2 connected 5461-10922
+>    a520159c615f851245e3178a1cc25cd757db026a 172.38.0.16:6379@16379 slave e81d5cfde2304cee6404092dd63e01f8f7f63ca8 0 1645880116000 6 connected
+>    a5c6d6a88f4ffaae3b1dd94c54d3e3a2ab985032 172.38.0.11:6379@16379 myself,master - 0 1645880116000 1 connected 0-5460
+>    127.0.0.1:6379>
+>    ```
+

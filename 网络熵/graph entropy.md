@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                            
+>                                        
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -725,3 +725,176 @@ subdivide: [vi]细分；[vt]把...细分
 > $$
 > 
 
+
+
+### 四、基于信息熵模块化的社交网络超图划分
+
+**Journal of Network and Computer Applications**
+
+**[4] Hypergraph partitioning for social networks based on information entropy modularity**
+
+
+
+#### 1、名词、概念
+
+scaling out：横向拓展。
+
+dyadic：[adj] 二价的，双值的。[n] 双积
+
+mitigate：【adj】减轻的；截止的；【n】减轻；镇静
+
+coincide with：与...相符；不谋而合
+
+bisection：【n】两断；对切；二等分的一半
+
+##### scale-free network
+
+> **无标度网络**。度分布满足**幂律分布**的网络即为无标度网络。互联网、社交网络等网络都具有无标度性或满足幂律分布。1999 年 10 月 15 日的Science 杂志，刊登了 Albert-László Barabási 和 Réka Albert 的文章，提出通过网络生长和偏好依附的模型，可以获得无标度网络，后被称为 B-A 模型。
+>
+> 无标度网络中大多数节点只与少数节点连接，而少量的节点拥有极其多的节点连接，这种少量节点称为枢纽或集散节点（hub）。**新加入的点更倾向于连接hub节点。**
+
+##### power law distribution
+
+> **幂律分布**。表现为一个变量是另一个变量的幂次方，即$f(x)=ax^{-k}$。
+>
+> ![img](https://wiki.swarma.org/images/thumb/8/8a/Long_tail.svg/500px-Long_tail.svg.png)
+>
+> 一个幂律图示例，展示了人气排名的规律。右侧是数量庞大但人气微弱的“长尾”，左侧则是少数“主宰”。 (又称80–20法则)。
+
+##### dyadic graph
+
+> 没找到官方翻译（二价图？并矢图？）。
+>
+> 定义：
+>
+> > A graph G is dyadic provided it has a representation v → $S_v$ from vertices v of G to subtrees $S_v$ of a host tree T with maximum degree 3 such that (i) v and w are adjacent in G if and only if $S_v$ and $S_w$ share at least three nodes and (ii) each edge of T is used by exactly two representing subtrees. We show that a connected graph is dyadic if and only if it can be constructed from edges and cycles by gluing vertices to vertices and edges to edges. 
+
+##### Q value
+
+> 最常用的方法，用于评估将网络划分成模块（module）的强度（strength）。
+>
+> Q值越大，模块内联系越紧密，模块间联系越稀疏。
+>
+> 公式如下：
+> $$
+> Q=\sum^k_i(e_{ii}-(\sum^k_ie_{ij})^2)
+> $$
+> k代表社区个数；$e_{ii}$是社区i内的边数与整个网络中总边数的比值；$e_{ij}$是社区i、社区j之间的边数与整个网络中总边数的比值。
+>
+> *对于无标度网络，这些方法不太适用。*
+
+#### 2、关于本文
+
+> 研究表明，在很多领域用超图建模比dyadic graph好，比如分区（partition）。举个例子：社交网络用户可以用超图的顶点表示，而多用户操作，例如在一次操作中从多个社交网络（例如 Facebook）朋友中多次收集数据，可以通过超边建模在超图中。
+>
+> **超图划分**问题，是将超图的顶点划分到k个不相交、非空、等大的分区中，使得连接这些不同分区中顶点的超边数量（称为割）或者割的大小最小。
+>
+> 例：超图$H=(V,N)$，点$v=\{v_1,v_2,..,v_{14} \}$，超边$H=\{n_1,n_2,..,n_5\}$被分为4个区域$T=\{T_1,T_2,..,T_4\}$，割的大小为4，即$\{n_1,n_2,n_3,n_4\}$。
+>
+> ![image-20220307173827442](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220307173827442.png)
+>
+> 
+>
+>
+> 传统的Q value测量模块度的方法不太适用于无标度网络和超图的划分。有以下原因：
+>
+> 1. 没有充分考虑无标度网络的社区结构。hMETIS 和 khMETIS是最小割超图分区工具，可以在执行最小割时提供load-balancing，但这不一定是具体问题的唯一约束。
+> 2. 当社交网络快速增长时，模块化优化算法不能很好地适应不断变化的图结构。这些算法对图结构很敏感。
+> 3. 多数超图分区没有考虑到度幂律分布。像*hyperpart（好像是作者以前文章提出的方法）*，使用信息熵平等对待每个节点，显然不能反映无标度网络的度分布特征。
+>
+> 本文就集各家之长，由于熵的分布规律与顶点度分布相吻合，使用基于信息熵计算的Q值来描述无标度网络的社区结构，并指导min-cut超图划分过程，产生高保真划分结果。
+>
+> 这个方法作者命名为**EQHyperpart**。
+>
+> 
+>
+> 本文顺带提了一下当前常见的社区检测方法：
+>
+> 1. minimun-betweenness
+> 2. clustering centrality
+> 3. random walk
+> 4. eigenvectors of matrices
+> 5. target function optimization
+> 6. density of edge connection
+>
+> 注重检测速度以及重叠社区检测并且是运用信息论的方法：
+>
+> 1. minimum description length(MDL)
+> 2. mutual information
+> 3. information bottle
+
+#### 3、Q and EQ
+
+> 本文提出的度量方法。
+>
+> **E**：反映无标度网络特征的信息熵
+>
+> **EQ**：基于超图中Q值的模块化
+>
+> 
+>
+> **本文用到的熵：**
+>
+> * 社交网络熵，基于顶点的度而产生
+>
+> > 顶点i的“重要性”（就一概率而已）：$I_i=\frac {d_i} {\sum^N_{i=1} d_i}$，N为网络中顶点的数量，$d_i$为顶点i的度。
+> >
+> > 那么网络的熵即为：$E=-\sum^N_{i=1}I_i \log(I_i)$
+>
+> * 社区结构熵（Community Structure Entropy，CSE）
+>
+> > 由无标度网络的特性，一个社区的重要性，比如数量，决定了新节点加入的概率。
+> >
+> > CSE定义为**条件熵**$H(Y|X)$，在社区Y已存在的情况下，衡量顶点X的不确定性或者无序的情况。
+> > $$
+> > \begin{aligned}
+> > H(Y|X) & = -\sum^N_{i=1} \sum^M_{j=1}P(x_i,y_i)\log(P(y_j|x_i))\\
+> > &=-\sum^N_{i=1}\sum^M_{j=1}P(y_j|x_i)P(x_i)\log(P(y_j|x_i))
+> > \end{aligned}
+> > $$
+> > 社区变量$Y=(y_1,y_2,..,y_{|y|})$，
+> >
+> > 顶点变量$X=(x_1,x_2,..,x_{|x|})$，
+> >
+> > N为所有顶点数，M为所有社区数，
+> >
+> > $P(x_i,y_j)=P(y_j|x_i)P(x_i)$是**联合概率**（joint probability）。
+> >
+> > $P(x_i)$表示顶点i的”重要性“，上文有提到；
+> >
+> > $P(y_j|x_i)$表示社区j包含顶点i的概率，即$P(y_j|x_i)=\frac {m_j}{N}$,社区j的节点数占全网节点数的比例。
+> >
+> > 因此，计算CSE可用如下公式：
+> > $$
+> > \begin{aligned}
+> > E_{CS} = -\frac {\sum^N_{i=1,Z_{{ij}=1}} \sum^M_{j=1}d_i*(\frac {m_j} {N}*\log(\frac {m_j} {N}))}{\sum^N_{i=1}d_i}
+> > \end{aligned}
+> > $$
+> > 其中$Z_{ij}$是分配矩阵（assignment matrix），如果顶点i被分配到社区j，则$Z_{ij}=1$，否则等于0。
+>
+> * 社区间熵（inter-community entropy，ICE）
+>
+> > 用于反映社区间的不确定性。
+> >
+> > 经典的超图多级分区框架由三个阶段组成：粗化（coarsening）、分区（partitioning）、去粗化（uncoarsing）。
+> >
+> > 通过使用一些启发式算法合并顶点和/或边来粗化超图。 在极端情况下，顶点级超图可以粗化为社区级超图。 受此启发，社区可以被视为粗化后的超顶点（super-vertices），社区之间的关联可以被认为是社区之间的割超边（cut hyperedge）。
+> >
+> > ICE定义如下：
+> > $$
+> > E_{IC}=-C*(\frac 1 M)*\log(\frac 1 M)
+> > $$
+> > 其中C是当前超图建模网络的 K-1 cut size，M是社区总数。
+>
+> 最后，EQ定义如下：
+> $$
+> EQ=E_{CS}-(E_{IC})^2
+> $$
+
+#### 4、EQHyperpart algorithm
+
+> 为避免局部最优解，按照模拟退火的想法进行改进，并定义了Micro cut降低在分区时进入局部最优解的概率。
+>
+> ![image-20220313163615892](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313163615892.png)
+>
+> 
