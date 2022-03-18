@@ -18,17 +18,17 @@
 >
 > 网站80%的情况是读操作，每次都查询数据库就会很慢。为了减轻数据库压力，使用缓存来保证效率。
 >
-> ![image-20220317212836517](H:/school_materal_temp/%E7%A1%95%E5%A3%AB/MK%E7%AC%94%E8%AE%B0/redis/redis.assets/image-20220317212836517.png)
+> ![image-20220317212836517](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220317212836517.png)
 >
 > **三、分库分表+水平拆分+MySQL集群**
 >
-> ![image-20220317214057135](H:/school_materal_temp/%E7%A1%95%E5%A3%AB/MK%E7%AC%94%E8%AE%B0/redis/redis.assets/image-20220317214057135.png)
+> ![image-20220317214057135](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220317214057135.png)
 >
 > **四、最近（2020）**
 >
 > 数据类型多、变化快、数量多，MySQL等关系型数据库不够用。
 >
-> ![image-20220317215142518](H:/school_materal_temp/%E7%A1%95%E5%A3%AB/MK%E7%AC%94%E8%AE%B0/redis/redis.assets/image-20220317215142518.png)
+> ![image-20220317215142518](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220317215142518.png)
 >
 > Nosql可以很好处理以上情况。
 
