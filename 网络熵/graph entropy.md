@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                        
+>                                              
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -893,8 +893,111 @@ bisection：【n】两断；对切；二等分的一半
 
 #### 4、EQHyperpart algorithm
 
-> 为避免局部最优解，按照模拟退火的想法进行改进，并定义了Micro cut降低在分区时进入局部最优解的概率。
+> 为避免局部最优解，按照模拟退火的想法进行改进；并定义了Micro cut降低在分区时进入局部最优解的概率，即当在最高增益移动候选中存在平局时，可以应用Micro cut，或者在计算移动增益时代替 K -1 cut size。
 >
 > ![image-20220313163615892](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313163615892.png)
 >
-> 
+> ![image-20220313172750334](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313172750334.png)
+
+#### 5、实验
+
+> * 三个方面进行评估：scalability、several adopted metrics、auto-tradeoff ability
+> * 四个数据集，其中三个真实世界网络（Karate club、Dolphin social network、American College Football），Facebook的一部分数据。
+> * 环境：C++、Windows 2008 server、Intel Xeon 2.0Ghz、8G RAM。
+>
+> **评价scalability**：用查询成本节省率（query cost saving rate）$R_{CS}$评价。
+>
+> > $C_{init}$：网络初始状态的的平均查询成本
+> >
+> > $C_{grown}$：按照网络增长的机制，当网络规模到达1000，重新计算平均查询成本
+> > $$
+> > R_{CS}=\frac{C_{init}-C_{grown}}{C_{init}}
+> > $$
+> > ![image-20220313211221108](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313211221108.png)
+>
+> **serveral adopted metrics**：
+>
+> * K-1 cut size within balance constraints
+>
+>   >展示了不同平衡水平下的 K-1 cut size。 观察到 EQHyperpart 分区器优于加权网络中的其他竞争算法，因为基于熵的 Q 值是为非均匀分布式无标度网络设计的。 具体来说，EQHyperpart-MC 在Micro cut的帮助下显着减小了 K-1 cut size。 hMETIS 和 hyperpart 遗漏了一些数据，因为它们无法在某些平衡级别要求下产生分区结果。
+>   >
+>   >![image-20220313213019150](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313213019150.png)
+>
+> * Modularity features retainment ability
+>
+>   > 采用信息检索系统中的典型指标，包括召回率(recall rate)、准确率(precision)和F-score作为评价指标。
+>   >
+>   > 分区partition：$t \in T$
+>   >
+>   > 自然分化的社区natural community：$c\in C$
+>   >
+>   > $\alpha(c,T)$:正确分配给 c 的顶点数
+>   >
+>   > $\beta(c,T)$:错误分配给 c 的顶点数
+>   >
+>   > $\gamma(c,T)$:未正确分配给 c 的顶点数
+>   > $$
+>   > \begin{align}
+>   > R(T) &= \frac{\sum_c\alpha(c,T)}{\sum_c\alpha(c,T)+\gamma(c,T)} \\
+>   > P(T) &= \frac{\sum_c\alpha(c,T)}{\sum_c\alpha(c,T)+\beta(c,T)} \\
+>   > F1 &=\frac {2*P(T)*R(T)}{P(T)+R(T)} 
+>   > \end{align}
+>   > $$
+>   >
+> 	>
+> 	> ![image-20220314154613361](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314154613361.png)
+> 	>
+> 	> ![image-20220314154640796](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314154640796.png)
+> 	>
+> 	> 实验效果还行，但对于有重叠社区的检测效果一般，因为设计算法的时候没有考虑这些。
+> 	
+> * Tradeoff between modularity and cut size
+>
+>   > $FS_i$：F-Score value
+>   >
+>   > $CS_i$：K-1 cut size
+>   >
+>   > $TO_i$：tradeoff value
+>   >
+>   > $i$：unbalance level
+>   >
+>   > $|E|$：number of edges of dataset
+>   >
+>   > $a,b$：weighting coefficients, a+b=1
+>   > $$
+>   > TO_i=a*FS_i*100+b(1-\frac{CS_i}{|E|})*100
+>   > $$
+>   > ![image-20220314163517695](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314163517695.png)
+>   >
+>   > 结果显示平均tradeoff value比其他三个要好。
+>
+> **Auto-tradeoff partitioning**：
+>
+> > 通常是注重减小 k-1 cut size和unbalance factor。本文认为modularity retaining ability也很重要。
+> >
+> > $FS_{auto}$：F-Score value
+> >
+> > $CS_{auto}$：k-1 cut size
+> >
+> > $UB_{auto}$：unbalance factor value
+> >
+> > $|E|$：number of edges of the dataset
+> >
+> > $UB_{max}$：max unbalance factor
+> >
+> > $a,b,c$：weighting coeffcients, a+b+c=1
+> > $$
+> > TO_{auto}=a*FS_{auto}*100+b*(1-\frac{CS_{auto}}{|E|})*100+c*(1-\frac{UB_{auto}}{UB_{max}})*100
+> > $$
+> > ![image-20220314200129936](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314200129936.png)
+> >
+> > *原文：总之，EQHyperpart 在没有任何平衡约束的情况下产生了令人满意的结果。 换句话说，我们已经验证了 EQHyperpart 的自动权衡分区能力的有效性。*
+>
+> **execution time:**
+>
+> 由于同一数据集上不同不平衡级别的分区时间相似，我们计算了每个数据集上每个分区器的平均值，并相对于 khMETIS 的运行时间进行了归一化。
+>
+> > ![image-20220314201123241](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314201123241.png)
+
+#### 
+
