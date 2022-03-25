@@ -570,12 +570,12 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >     <h1>Welcome to nginx!</h1>
 >     <p>If you see this page, the nginx web server is successfully installed and
 >     working. Further configuration is required.</p>
->                                         
+>                                             
 >     <p>For online documentation and support please refer to
 >     <a href="http://nginx.org/">nginx.org</a>.<br/>
 >     Commercial support is available at
 >     <a href="http://nginx.com/">nginx.com</a>.</p>
->                                         
+>                                             
 >     <p><em>Thank you for using nginx.</em></p>
 >     </body>
 >     </html>
@@ -840,11 +840,11 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >
 > 通过命令查看，发现多了一个“volume_nginx”的卷。
 >
-> ![image-20220222202641077](H:\school_materal_temp\硕士\MK笔记\docker\docker.assets\image-20220222202641077.png)
+> ![image-20220222202641077](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222202641077.png)
 >
 > 再具体点，使用命令`docker volume inspect`查看，可以看到具体挂载的地方。
 >
-> ![image-20220222203048458](H:\school_materal_temp\硕士\MK笔记\docker\docker.assets\image-20220222203048458.png)
+> ![image-20220222203048458](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220222203048458.png)
 >
 > 其实都是放在`/var/lib/docker/volume`当中。
 >
@@ -1561,7 +1561,7 @@ root@lee:/home/lee#
 >    64 bytes from net_ubuntu.my_net (192.168.0.4): icmp_seq=1 ttl=64 time=0.093 ms
 >    64 bytes from net_ubuntu.my_net (192.168.0.4): icmp_seq=2 ttl=64 time=0.074 ms
 >    64 bytes from net_ubuntu.my_net (192.168.0.4): icmp_seq=3 ttl=64 time=0.090 ms
->    
+>       
 >    --- net_ubuntu ping statistics ---
 >    3 packets transmitted, 3 received, 0% packet loss, time 2046ms
 >    rtt min/avg/max/mdev = 0.074/0.085/0.093/0.008 ms
@@ -1570,7 +1570,7 @@ root@lee:/home/lee#
 >    64 bytes from tomcat_my_net.my_net (192.168.0.2): icmp_seq=1 ttl=64 time=0.065 ms
 >    64 bytes from tomcat_my_net.my_net (192.168.0.2): icmp_seq=2 ttl=64 time=0.072 ms
 >    64 bytes from tomcat_my_net.my_net (192.168.0.2): icmp_seq=3 ttl=64 time=0.066 ms
->    
+>       
 >    --- tomcat_my_net ping statistics ---
 >    3 packets transmitted, 3 received, 0% packet loss, time 2029ms
 >    rtt min/avg/max/mdev = 0.065/0.067/0.072/0.003 ms
