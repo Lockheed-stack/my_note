@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                              
+>                                                       
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -999,5 +999,38 @@ bisection：【n】两断；对切；二等分的一半
 >
 > > ![image-20220314201123241](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314201123241.png)
 
-#### 
+
+
+### 五、基于信息熵的复杂网络中影响节点识别
+
+**Influential Nodes Identification in Complex Networks via Information Entropy**
+
+*Guo C, Yang L, Chen X, et al. Influential nodes identification in complex networks via information entropy[J]. Entropy, 2020, 22(2): 242.*
+
+源码：https://github.com/YangLiangwei/Influential-nodes-identification-in-complex-networks-via-information-entropy
+
+#### 1、名词概念
+
+compartmental: [adj]区划的，分为若干部分的
+
+##### rich club phenomenon
+
+> 重要的节点趋向于相互重叠。相关论文：Colizza, V.; Flammini, A.; Serrano, M.; Vespignani, A. Detecting rich-club ordering in complex networks.
+> Nat. Phys. 2006, 2, 110–115.
+
+#### 2、传播模型
+
+> 衡量复杂网络中一组节点的影响的最佳方法是通过对现实生活网络数据的**传播动态过程**。如：
+>
+> **SIR model**, susceptible infected recovered model；
+>
+> 本文采用SIR模型客观评价算法选择的节点的传播能力。
+>
+> SIR 模型中的每个节点都可以分为三种状态之一，即易感节点 (S)、感染节点 (I) 和恢复节点 (R)。具体过程：
+>
+> 1. 开始，选择一些节点作为已感染状态节点，其他节点为易感染状态。
+> 2. 每次迭代，已感染节点随机选取一个邻居节点，感染概率为$\mu$。
+> 3. 同时，已感染节点恢复概率为$\beta$，并且不会再被感染。
+>
+> 
 
