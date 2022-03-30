@@ -239,7 +239,7 @@ $ git commit
   ![](http://www.yiibai.com/uploads/images/201707/1307/845100751_76810.png)
   当`mywork`分支更新之后，它会指向这些新创建的提交(commit),而那些老的提交会被丢弃。 如果运行垃圾收集命令(pruning garbage collection), 这些被丢弃的提交就会删除.
   ![](http://www.yiibai.com/uploads/images/201707/1307/141100752_31232.png)
-  
+
 
 
 ==稍微深入==
@@ -247,4 +247,19 @@ $ git commit
 只要你一直使用Git,早晚会遇到这样一种情况：从主干切出了某一分支issue1，进行了一些提交后，有另一个需求，我们在issue1分支切出新分支issue2，进行了提交，这期间其他成员对master主干分支进行了更新，结构图如下：
 ![](https://pic2.zhimg.com/80/v2-d1445858b3f221eeb17d18e528e4e275_720w.png)
 现在，issue2分支开发完，我们需要将其变更并入主线，但是issue1分支的变更还是继续保持独立，如果直接进行简单变基，cec214,d4eb57也将被并入主线，这不是我们想要的结果，我们只希望将issue2分支上进行的变更和提交并入主线，即5f3776,ac5c08，这时需要使用git rebase --onto指令：
+```bash
+$ git rebase --onto master issue1 issue2
+```
+
 ![](https://pic1.zhimg.com/80/v2-cdd1a9d516302f827a42f6d28b887cf8_720w.png)
+可以看出，执行--onto变基后，在主线上复制了issue2分支的所有提交对象，此处所谓复制，是在主线创建新提交对象，而其提交内容及备注复制自issue2分支的提交对象
+![](https://pic3.zhimg.com/80/v2-69e4a1e094a3cb553043b2a59718657a_720w.png)
+
+上例使用了git rebase --onto 变基目标分支master 变基过渡分支issue1 变基当前分支issue2指令，此指令解释如下：
+
+* 变基当前分支，即当前执行变基的分支issue2；
+* 变基目标分支，即当前执行变基分支的变基指向分支master；
+* 变基过渡分支，即当前执行变基分支过滤提交对象的目标分支issue1（当前分支从过渡分支切出）；
+* 取出issue2分支上进行的所有提交对象，以补丁（patches）形式在主线master分支上重新应用，创建新提交对象，然后将分支指针移动到最后一个新创建的提交对象。
+
+==最后注意一个原则==: 永远不要对已经推到主干分支服务器或者团队其他成员的提交进行变基，我们选择变基还是合并的范围应该在自己当前工作范围内。
