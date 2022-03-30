@@ -206,16 +206,45 @@ Git也允许手动建立追踪关系。上面命令指定master分支追踪origi
 Answer: 这两个操作的区别
 git pull = git fetch + git merge
 git pull --rebase = git fetch + git rebase
+rebase翻译为“变基”*(这翻译有点意思...)*。
 
 具体示例:
-* 假设有3次提交A,B,C。
-![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155014777-999552544.png)
-* 在远程分支origin的基础上创建一个名为"mywork"的分支并提交了，同时有其他人在"origin"上做了一些修改并提交了。
-![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155038152-1733703139.png)
-此时如果E提交了，会发生冲突。解决方法如下： 
+* 假设你现在基于远程分支”origin“，创建一个叫”mywork“的分支。
+```bash
+$ git checkout -b mywork origin
+```
+结果如下所示 -
+![](http://www.yiibai.com/uploads/images/201707/1307/842100748_44775.png)
+* 现在我们在这个分支(mywork)做一些修改，然后生成两个提交(commit).
+```bash
+$ vi file.txt
+$ git commit
+$ vi otherfile.txt
+$ git commit
+... ...
+```
+但是与此同时，有些人也在”origin“分支上做了一些修改并且做了提交了，这就意味着”origin“和”mywork“这两个分支各自”前进”了，它们之间”分叉”了。
+![](http://www.yiibai.com/uploads/images/201707/1307/810100749_17109.png)
+此时如果直接提交，会发生冲突。解决方法如下： 
   1. **git merge**
-  用git pull命令把"origin"分支上的修改pull下来与本地提交合并（merge）成版本M，但这样会形成图中的菱形，让人很困惑。
-  ![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155107949-1520786903.png)
+  用`pull`命令把`origin`分支上的修改拉下来并且和你的修改合并； 结果看起来就像一个新的”合并的提交”(merge commit)。但这样会形成图中的菱形，让人很困惑。
+  ![](http://www.yiibai.com/uploads/images/201707/1307/350100750_71786.png)
   2. **git rebase**
-  创建一个新的提交R，R的文件内容和上面M的一样，但我们将E提交废除，当它不存在（图中用虚线表示）。由于这种删除，小李不应该push其他的repository.rebase的好处是避免了菱形的产生，保持提交曲线为直线，让大家易于理解。
-  ![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155132715-596060966.png)
+  如果你想让`mywork`分支历史看起来像没有经过任何合并一样，也可以用 `git rebase`，如下所示:
+  ```bash
+  $ git checkout mywork
+  $ git rebase origin
+  ```
+  这些命令会把你的`mywork`分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到`.git/rebase`目录中),然后把`mywork`分支更新 到最新的`origin`分支，最后把保存的这些补丁应用到`mywork`分支上。
+  ![](http://www.yiibai.com/uploads/images/201707/1307/845100751_76810.png)
+  当`mywork`分支更新之后，它会指向这些新创建的提交(commit),而那些老的提交会被丢弃。 如果运行垃圾收集命令(pruning garbage collection), 这些被丢弃的提交就会删除.
+  ![](http://www.yiibai.com/uploads/images/201707/1307/141100752_31232.png)
+  
+
+
+==稍微深入==
+**多主题分支变基(git rebase --onto)**
+只要你一直使用Git,早晚会遇到这样一种情况：从主干切出了某一分支issue1，进行了一些提交后，有另一个需求，我们在issue1分支切出新分支issue2，进行了提交，这期间其他成员对master主干分支进行了更新，结构图如下：
+![](https://pic2.zhimg.com/80/v2-d1445858b3f221eeb17d18e528e4e275_720w.png)
+现在，issue2分支开发完，我们需要将其变更并入主线，但是issue1分支的变更还是继续保持独立，如果直接进行简单变基，cec214,d4eb57也将被并入主线，这不是我们想要的结果，我们只希望将issue2分支上进行的变更和提交并入主线，即5f3776,ac5c08，这时需要使用git rebase --onto指令：
+![](https://pic1.zhimg.com/80/v2-cdd1a9d516302f827a42f6d28b887cf8_720w.png)
