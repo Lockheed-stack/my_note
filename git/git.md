@@ -200,3 +200,22 @@ Git也允许手动建立追踪关系。上面命令指定master分支追踪origi
 在使用命令“git pull origin"时，可能会出现"xxxx --set-upstream"的错误提示，就是在告诉你需要设置"追踪关系"，本地的当前分支无法自动与对应的origin主机”追踪分支”(remote-tracking branch)进行合并。
 
 <br></br>
+
+>git pull 与 git pull --rebase的联系、区别?
+
+Answer: 这两个操作的区别
+git pull = git fetch + git merge
+git pull --rebase = git fetch + git rebase
+
+具体示例:
+* 假设有3次提交A,B,C。
+![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155014777-999552544.png)
+* 在远程分支origin的基础上创建一个名为"mywork"的分支并提交了，同时有其他人在"origin"上做了一些修改并提交了。
+![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155038152-1733703139.png)
+此时如果E提交了，会发生冲突。解决方法如下： 
+  1. **git merge**
+  用git pull命令把"origin"分支上的修改pull下来与本地提交合并（merge）成版本M，但这样会形成图中的菱形，让人很困惑。
+  ![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155107949-1520786903.png)
+  2. **git rebase**
+  创建一个新的提交R，R的文件内容和上面M的一样，但我们将E提交废除，当它不存在（图中用虚线表示）。由于这种删除，小李不应该push其他的repository.rebase的好处是避免了菱形的产生，保持提交曲线为直线，让大家易于理解。
+  ![](https://images2015.cnblogs.com/blog/907596/201609/907596-20160922155132715-596060966.png)

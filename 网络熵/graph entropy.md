@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                                       
+>                                                                      
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -1013,10 +1013,18 @@ bisection：【n】两断；对切；二等分的一半
 
 compartmental: [adj]区划的，分为若干部分的
 
+copiously: [adv]充裕地、丰富地
+
+attenuation：[n]衰减；稀释；弱化
+
 ##### rich club phenomenon
 
 > 重要的节点趋向于相互重叠。相关论文：Colizza, V.; Flammini, A.; Serrano, M.; Vespignani, A. Detecting rich-club ordering in complex networks.
 > Nat. Phys. 2006, 2, 110–115.
+
+##### three degrees of influence(TDI) theory
+
+> 该理论说明，个人的社会影响只在一个相对较小的范围内。
 
 #### 2、传播模型
 
@@ -1029,8 +1037,94 @@ compartmental: [adj]区划的，分为若干部分的
 > SIR 模型中的每个节点都可以分为三种状态之一，即易感节点 (S)、感染节点 (I) 和恢复节点 (R)。具体过程：
 >
 > 1. 开始，选择一些节点作为已感染状态节点，其他节点为易感染状态。
+>
 > 2. 每次迭代，已感染节点随机选取一个邻居节点，感染概率为$\mu$。
+>
 > 3. 同时，已感染节点恢复概率为$\beta$，并且不会再被感染。
 >
-> 
+> 经过足够多次的迭代后，到达平稳状态，不再有感染。
+>
+> 感染率：$\lambda = \frac{\mu}{\beta}$;
+>
+> SIR传播阈值：$\mu_c=\frac{\langle k \rangle}{\langle k \rangle^2 - \langle k \rangle }$, $\langle k \rangle$为网络的平均度；
+>
+> 设置$\mu =  1.5\mu_c$；$\mu$太小，影响范围小或者根本不能传播，而$\mu$太大，几乎所有的方法都会影响整个网络，没有比较意义。
 
+#### 3、EnRenew Algorithm
+
+> 顶点v的信息熵的计算公式：
+> $$
+> E_v = \sum_{u\in\Gamma_v}H_{uv}=-\sum_{u\in\Gamma_v}p_{uv}\log(p_{uv})
+> $$
+> 其中$p_{uv}=\frac{d_u}{\sum_{l\in\Gamma_v}d_l}$（*u是v的邻居，即u的度除以顶点v所有邻居顶点的度*）, $\Gamma_v$表示顶点v的邻居，$d_u$表示顶点u的度，$H_{uv}$表示顶点u到顶点v的传播能力。（使用的是自然对数）
+>
+> 
+>
+> ![image-20220325215445056](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220325215445056.png)
+>
+> ![image-20220326193456031](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220326193456031.png)
+>
+> **该算法挑选出一组传播者。该算法考虑到了网络的聚集现象，没有简单的使用顶点度来衡量。**
+>
+> $\frac{1}{2^l-1}$：衰减因子，离点v越远，对v的影响越小。
+>
+> $E_{\langle k \rangle}=-\langle k \rangle \cdot \frac{1}{\langle k \rangle} \cdot \log(\frac{1}{\langle k \rangle})$：*也不懂为什么要这么写，直接 log不就完事了？*
+>
+> **时间复杂度**：
+>
+> 三个阶段：initialization、selection and renewing。n, m ,r分别代表顶点数、边数、初始感染的顶点数
+> $$
+> &O(m+n)+O(r\log n)+O(r \langle k \rangle^2)\\
+> &=O(m+n+r\log n +\frac{rm^2}{n^2})
+> $$
+> 若是稀疏网络，$r\ll n$，近似于O(n)。
+
+#### 4、评判传播效果
+
+> $$
+> F(t) = \frac{n_{I(t)}+n_{R(t)}}{n}
+> $$
+>
+> $n_{I(t)}$、$n_{R(t)}$分别代表t时刻被感染和已恢复的顶点。$F(t)$越大，传播越广；t越小，传播越快。
+> $$
+> F(t_c) = \frac{n_{R(t_c)}}{n}
+> $$
+> $F(t_c)$表示达到稳定状态时的传播规模。该值越大，初始所选的顶点传播能力越强。
+> $$
+> L_S=\frac{1}{|S|(|S|-1)}\sum_{u,v\in S,u\neq v}l_{u,v}
+> $$
+> $L_S$表示初始感染点集S中顶点的平均最短路径长度。$L_S$越大，初始感染点越分散。$l_{u,v}$表示u到v的最短路径，如果u、v不相连，则距离为$D_{GC}+1$，$D_{GC}$是连通分量的直径。
+
+#### 5、参数 l 的确定
+
+> 在renewing the information entropy时，通过参数 l 可以改变顶点的影响范围。l=1，只影响到其邻居，以此类推。
+>
+> 总体来看，l=2时效果比较好。
+>
+> ![image-20220326215330559](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220326215330559.png)
+>
+> *p 是初始感染节点的比率。*
+
+#### 6、实验比较
+
+> ![image-20220327172638582](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172638582.png)
+>
+> 比较最终的感染规模。本文的算法超过其他的benchmark方法。
+>
+> 
+>
+> ![image-20220327172725442](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172725442.png)
+>
+> 比较传播速度。本文的算法在相同时间传播的范围更广。
+>
+> 
+>
+> ![image-20220327172744211](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172744211.png)
+>
+> 比较不同传播条件下的最终效果。基本上还行，表明本文算法对不同传播条件有着更强的泛化能力（generalization ability）。
+>
+> 
+>
+> ![image-20220327172808390](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172808390.png)
+>
+> 比较$L_S$。除了最后一个，其他的值都明显比其他算法的大。说明本算法趋向选取分散分布的点。
