@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                                                      
+>                                                                                        
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -1074,8 +1074,10 @@ attenuation：[n]衰减；稀释；弱化
 >
 > 三个阶段：initialization、selection and renewing。n, m ,r分别代表顶点数、边数、初始感染的顶点数
 > $$
+> \begin{array}{}
 > &O(m+n)+O(r\log n)+O(r \langle k \rangle^2)\\
 > &=O(m+n+r\log n +\frac{rm^2}{n^2})
+> \end{array}
 > $$
 > 若是稀疏网络，$r\ll n$，近似于O(n)。
 
@@ -1128,3 +1130,156 @@ attenuation：[n]衰减；稀释；弱化
 > ![image-20220327172808390](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172808390.png)
 >
 > 比较$L_S$。除了最后一个，其他的值都明显比其他算法的大。说明本算法趋向选取分散分布的点。
+
+
+#### 7、我的看法
+> 如果初略的看一下，感觉效果还不错。仔细看完本文+源代码，发现有些也没讲清楚就糊弄过去了。
+>
+> 1. 计算$H_{uv}$，那么这个$H_{uv}$是表示哪个点呢？u还是v?如果是u，那换一个邻居H的值就变了。看了源代码，作者说和做是两回事。
+>
+> 2. 像all_degree，没理解错的话是度总和，直接就简单的等于“图中所有顶点-1”，这在简单图上是成立的，但问题是这些数据集是简单图吗？
+> 3. 平均度的计算，也没指明是怎么计算的。看了源代码才知道是$\frac{edge\times 2} {node}$; E\<k\>的计算在文章中也写得云里雾里;
+
+
+
+### 六、使用节点熵和分区熵的模因算法用于网络中的社区检测
+
+**Memetic algorithm using node entropy and partition entropy for community detection in networks**
+
+*Žalik K R, Žalik B. Memetic algorithm using node entropy and partition entropy for community detection in networks[J]. Information Sciences, 2018, 445: 38-49.*
+
+
+
+#### 1、名词概念
+
+memetic: [n]模因；通过人类的模仿能力完成复制，在人际之间传播的信息；*与基因、信息论等概念有关*。
+
+convergence: [n]趋同；汇集，相交；会聚区；收敛
+
+locus: [n]轨迹；地点，所在地；基因座，基因位点；位点；
+
+> 生物学和遗传算法中的术语，指某个基因或某个具有调控作用的DNA序列，在染色体上所处的特定位置。示意图如下：
+>
+> ![](https://bkimg.cdn.bcebos.com/pic/3801213fb80e7bec53715811252eb9389a506b92?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto)
+
+chromosome：[n] 染色体；
+
+agglomerative：[adj] 会凝聚的；凝结的
+
+#### 2、关于本文
+
+> 本文的算法是由遗传算法（genetic algorithm）改进而来，用于进行社区检测。
+>
+> 很多基于模块度优化（modularity optimization）的方法，存在**resolution limit**的问题，即无法检测到小社区。
+>
+> 遗传算法作为一种全局搜索技术是有效的，但它们需要相对较长的时间才能收敛到全局最优
+
+#### 3、问题定义
+
+* 图G，n个顶点，m条边。
+
+* $A_{ij}$：图G的邻接矩阵。
+
+* $C_i$：表示社区，$C_i\in G$。社区内紧密（$E_{C_i}^{in} = \sum_{i,j\in C_i}A_{ij}$）,社区间稀疏（$E^{out}_{C_i}=\sum_{i\in C_i,j\notin C_i}A_{ij}$）。
+
+* 模块度Q：挑选符合社区定义的 "最佳" 的社区。
+  $$
+  Q=\sum_{C_i \in P}\frac{E_{C_i}^{in}}{m}-(\frac{2*E_{C_i}^{in}+E_{C_i}^{out}}{2*m})^2
+  $$
+  
+* 顶点熵：$\Gamma_i$是顶点 i 的邻居；deg(i)是顶点i的度；来自社区 C 的节点引起的节点熵部分为$NE_C$; 
+  $$
+  NE(i)=-\frac{\sum_{j\in \Gamma_i}p_i^j\log (p_i^j)}{\log (deg(i))};\\ 
+  NE_C=-\frac{\sum_{i\in C,j\in \Gamma_i}p_i^j\log(p_i^j)}{\log (deg(i))}\\
+  p_i^j = \frac {1}{deg(j)}
+  $$
+  
+
+#### 4、NE-NET
+
+*遗传算法，涉及一些生物学概念*
+
+> * 每个染色体由n个基因组成，每个基因通过包含分配节点的**社区标签**或者一个邻居的**索引值**，来表示图的一个节点。
+>   假设从 1 开始的节点序列号，基因 i 对应于节点 $n_i$ 。
+>
+> * 进化算法中常用的染色体表示是**基于组(group based)**的表示。染色体的每个基因都包含其所属组的值。
+>   在基于基因座的相邻表示中，每个基因都包含一个节点邻居的索引。
+>   在基于相邻基因座的表示中，所有具有基因的节点及其相邻基因形成一个社区，而在**基于组**的表示中，所有由具有**相同社区标签值的基因**表示的节点形成一个社区。**本文使用基于组的表示**。
+> * 按照适者生存和优胜劣汰的原理，逐代（generation）演化产生出越来越好的近似解，在每一代，根据问题域中个体的适应度（fitness）大小选择（selection）个体，并借助于自然遗传学的遗传算子（genetic operators）进行组合交叉（crossover）和变异（mutation），产生出代表新的解集的种群。
+
+**交叉算子(Crossover operators)**
+
+> 交叉算子主要定义了遗传算法的性能。交叉从父染色体继承良好的社区并添加新的社区。
+>
+> *类似于同源染色体的联会*
+>
+> ![](https://upload-images.jianshu.io/upload_images/10386940-38df5ee1440b2fbc.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/264/format/webp)
+>
+> * Uniform crossover，均匀交叉：使用随机生成的二进制向量（vector）。对于二进制向量中的值为 0，解基因取自第一个染色体，二进制向量的值为 1 则取自第二个染色体。
+> * two-point crossover, 两点交叉：选定两个节点，交换这两个基因(簇标识符)。
+>
+> 均匀交叉和两点交叉产生非常随机的后代时效率很低，但它们快。
+>
+> **本文的方法：**
+>
+> ==由于==模块化比例最高的社区和社区的节点数，比模块化程度最高的社区增加了整个分区的模块化程度，
+>
+> ==因此==通过模块化的比率和分配给社区的节点数对两个父染色体的社区进行排序。尝试在后代中形成与父母相同的社区，但仅来自未分配给之前形成的任何社区的节点。
+
+#### 5、算法
+
+![image-20220410154422079](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220410154422079.png)
+
+> * step1: 初始化，影响最终解的质量和收敛速度。一般不知道解的信息，因此使用染色体基因的**随机初始化**来生成候选解(初始种群)。
+>   最初，代表图节点的每个基因都被放置在初始种群中所有个体的不同社区中。*(即没有重叠)*
+>   用基因索引($X^i_p=i;i=1,2,..,n$)作为社区标签。
+>   对于 n 个基因中每个基因 i 的所有染色体，算法为图中的每个节点 i 随机选择一个邻居节点 k 并设置 $x^i_p = k$ 。因此每个基因都包含其邻居之一的索引(1,...,n)。
+>   然后随机选择每个个体的每个基因，并将其分配到与带有标签 $x_i^j$ 的索引的基因**相同**的社区中。
+>
+> * step2：计算初始种群$P_0$ 的每条染色体的模块度值。
+>
+> * step3：按比例克隆到种群 $P_{t-1}$ 形成第一个后代种群。 然后遗传算子对后代种群进行提炼，并将新的遗传物质引入后代种群。
+>   变异算子不是完全随机的，是基于邻居的。当随机生成的概率小于$p_m$是发生，将该基因的社区标签换成它其中一个邻居的标签。
+>
+>   交叉算子，继承具有最高模块化比率和节点数的最佳社区。来自父母双方的所有社区都按照模块化比率和分配给社区的节点数进行排序。首先在后代中创建社区，该社区等于具有最高比率的社区，然后具有次优比率的社区，依此类推，直到后代中的所有节点都分配给一个社区。
+>
+> * step4：子染色体按一下两个步骤进行修改。
+>
+>   4.1. 合并社区增加模块度。交叉算子会产生一些小社区，这些社区可以与真实社区进行合并以增加模块度。为了一次合并多对社区，使用与**多步贪婪凝聚算法 (Multi-Step Greedy agglomerative algorithm, MSG)** 相同的标准，在每次迭代时，模块化是在每对连通社区合并后计算的。当模块化变化最大(greatest)和积极(positive)时，两个社区合并，并且第一个社区和第二个社区都不会导致与任何其他社区的最高模块化变化。
+>   4.2. 重新分配节点。每个社区边界上的每个节点都可以移动到一个邻居社区。 在此步骤中，将未分配到具有最大节点熵的社区的每个节点移动到该社区。
+>
+> * step5：模型选择。首先，形成一个组合种群 $R_t = P_t + P_o$ 。 每个解都被分配了一个Rank（1 是最好的水平，2 是次优的水平，依此类推）等于它的非支配(nondomination)水平。 然后，根据非支配对总体 $R_t$ 进行排序。
+>   计算所有非支配个体的拥挤距离值，并选择前 N 个个体作为新种群。 主导种群(dominant population)被更新。 重复步骤 2 中的所有步骤，直到迭代次数达到 $g_{max}$ 。
+
+
+
+**分区熵(Partition entropy)和算法E-Net**
+
+> 使用分区熵而不是模块化函数来避免分辨率限制(resolution limit)并识别所有重要的良好分离的社区，而不管社区的大小。算法E-Net就是一个小改进，避免出现resolution limit。
+>
+> **本文认为，整个图G具有最大的信息，社区检测视为信息丢失的过程。**
+>
+> 分区熵测量每个社区的无序程度。 社区的元素越相似，社区越有序，社区的熵越少。
+> $$
+> entropy_c= \left\{
+> \begin{aligned}
+> &n_c*(-sim_c*\log(sim_c)),\quad when \ sim_c>0 \\
+> &n_c*(1.0-(-sim_c)*\log(-sim_c)),\quad when \ sim_c<0
+> \end{aligned}
+> \right\}
+> $$
+> $n_c$为社区C的顶点数；$sim_c$为社区的顶点相似度；
+> $$
+> sim_c=\frac{In_c-Out_c}{2*(In_c+Out_c)};\\
+> In_c=\sum_{i,j\in C}(A_{ij});\\
+> Out_c=\sum_{i\in C,j\notin C}(A_{ij})
+> $$
+> $In_c$和$Out_c$分别表示社区C内部和外部的边。
+>
+> Partition entropy: k为分区P的社区数。
+> $$
+> entropy_P=\frac{\sum_{i=1}^kentropy_{C_i}}{k}
+> $$
+
+
+
