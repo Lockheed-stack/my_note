@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                                                                        
+>                                                                                                          
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -1166,9 +1166,20 @@ chromosome：[n] 染色体；
 
 agglomerative：[adj] 会凝聚的；凝结的
 
+##### binary tournament  selection:
+
+> 遗传算法中的一个选择策略，tournament selection，锦标赛选择。策略很直观，在整个种群中抽取 n 个个体，让他们进行竞争，抽取其中最优的个体。参加锦标赛的个体个数称为tournament size。**当 n=2**时，便是最常用的大小，称为binary tournament selection。下图展示了 n=3 的tournament selection：
+> ![img](https://pic2.zhimg.com/80/v2-b4ea072ab4e6bc195daa9c4ed90c7495_720w.png)
+
 #### 2、关于本文
 
 > 本文的算法是由遗传算法（genetic algorithm）改进而来，用于进行社区检测。
+>
+> 遗传算法的执行框架：
+>
+> ![img](https://pic1.zhimg.com/80/v2-2f174fefc2d84caa6b9ed054b679b1c8_720w.png)
+>
+> 
 >
 > 很多基于模块度优化（modularity optimization）的方法，存在**resolution limit**的问题，即无法检测到小社区。
 >
@@ -1224,7 +1235,21 @@ agglomerative：[adj] 会凝聚的；凝结的
 >
 > ==由于==模块化比例最高的社区和社区的节点数，比模块化程度最高的社区增加了整个分区的模块化程度，
 >
-> ==因此==通过模块化的比率和分配给社区的节点数对两个父染色体的社区进行排序。尝试在后代中形成与父母相同的社区，但仅来自未分配给之前形成的任何社区的节点。
+> ==因此==通过模块化和分配给社区的节点数的**比值**对两个父染色体的社区进行排序。尝试在后代中形成与父母相同的社区，但仅来自未分配给之前形成的任何社区的节点。
+>
+> **具体怎么交叉的，以下为示例：** *(原文的图不太正确，估计作者也没认真校对)*
+>
+> ![image-20220411205557630](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411205557630.png)
+>
+> ![](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411201622264.png)
+>
+> 从Table 1 可知，父母1(Parent 1)含有社区2、5、15、25，父母2(Parent 2)含有社区1、7、9，顶点 "11"属于社区1， Fig.1 (b)中标识错误，都圈出来了。
+>
+> ![image-20220411202408375](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411202408375.png)
+>
+> ![image-20220411202733575](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411202733575.png)
+>
+> Table 2 展示了具体的交叉过程。step2 时，漏了 "30" 这个点。模块度与顶点数的比值，经排序后如上所示。step3 时，Parent 2 的社区7中的点都已经在之前的步骤中分配了，就顺延到下一个候选，即Parent 2 的社区1。step5 执行完成后，所有点已使用，交叉过程结束。最后 step6 进行微调，由于有小社区9，且经过计算，只有将社区9与社区15合并后模块度增大，因此合并社区9和社区15。
 
 #### 5、算法
 
@@ -1238,7 +1263,7 @@ agglomerative：[adj] 会凝聚的；凝结的
 >
 > * step2：计算初始种群$P_0$ 的每条染色体的模块度值。
 >
-> * step3：按比例克隆到种群 $P_{t-1}$ 形成第一个后代种群。 然后遗传算子对后代种群进行提炼，并将新的遗传物质引入后代种群。
+> * step3：按比例克隆到种群 $P_{t-1}$ 形成第一个后代种群。 然后遗传算子对后代种群进行提炼，并将新的遗传物质引入后代种群。使用**Binary Tournament Selection**进行选择。
 >   变异算子不是完全随机的，是基于邻居的。当随机生成的概率小于$p_m$是发生，将该基因的社区标签换成它其中一个邻居的标签。
 >
 >   交叉算子，继承具有最高模块化比率和节点数的最佳社区。来自父母双方的所有社区都按照模块化比率和分配给社区的节点数进行排序。首先在后代中创建社区，该社区等于具有最高比率的社区，然后具有次优比率的社区，依此类推，直到后代中的所有节点都分配给一个社区。
@@ -1248,8 +1273,8 @@ agglomerative：[adj] 会凝聚的；凝结的
 >   4.1. 合并社区增加模块度。交叉算子会产生一些小社区，这些社区可以与真实社区进行合并以增加模块度。为了一次合并多对社区，使用与**多步贪婪凝聚算法 (Multi-Step Greedy agglomerative algorithm, MSG)** 相同的标准，在每次迭代时，模块化是在每对连通社区合并后计算的。当模块化变化最大(greatest)和积极(positive)时，两个社区合并，并且第一个社区和第二个社区都不会导致与任何其他社区的最高模块化变化。
 >   4.2. 重新分配节点。每个社区边界上的每个节点都可以移动到一个邻居社区。 在此步骤中，将未分配到具有最大节点熵的社区的每个节点移动到该社区。
 >
-> * step5：模型选择。首先，形成一个组合种群 $R_t = P_t + P_o$ 。 每个解都被分配了一个Rank（1 是最好的水平，2 是次优的水平，依此类推）等于它的非支配(nondomination)水平。 然后，根据非支配对总体 $R_t$ 进行排序。
->   计算所有非支配个体的拥挤距离值，并选择前 N 个个体作为新种群。 主导种群(dominant population)被更新。 重复步骤 2 中的所有步骤，直到迭代次数达到 $g_{max}$ 。
+> * step5：模型选择。首先，形成一个组合种群 $R_t = P_t + P_o$ 。 每个解都被分配了一个Rank（1 是最好的水平，2 是次优的水平，依此类推）等于它的非支配水平(**nondomination level**)。 然后，根据非支配对总体 $R_t$ 进行排序。
+>   计算所有非支配个体的**拥挤距离值**，并选择前 N 个个体作为新种群。 主导种群(dominant population)被更新。 重复步骤 2 中的所有步骤，直到迭代次数达到 $g_{max}$ 。*(来源于这篇论文中的方法，引用量高。K. Deb , A. Pratap , S.A. Agarwal , T. Meyarivan , A fast and elitist multiobjective genetic algorithm: NSGA-II, IEEE Trans. Evol. Comput. 6 (2) (2002) 182–197 .)*
 
 
 
@@ -1282,4 +1307,125 @@ agglomerative：[adj] 会凝聚的；凝结的
 > $$
 
 
+
+#### 6、我的看法
+
+> 还是要有点GA算法的基础才能看明白，有些地方作者默认你都懂，导致我看得费劲。
+>
+> 但是有些地方作者还是不讲清楚，像算法step5，用了NSGA-II的方法，也不讲清楚具体的目标函数是什么。
+>
+> 实验结果就不放上来了，总体来说比一般的遗传算法强；大部分情况下比 Louvian 算法**强一点点**，少部分情况 Louvian算法反超一点。
+
+
+
+
+
+### 七、一种基于内聚熵的社交网络影响力最大化动态算法
+
+**A dynamic algorithm based on cohesive entropy for influence maximization in social networks**
+
+*Li W ,  Zhong K ,  J  Wang, et al. A Dynamic Algorithm based on Cohesive Entropy for Influence Maximization in Social Networks[J]. Expert Systems with Applications, 2020, 169(2):114207.*
+
+#### 1、名词概念
+
+pervasive：[adj]弥漫的，普遍的、遍布的
+
+discrepancy: [n]差异；不符
+
+hinge: [n] 铰链；合叶；枢纽；关键；
+
+##### IC model(Independent Cascade Model)
+
+>独立级联模型，是一个影响力模型。
+>节点有两个状态：
+>
+>* 未激活：节点未收到消息。
+>* 激活：节点收到消息并且能够传播给他们的邻居。
+>
+>在 t 时刻被激活的节点在 t+1 时刻**仅有一次**机会去激活其邻居。例如顶点 v 在 t 时刻被激活，则对于 v 的任何邻居 w，w在 t+1 时刻被激活的概率是 $P_{vw}$。
+>
+>![](https://img-blog.csdnimg.cn/20200519193809968.png#pic_center)
+>
+>==特点==：
+>
+>- 以发送者为中心（ sender-cen-tered)。当一个结点被激活后，它试图去激活它的所有邻接结点；
+>- 一个结点独立地激活其所有的邻接结点（不一定都被激活)；
+>- 信息扩散的过程随信息的级联过程（ cascading process）而变。网络中的信息扩散过程**不确定**了。
+
+##### LT model(Linear Threshold Model)
+
+> 线性阈值模型，也是一个影响力模型，有激活和未激活状态。
+>
+> * 在任意时刻，激活的节点都可以影响未被激活的点。
+> * 每个节点都有激活阈值。
+> * 如果影响程度超过该节点的阈值，则这个节点被激活。
+>
+> ==特点==：
+>
+> - 以接收者为中心(receiver-centered)，通过观察一个结点的所有邻接结点，根据该结点的阈值决定是否可以激活该结点;
+> - 结点的激活依赖于一个结点的全部邻接结点;
+> - 一旦给定线性阈值模型中的阈值，网络中的信息扩散过程也就**确定**了。
+
+#### 2、关于本文
+
+> 有利用到**相对熵，JS散度**来确定顶点的相似度。
+
+##### cohesive entropy
+
+> 本文提出的一个方法，衡量两个节点之间关于相邻区域信息分布的相似性。
+>
+> ![image-20220416203521295](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220416203521295.png)
+>
+> ![image-20220416203402709](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220416203402709.png)
+>
+> 以Fig 1为例。顶点 i 的相邻区域的概率 $p(i,l)=\frac {D_{local}(l)}{\sum_{b=1}^m D_{local}(b)}$,
+> $N_{local}^3=[1,2,3,4,5]$,相对应的度为$[2,1,4,2,1]$。
+> 则$DI_{local}^3=[\frac{2}{10},\frac{1}{10},\frac{4}{10},\frac{2}{10},\frac{1}{10}]$。**为之后计算JS散度做准备。**
+>
+>
+> 节点 i 和节点 j 的cohesive entropy的计算公式如下：
+> $$
+> \begin{aligned}
+> &CE_{ij}=1-\frac{r_{ij}}{\max(r_{ij})}\\
+> 
+> &r_{ij}=D_{kl}(DI^i_{local}||DI^j_{local})+D_{kl}(DI^j_{local}||DI_{local}^i)\\
+> 
+> &D_{kl}(DI_{local}^i||DI_{local}^j)=\sum_{b=1}^B P(i,b)\ln \frac{P(i,b)}{P(j,b)}
+> \end{aligned}
+> $$
+> 其中 $B=\min(D(i)+1,D(j)+1)$，以确保两个概率分布的大小相同。
+
+#### 3、算法
+
+##### 基于内聚熵的社区重叠传播算法(Community overlap propagation algorithm based on cohesive entropy)
+
+> 该算法由COPRA改进过来。COPRA的主要概念是节点所属的社区由邻居的社区分布决定，即一个节点与所有相邻节点的距离及其影响程度相同。**缺点**：然而现实中，节点的影响程度是不同的。 密友之间分享信息的概率远高于普通朋友之间分享信息的概率，受影响的用户也信任其他有相似偏好的用户。
+>
+> 本文**CECOPA**算法：
+>
+> ![image-20220416213335237](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220416213335237.png)
+>
+> t 是一个阈值，用于限制满足条件的系数的最小值。该算法输出社区结构(community structure)，为之后挑选种子节点做准备。
+>
+> 
+>
+> ==aggregation bridge==:本文定义的一个概念。每个社区是一个aggregation area，社区重叠的区域就是aggregation bridge，记为$N_{hinge}=\cup_{i=1}^p Community^i_{bridge}$，是一个集合。
+>
+> 其中$Community_{bridge}^i$表示在社区 i 中的**顶点集**同时落于**6个及以上**的社区。*( 为什么是6个？六度分离的概念concept of the six degree )*
+>
+> ==aggregation focus==：每个社区的不重叠节点形成社区的集中聚集区。在这区域中，拥有最高度中心性(degree of centrality)的顶点与该区域中的其他顶点有着最紧密的连接。记为$N_{core}=\cup_{i=1}^p argmax_{v\in c_i}D(v)$。
+>
+> 示例如下：顶点8和16的度为6，构成了聚合桥{8,16}。
+>
+> ![image-20220417221550846](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220417221550846.png)
+>
+> 由于示例中的网络较小，因此聚合桥的标准降低为跨多个社区节点的最适中的节点。 在现实的网络中，一般都存在满足聚合网桥要求的节点。
+>
+> 对于每个社区，aggregation focus为：$N_{core}^1=\{3,4\},N_{core}^2=\{12\}$。第三个社区，排除重叠顶点，剩余的顶点度都为1，因此没有，但这种情况在大型网络中并不常见。
+>
+> 挑选候选种子集的算法**TKRCS, Candidate seed Set based on Two Key Regions**：
+>
+> ![image-20220417222845363](H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20220417222845363.png)
+>
+> 
 
