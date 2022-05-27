@@ -157,7 +157,7 @@ subdivide: [vi]细分；[vt]把...细分
 
 > 对图 G ，$|V| =n$ 且没有孤立的顶点，我们引入信息泛函使得 $f := d_i(G)$，其中$d_i(G)=|D(G,i)|$。
 >
-> ![image-20211123155608263](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123155608263.png)
+> ![image-20211123155608263](graph entropy.assets/image-20211123155608263.png)
 >
 > 
 >
@@ -171,7 +171,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 >图 G 的 Hosoya 指数（或 Z 指数）计算为 $Z(G)=\sum^m_{k=0} Z_k(G)$。
 >
->![image-20211123163634021](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123163634021.png)
+>![image-20211123163634021](graph entropy.assets/image-20211123163634021.png)
 
 
 
@@ -181,7 +181,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 >图 G 的 Merrifield-Simmons 指数（或 σ-index）计算为 $\sigma(G)=\sum^n_{k=0}\sigma_k(G)$。
 >
->![image-20211123164504706](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123164504706.png)
+>![image-20211123164504706](graph entropy.assets/image-20211123164504706.png)
 
 
 
@@ -191,17 +191,17 @@ subdivide: [vi]细分；[vt]把...细分
 
 > 这个度幂degree power，就是字面意思，度的n次方。
 >
-> ![image-20211123170640782](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123170640782.png)
+> ![image-20211123170640782](graph entropy.assets/image-20211123170640782.png)
 >
 > 当k=1时，可得到 first-degree entropy。
 >
-> ![image-20211123170752093](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123170752093.png)
+> ![image-20211123170752093](graph entropy.assets/image-20211123170752093.png)
 
 
 
 ##### 拓扑信息内容（topological information content）
 
-> ![image-20211123171117903](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123171117903.png)
+> ![image-20211123171117903](graph entropy.assets/image-20211123171117903.png)
 >
 > *什么是 orbit of G ??*
 >
@@ -209,7 +209,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 > 图 G 的顶点在自同构作用下的等价类称为顶点轨道。 边的等价类称为边轨道。
 >
-> ![image-20211201205727270](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211201205727270.png)
+> ![image-20211201205727270](graph entropy.assets/image-20211201205727270.png)
 
 
 
@@ -251,7 +251,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 > 借助杨辉三角，可得以下规律：
 >
-> <img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211126203351186.png" alt="image-20211126203351186" style="zoom: 50%;" />
+> ![image-20211126203351186](graph entropy.assets/image-20211126203351186.png)
 >
 > 支配多项式的系数为n-1行，所以写成$(1+x)^{n-1}$；
 >
@@ -281,7 +281,7 @@ subdivide: [vi]细分；[vt]把...细分
 > $$
 > I_{dom}(E_k)=\log(3^k)-\frac 1 {3^k} (\sum^{2k}_{i=k} C^k_{i-k}2^{2k-i}\log(C^k_{i-k}2^{2k-i}))
 > $$
-> ![image-20211122172406930](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211122172406930.png)
+> ![image-20211122172406930](graph entropy.assets/image-20211122172406930.png)
 
 
 
@@ -292,7 +292,7 @@ subdivide: [vi]细分；[vt]把...细分
 > 	& -\frac 1 {3^k+2^{2k}}(\sum^{2k}_{i=0}(C_{2k}^{i-1}+C_k^{i-k}2^{2k-i})\log(C_{2k}^{i-1}+C_k^{i-k}2^{2k-i}))
 > \end{align*}
 > $$
-> ![image-20211122172856440](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211122172856440.png)
+> ![image-20211122172856440](graph entropy.assets/image-20211122172856440.png)
 
 
 
@@ -303,7 +303,7 @@ subdivide: [vi]细分；[vt]把...细分
 > 				  & -\frac 1 {2 \times 3^k-1}((2^k-1)\log(2^k-1)+\sum^k_{i=0}(C^i_k 2^{k-i}+C_k^{i+1}2^{k-i-1})\log(C^i_k 2^{k-i}+C_k^{i+1}2^{k-i-1}))
 > \end{align*}
 > $$
-> <img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211122194947317.png" alt="image-20211122194947317" style="zoom:67%;" />
+> ![image-20211122194947317](graph entropy.assets/image-20211122194947317.png)
 >
 > 推导：*该图的支配多项式是由作者推导出的，其他图的支配多项式别人已经推导出了*
 >
@@ -322,13 +322,13 @@ subdivide: [vi]细分；[vt]把...细分
 
 ### 5.支配熵与其他熵度量的比较
 
-<img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123193719860.png" alt="image-20211123193719860" style="zoom: 67%;" />
+![image-20211123193719860](graph entropy.assets/image-20211123193719860.png)
 
-<img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123193754648.png" alt="image-20211123193754648" style="zoom: 67%;" />
+![image-20211123193754648](graph entropy.assets/image-20211123193754648.png)
 
 > 第一个重要结果是图3的$I_{nis}$等于图3的$I_{dom}$。图3是星形图$S_5$。
 >
-> ![image-20211123210729810](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211123210729810.png)
+> ![image-20211123210729810](graph entropy.assets/image-20211123210729810.png)
 >
 > 感觉作者是不是写错了？应该是蓝线部分相等，才有$I_{nis}=I_{dom}$。
 
@@ -340,13 +340,13 @@ subdivide: [vi]细分；[vt]把...细分
 >
 >`初步观察:`
 >
->![image-20211124214505697](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211124214505697.png)
+>![image-20211124214505697](graph entropy.assets/image-20211124214505697.png)
 >
 >有点规律，但好像又说明不了什么。
 >
 >`再看看支配熵的表现：`
 >
-><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211124215157534.png" alt="image-20211124215157534" style="zoom:80%;" />
+>![image-20211124215157534](graph entropy.assets/image-20211124215157534.png)
 >
 >$K_n$和$P_n$的$I_{dom}$差异比较明显，对比3~6阶相同图的$I_{fd}$差异。差异是相对明显了，但没有规律。作者也没有继续进行说明。
 
@@ -440,7 +440,7 @@ subdivide: [vi]细分；[vt]把...细分
 
 > 在量子力学中，物理系统的状态由一个具有单位迹的半正定厄密矩阵表示，称为密度矩阵。
 >
-> <img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211207105534572.png" alt="image-20211207105534572" style="zoom:67%;" />
+> ![image-20211207105534572](graph entropy.assets/image-20211207105534572.png)
 >
 > *注：Normalization 归一化。*相关参考文章：[知乎](https://zhuanlan.zhihu.com/p/39448632)；[芝加哥大学](http://home.uchicago.edu/~tokmakoff/TDQMS/Notes/9._Density_Matrix_3-19-09.pdf)
 
@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                                                                                                
+>                                                                                                                   
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -615,7 +615,7 @@ subdivide: [vi]细分；[vt]把...细分
 >
 > > #### $\mathcal{H}^3_1$：
 > >
-> > ![image-20211214200230792](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211214200230792.png)
+> > ![image-20211214200230792](graph entropy.assets/image-20211214200230792.png)
 > >
 > > 总共3*1=3个点，$1^2$条超边。
 > >
@@ -629,15 +629,15 @@ subdivide: [vi]细分；[vt]把...细分
 > >
 > >step1：
 > >
-> ><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215164415559.png" alt="image-20211215164415559" style="zoom: 67%;" />
+> >![image-20211215164415559](graph entropy.assets/image-20211215164415559.png)
 > >
 > >step2:其中d个点，也就是2个点，取$v_1,v_2$，分别连接到其他2d个点。
 > >
-> ><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215164639373.png" alt="image-20211215164639373" style="zoom:67%;" />
+> >![image-20211215164639373](graph entropy.assets/image-20211215164639373.png)
 > >
 > >step3:按照step2的方式，画完整个图。
 > >
-> ><img src="https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215165209830.png" alt="image-20211215165209830" style="zoom:67%;" />
+> >![image-20211215165209830](graph entropy.assets/image-20211215165209830.png)
 > >
 > >总共3*2=6个点，$2^2=4$条超边。
 > >
@@ -651,7 +651,7 @@ subdivide: [vi]细分；[vt]把...细分
 > >
 > >最后将$\mathcal{H}^2_3$和$\mathcal{H}^3_2$对比一下，就清楚多了：
 > >
-> >![image-20211215170319102](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20211215170319102.png)
+> >![image-20211215170319102](graph entropy.assets/image-20211215170319102.png)
 >
 > 
 >
@@ -791,7 +791,7 @@ bisection：【n】两断；对切；二等分的一半
 >
 > 例：超图$H=(V,N)$，点$v=\{v_1,v_2,..,v_{14} \}$，超边$H=\{n_1,n_2,..,n_5\}$被分为4个区域$T=\{T_1,T_2,..,T_4\}$，割的大小为4，即$\{n_1,n_2,n_3,n_4\}$。
 >
-> ![image-20220307173827442](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220307173827442.png)
+> ![image-20220307173827442](graph entropy.assets/image-20220307173827442.png)
 >
 > 
 >
@@ -895,9 +895,9 @@ bisection：【n】两断；对切；二等分的一半
 
 > 为避免局部最优解，按照模拟退火的想法进行改进；并定义了Micro cut降低在分区时进入局部最优解的概率，即当在最高增益移动候选中存在平局时，可以应用Micro cut，或者在计算移动增益时代替 K -1 cut size。
 >
-> ![image-20220313163615892](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313163615892.png)
+> ![image-20220313163615892](graph entropy.assets/image-20220313163615892.png)
 >
-> ![image-20220313172750334](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313172750334.png)
+> ![image-20220313172750334](graph entropy.assets/image-20220313172750334.png)
 
 #### 5、实验
 
@@ -913,7 +913,7 @@ bisection：【n】两断；对切；二等分的一半
 > > $$
 > > R_{CS}=\frac{C_{init}-C_{grown}}{C_{init}}
 > > $$
-> > ![image-20220313211221108](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313211221108.png)
+> > ![image-20220313211221108](graph entropy.assets/image-20220313211221108.png)
 >
 > **serveral adopted metrics**：
 >
@@ -921,7 +921,7 @@ bisection：【n】两断；对切；二等分的一半
 >
 >   >展示了不同平衡水平下的 K-1 cut size。 观察到 EQHyperpart 分区器优于加权网络中的其他竞争算法，因为基于熵的 Q 值是为非均匀分布式无标度网络设计的。 具体来说，EQHyperpart-MC 在Micro cut的帮助下显着减小了 K-1 cut size。 hMETIS 和 hyperpart 遗漏了一些数据，因为它们无法在某些平衡级别要求下产生分区结果。
 >   >
->   >![image-20220313213019150](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220313213019150.png)
+>   >![image-20220313213019150](graph entropy.assets/image-20220313213019150.png)
 >
 > * Modularity features retainment ability
 >
@@ -945,9 +945,9 @@ bisection：【n】两断；对切；二等分的一半
 >   > $$
 >   >
 > 	>
-> 	> ![image-20220314154613361](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314154613361.png)
+> 	> ![image-20220314154613361](graph entropy.assets/image-20220314154613361.png)
 > 	>
-> 	> ![image-20220314154640796](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314154640796.png)
+> 	> ![image-20220314154640796](graph entropy.assets/image-20220314154640796.png)
 > 	>
 > 	> 实验效果还行，但对于有重叠社区的检测效果一般，因为设计算法的时候没有考虑这些。
 > 	
@@ -967,7 +967,7 @@ bisection：【n】两断；对切；二等分的一半
 >   > $$
 >   > TO_i=a*FS_i*100+b(1-\frac{CS_i}{|E|})*100
 >   > $$
->   > ![image-20220314163517695](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314163517695.png)
+>   > ![image-20220314163517695](graph entropy.assets/image-20220314163517695.png)
 >   >
 >   > 结果显示平均tradeoff value比其他三个要好。
 >
@@ -989,7 +989,7 @@ bisection：【n】两断；对切；二等分的一半
 > > $$
 > > TO_{auto}=a*FS_{auto}*100+b*(1-\frac{CS_{auto}}{|E|})*100+c*(1-\frac{UB_{auto}}{UB_{max}})*100
 > > $$
-> > ![image-20220314200129936](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314200129936.png)
+> > ![image-20220314200129936](graph entropy.assets/image-20220314200129936.png)
 > >
 > > *原文：总之，EQHyperpart 在没有任何平衡约束的情况下产生了令人满意的结果。 换句话说，我们已经验证了 EQHyperpart 的自动权衡分区能力的有效性。*
 >
@@ -997,7 +997,7 @@ bisection：【n】两断；对切；二等分的一半
 >
 > 由于同一数据集上不同不平衡级别的分区时间相似，我们计算了每个数据集上每个分区器的平均值，并相对于 khMETIS 的运行时间进行了归一化。
 >
-> > ![image-20220314201123241](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220314201123241.png)
+> > ![image-20220314201123241](graph entropy.assets/image-20220314201123241.png)
 
 
 
@@ -1060,9 +1060,9 @@ attenuation：[n]衰减；稀释；弱化
 >
 > 
 >
-> ![image-20220325215445056](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220325215445056.png)
+> ![image-20220325215445056](graph entropy.assets/image-20220325215445056.png)
 >
-> ![image-20220326193456031](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220326193456031.png)
+> ![image-20220326193456031](graph entropy.assets/image-20220326193456031.png)
 >
 > **该算法挑选出一组传播者。该算法考虑到了网络的聚集现象，没有简单的使用顶点度来衡量。**
 >
@@ -1103,31 +1103,31 @@ attenuation：[n]衰减；稀释；弱化
 >
 > 总体来看，l=2时效果比较好。
 >
-> ![image-20220326215330559](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220326215330559.png)
+> ![image-20220326215330559](graph entropy.assets/image-20220326215330559.png)
 >
 > *p 是初始感染节点的比率。*
 
 #### 6、实验比较
 
-> ![image-20220327172638582](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172638582.png)
+> ![image-20220327172638582](graph entropy.assets/image-20220327172638582.png)
 >
 > 比较最终的感染规模。本文的算法超过其他的benchmark方法。
 >
 > 
 >
-> ![image-20220327172725442](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172725442.png)
+> ![image-20220327172725442](graph entropy.assets/image-20220327172725442.png)
 >
 > 比较传播速度。本文的算法在相同时间传播的范围更广。
 >
 > 
 >
-> ![image-20220327172744211](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172744211.png)
+> ![image-20220327172744211](graph entropy.assets/image-20220327172744211.png)
 >
 > 比较不同传播条件下的最终效果。基本上还行，表明本文算法对不同传播条件有着更强的泛化能力（generalization ability）。
 >
 > 
 >
-> ![image-20220327172808390](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220327172808390.png)
+> ![image-20220327172808390](graph entropy.assets/image-20220327172808390.png)
 >
 > 比较$L_S$。除了最后一个，其他的值都明显比其他算法的大。说明本算法趋向选取分散分布的点。
 
@@ -1239,21 +1239,21 @@ agglomerative：[adj] 会凝聚的；凝结的
 >
 > **具体怎么交叉的，以下为示例：** *(原文的图不太正确，估计作者也没认真校对)*
 >
-> ![image-20220411205557630](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411205557630.png)
+> ![image-20220411205557630](graph entropy.assets/image-20220411205557630.png)
 >
-> ![](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411201622264.png)
+> ![image-20220411201622264](graph entropy.assets/image-20220411201622264.png)
 >
 > 从Table 1 可知，父母1(Parent 1)含有社区2、5、15、25，父母2(Parent 2)含有社区1、7、9，顶点 "11"属于社区1， Fig.1 (b)中标识错误，都圈出来了。
 >
-> ![image-20220411202408375](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411202408375.png)
+> ![image-20220411202408375](graph entropy.assets/image-20220411202408375.png)
 >
-> ![image-20220411202733575](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220411202733575.png)
+> ![image-20220411202733575](graph entropy.assets/image-20220411202733575.png)
 >
 > Table 2 展示了具体的交叉过程。step2 时，漏了 "30" 这个点。模块度与顶点数的比值，经排序后如上所示。step3 时，Parent 2 的社区7中的点都已经在之前的步骤中分配了，就顺延到下一个候选，即Parent 2 的社区1。step5 执行完成后，所有点已使用，交叉过程结束。最后 step6 进行微调，由于有小社区9，且经过计算，只有将社区9与社区15合并后模块度增大，因此合并社区9和社区15。
 
 #### 5、算法
 
-![image-20220410154422079](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220410154422079.png)
+![image-20220410154422079](graph entropy.assets/image-20220410154422079.png)
 
 > * step1: 初始化，影响最终解的质量和收敛速度。一般不知道解的信息，因此使用染色体基因的**随机初始化**来生成候选解(初始种群)。
 >   最初，代表图节点的每个基因都被放置在初始种群中所有个体的不同社区中。*(即没有重叠)*
@@ -1382,9 +1382,9 @@ estrage: [vt]使疏远；离间
 
 > 本文提出的一个方法，衡量两个节点之间关于相邻区域信息分布的相似性。
 >
-> ![image-20220416203521295](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220416203521295.png)
+> ![image-20220416203521295](graph entropy.assets/image-20220416203521295.png)
 >
-> ![image-20220416203402709](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220416203402709.png)
+> ![image-20220416203402709](graph entropy.assets/image-20220416203402709.png)
 >
 > 以Fig 1为例。顶点 i 的相邻区域的概率 $p(i,l)=\frac {D_{local}(l)}{\sum_{b=1}^m D_{local}(b)}$,
 > $N_{local}^3=[1,2,3,4,5]$,相对应的度为$[2,1,4,2,1]$。
@@ -1411,7 +1411,7 @@ estrage: [vt]使疏远；离间
 >
 > 本文**CECOPA**算法：
 >
-> ![image-20220416213335237](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220416213335237.png)
+> ![image-20220416213335237](graph entropy.assets/image-20220416213335237.png)
 >
 > t 是一个阈值，用于限制满足条件的系数的最小值。该算法输出社区结构(community structure)，为之后挑选种子节点做准备。
 >
@@ -1425,7 +1425,7 @@ estrage: [vt]使疏远；离间
 >
 > 示例如下：顶点8和16的度为6，构成了聚合桥{8,16}。
 >
-> ![image-20220417221550846](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220417221550846.png)
+> ![image-20220417221550846](graph entropy.assets/image-20220417221550846.png)
 >
 > 由于示例中的网络较小，因此聚合桥的标准降低为跨多个社区节点的最适中的节点。 在现实的网络中，一般都存在满足聚合网桥要求的节点。
 >
@@ -1435,7 +1435,7 @@ estrage: [vt]使疏远；离间
 >
 > 挑选候选种子集的算法**TKRCS, Candidate seed Set based on Two Key Regions**：
 >
-> ![image-20220417222845363](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220417222845363.png)
+> ![image-20220417222845363](graph entropy.assets/image-20220417222845363.png)
 >
 > 
 >
@@ -1445,7 +1445,7 @@ estrage: [vt]使疏远；离间
 >
 > ==propagable pioneer==：当顶点 u 和 v 的cohesive power达到了传播控制因子$\alpha$，则 u 就有能力去影响 v，即 u 是 v 的propagable pioneer。
 >
-> ![image-20220418195612980](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220418195612980.png)
+> ![image-20220418195612980](graph entropy.assets/image-20220418195612980.png)
 >
 > 如上图，顶点12已激活。假设$\alpha = 0.1$，$CP_{12,10},CP_{12,11},CP_{12,16}$超过了$\alpha$，顶点12就以一定的概率去激活它们。
 >
@@ -1453,7 +1453,7 @@ estrage: [vt]使疏远；离间
 >
 > 从候选种子集中确定最终的最具影响力的节点，**optional dynamic influence propagation algorithm**
 >
-> ![image-20220418201031497](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220418201031497.png)
+> ![image-20220418201031497](graph entropy.assets/image-20220418201031497.png)
 >
 > 该算法的第5~13行，当cohesive power达到传播控制因子时，尝试去激活这些节点，否则停止传播，这一过程是递归执行的。算法的时间复杂度$O(D^2)$，D为网络中的最大度。
 >
@@ -1461,7 +1461,7 @@ estrage: [vt]使疏远；离间
 >
 > **Dynamic Algorithm based on Cohesive Entropy for Influence Maximization (DEIM) **：是基于社区发现和融合用户动态选择和共享对象过程的**影响力最大化**算法。
 >
-> ![image-20220418205430596](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220418205430596.png)
+> ![image-20220418205430596](graph entropy.assets/image-20220418205430596.png)
 >
 > 综合起来，总时间复杂度为：$O(ND+NC+C'D^2)$，N为网络的总顶点数，C是划分后的社区数量，D是网络中的最大度，C' 是候选种子集的大小。
 
@@ -1471,7 +1471,7 @@ estrage: [vt]使疏远；离间
 
 > 5个数据集，扩散模型为 IC model，影响概率设置为末端节点度数的倒数。
 >
-> ![image-20220421153220018](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421153220018.png)
+> ![image-20220421153220018](graph entropy.assets/image-20220421153220018.png)
 >
 > 与之进行对比的算法：
 >
@@ -1482,9 +1482,9 @@ estrage: [vt]使疏远；离间
 >
 > 本文的 DEIM 算法，设置$\alpha=0.001$。
 >
-> ![image-20220421171807185](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421171807185.png)
+> ![image-20220421171807185](graph entropy.assets/image-20220421171807185.png)
 >
-> ![image-20220421171843063](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421171843063.png)
+> ![image-20220421171843063](graph entropy.assets/image-20220421171843063.png)
 >
 > 从 Fig 5 可以看出，DEIM 算法在选择目标数量较少的情况下表现出明显的效率优势，其结果并不逊于启发式算法。 这是因为候选种子集大大缩小了种子的选择范围，剔除了影响不大的网络边缘节点。
 >
@@ -1500,6 +1500,6 @@ estrage: [vt]使疏远；离间
 >
 > 当$\alpha=0.01,0.001$时效果比较好；设置为0.0001, 0.00001时效果相对较差。
 >
-> ![image-20220421211059865](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421211059865.png)
+> ![image-20220421211059865](graph entropy.assets/image-20220421211059865.png)
 >
-> ![image-20220421211132018](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421211132018.png)
+> ![image-20220421211132018](graph entropy.assets/image-20220421211132018.png)
