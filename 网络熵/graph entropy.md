@@ -481,7 +481,7 @@ subdivide: [vi]细分；[vt]把...细分
 >    &证:取\alpha=\begin{pmatrix}
 >    		1\\1\\1\\ \vdots \\1
 >    		\end{pmatrix}
->                                                                                                          
+>                                                                                                                
 >    ,可得A\alpha=\begin{pmatrix}
 >    			A第一行和\\
 >    			A第二行和\\
@@ -1334,6 +1334,8 @@ discrepancy: [n]差异；不符
 
 hinge: [n] 铰链；合叶；枢纽；关键；
 
+estrage: [vt]使疏远；离间
+
 ##### IC model(Independent Cascade Model)
 
 >独立级联模型，是一个影响力模型。
@@ -1369,6 +1371,12 @@ hinge: [n] 铰链；合叶；枢纽；关键；
 #### 2、关于本文
 
 > 有利用到**相对熵，JS散度**来确定顶点的相似度。
+>
+> 整体思路：先确定一些候选种子节点，再从这些候选点中挑。
+>
+> 1. 利用cohesive entropy量化顶点之间的距离。
+> 2. 结合标签传播算法，构建基于cohesive entropy的重叠社区发现算法，缩小种子的选择范围。
+> 3. 利用optional dynamic influence propagation algorithm，分析顶点之间由于关系不同使得影响的大小不同，进而最终确定种子集。
 
 ##### cohesive entropy
 
@@ -1397,8 +1405,8 @@ hinge: [n] 铰链；合叶；枢纽；关键；
 
 #### 3、算法
 
-##### 基于内聚熵的社区重叠传播算法(Community overlap propagation algorithm based on cohesive entropy)
-
+> **基于内聚熵的社区重叠传播算法(Community overlap propagation algorithm based on cohesive entropy)**
+>
 > 该算法由COPRA改进过来。COPRA的主要概念是节点所属的社区由邻居的社区分布决定，即一个节点与所有相邻节点的距离及其影响程度相同。**缺点**：然而现实中，节点的影响程度是不同的。 密友之间分享信息的概率远高于普通朋友之间分享信息的概率，受影响的用户也信任其他有相似偏好的用户。
 >
 > 本文**CECOPA**算法：
@@ -1423,9 +1431,75 @@ hinge: [n] 铰链；合叶；枢纽；关键；
 >
 > 对于每个社区，aggregation focus为：$N_{core}^1=\{3,4\},N_{core}^2=\{12\}$。第三个社区，排除重叠顶点，剩余的顶点度都为1，因此没有，但这种情况在大型网络中并不常见。
 >
+> 
+>
 > 挑选候选种子集的算法**TKRCS, Candidate seed Set based on Two Key Regions**：
 >
-> ![image-20220417222845363](H:\school_materal_temp\硕士\MK笔记\网络熵\graph entropy.assets\image-20220417222845363.png)
+> ![image-20220417222845363](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220417222845363.png)
 >
 > 
+>
+> ==self-informationEntropy==：节点获得的信息量与节点的扩散量成正相关。定义如下：$H_u=-\frac{D_u}{M}\log_2{\frac{D_u}{M}}$。其中M是总边数。这是用来衡量节点携带的信息量。
+>
+> ==cohesive power==: $CP_{uw}=H_u-\frac{1}{CE_{uw}}$。我翻译为 *"凝聚力"*。该公式衡量顶点 u 和其邻居顶点 w 的cohesive power。该值越大，顶点间越紧密。
+>
+> ==propagable pioneer==：当顶点 u 和 v 的cohesive power达到了传播控制因子$\alpha$，则 u 就有能力去影响 v，即 u 是 v 的propagable pioneer。
+>
+> ![image-20220418195612980](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220418195612980.png)
+>
+> 如上图，顶点12已激活。假设$\alpha = 0.1$，$CP_{12,10},CP_{12,11},CP_{12,16}$超过了$\alpha$，顶点12就以一定的概率去激活它们。
+>
+> 
+>
+> 从候选种子集中确定最终的最具影响力的节点，**optional dynamic influence propagation algorithm**
+>
+> ![image-20220418201031497](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220418201031497.png)
+>
+> 该算法的第5~13行，当cohesive power达到传播控制因子时，尝试去激活这些节点，否则停止传播，这一过程是递归执行的。算法的时间复杂度$O(D^2)$，D为网络中的最大度。
+>
+> 
+>
+> **Dynamic Algorithm based on Cohesive Entropy for Influence Maximization (DEIM) **：是基于社区发现和融合用户动态选择和共享对象过程的**影响力最大化**算法。
+>
+> ![image-20220418205430596](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220418205430596.png)
+>
+> 综合起来，总时间复杂度为：$O(ND+NC+C'D^2)$，N为网络的总顶点数，C是划分后的社区数量，D是网络中的最大度，C' 是候选种子集的大小。
 
+
+
+#### 4、实验
+
+> 5个数据集，扩散模型为 IC model，影响概率设置为末端节点度数的倒数。
+>
+> ![image-20220421153220018](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421153220018.png)
+>
+> 与之进行对比的算法：
+>
+> * 贪心法：近似比已知，选择边际利润最大的节点，利用蒙特卡洛模拟计算每个节点的影响。*( 稍微搜索了一下，应该是 "A Naive Greedy Approach",由 Kempe等人提出 )* 
+> * 启发式算法：选择度最大的顶点，是一个简单又最直观的方法。
+> * PageRank: 也是启发式算法，本文设 damping factor=0.85。
+> * IMM: 一种先进的采样方法，使用反向可达集来寻找种子。
+>
+> 本文的 DEIM 算法，设置$\alpha=0.001$。
+>
+> ![image-20220421171807185](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421171807185.png)
+>
+> ![image-20220421171843063](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421171843063.png)
+>
+> 从 Fig 5 可以看出，DEIM 算法在选择目标数量较少的情况下表现出明显的效率优势，其结果并不逊于启发式算法。 这是因为候选种子集大大缩小了种子的选择范围，剔除了影响不大的网络边缘节点。
+>
+> 但与两种启发式算法相比没有发现优势。 这是因为 Degree 算法和 PageRank 算法只考虑了网络的某个特性，没有考虑实际的传播特性。
+>
+> 但网络规模更大时，DEIM的效率就会下降，因为计算重叠社区时迭代次数过多，增加耗时。
+>
+> **关于传播控制因子的设置**
+>
+> 传播控制因子α是决定用户是否在影响扩散阶段分享消息以及影响扩散路径长度的参数。  α会限制影响传播过程的范围，也会直接影响种子的选择和算法的运行时间。 根据每个网络中节点的cohesive power 分布情况，分别设定不同的α值。
+>
+> 分别设置$\alpha=0.01,0.001,0.0001,0.00001$。
+>
+> 当$\alpha=0.01,0.001$时效果比较好；设置为0.0001, 0.00001时效果相对较差。
+>
+> ![image-20220421211059865](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421211059865.png)
+>
+> ![image-20220421211132018](https://gitee.com/Lockheed_LEE/images/raw/master/img/image-20220421211132018.png)
