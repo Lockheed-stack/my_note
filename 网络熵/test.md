@@ -1,1 +1,0 @@
-![image-20211214200230792](./graph entropy.assets/image-20211214200230792.png)
