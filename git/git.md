@@ -3,7 +3,7 @@
 #### 1.版本控制
 
 > 即版本迭代
->
+> 
 > * 实现跨区域的多人协同开发
 > * 追踪和记载一个或多个文件的历史记录
 > * 组织和保护你的源代码和文档
@@ -30,8 +30,6 @@
 
 <img src="https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109151317797.png" alt="image-20211109151317797"  />
 
-
-
 #### 2.Git基本理论（核心）
 
 > 工作区域
@@ -44,18 +42,13 @@ Git本地有三个工作区域：
 
 3. 资源库（repository or Git directory）。
 
-
 如果加上远程的git仓库（remote directory）就可以分为四个工作区域。文件在这四个区域之间的转换关系如下：
 
 ![image-20211109160634273](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109160634273.png)
 
-
-
 本地的三个区域确切的说应该是git仓库中HEAD指向的版本：
 
 ![image-20211109161204664](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109161204664.png)
-
-
 
 > 工作流程
 
@@ -65,13 +58,7 @@ Git本地有三个工作区域：
 
 git管理的文件有三种状态：已修改（modified）、已暂存（staged）、已提交（committed）。
 
-
-
-
-
 #### 3.Git项目搭建
-
-
 
 ![image-20211109161959055](https://cdn.jsdelivr.net/gh/Lockheed-stack/typora_image@main/images/image-20211109161959055.png)
 
@@ -84,18 +71,12 @@ $ git init
 
 执行后在项目目录会多出一个 ".git"目录。
 
-
-
 ```bash
 # 克隆远程仓库
 $ git clone [url]
 ```
 
 执行后将远程服务器上的仓库完全镜像一份至本地。
-
-
-
-
 
 #### 4.Git文件操作
 
@@ -104,18 +85,21 @@ $ git clone [url]
 ![The lifecycle of the status of your files](https://git-scm.com/book/en/v2/images/lifecycle.png)
 
 * **Untracked**：未跟踪。此文件在文件夹中，但没有加入到git库中，不参与版本控制。可通过==git add==将状态变为==Staged==。
+
 * **Unmodified**：文件已入库，未修改。这类型文件有两种去处：
+  
   1. 如果它被修改，则变为==Modified==。
   2. 如果使用==git rm==移出版本库，则变为==Untracked==文件。
+
 * **Modified**：文件已修改，但仅仅是修改，还没进行其他操作。这类型文件有两种去处：
+  
   1. 通过==git add==变为==Staged==暂存状态
   2. 使用==git checkout==，从库中取出文件，覆盖当前修改，返回到==Unmodified==状态。
 
 * **Staged**：暂存状态。有两种操作：
+  
   1. 执行==git commit==将修改同步到库中，此时库中文件和本地文件变为一致，文件为==Unmodified==状态。
   2. 执行==git reset HEAD filename==取消暂存，文件变为==Modified==状态。
-
-
 
 > 查看文件状态
 
@@ -130,8 +114,6 @@ $ git status
 $ git commit -m # -m 表示附加消息
 ```
 
-
-
 > 忽略文件
 
 不想将某些文件纳入版本控制中，如数据库文件、临时文件等。在主目录下建立 ".gitignore" 文件，规则如下：
@@ -143,18 +125,12 @@ $ git commit -m # -m 表示附加消息
 5. 如果名称**最后面**是一个路径分隔符 ” / “，表示要忽略的是此目录下该名称的子目录，而非文件。
 
 ```bash
-*.txt		#忽略所有 .txt 结尾的文件
-!lib.txt	#但lib.txt除外
-/temp		#仅忽略项目根目录下的文件，不包括其他目录temp
-build/		#忽略build/目录下所有文件
-doc/*.txt	#忽略 doc/*.txt ，但不包括doc/server/arch.txt
+*.txt        #忽略所有 .txt 结尾的文件
+!lib.txt    #但lib.txt除外
+/temp        #仅忽略项目根目录下的文件，不包括其他目录temp
+build/        #忽略build/目录下所有文件
+doc/*.txt    #忽略 doc/*.txt ，但不包括doc/server/arch.txt
 ```
-
-
-
-
-
-
 
 #### 5.Git分支
 
@@ -185,13 +161,14 @@ git branch -dr [remote/branch]
 ```
 
 #### 6.Q&A
->Git中的origin到底是什么？
+
+> Git中的origin到底是什么？
 
   Answer：就是远程仓库链接的别名，github默认叫origin，即使用命令 git remote add [\<option>]\<name>\<url> 时，对应的name，叫阿猫，阿狗都行。
 
 <br></br>
 
->命令“git branch --set-upstream master origin/next”中的选项“--set-upstream”是什么意思？
+> 命令“git branch --set-upstream master origin/next”中的选项“--set-upstream”是什么意思？
 
 Answer：在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系(tracking)。比如，在git clone的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的master分支自动”追踪”origin/master分支。
 
@@ -201,7 +178,7 @@ Git也允许手动建立追踪关系。上面命令指定master分支追踪origi
 
 <br></br>
 
->git pull 与 git pull --rebase的联系、区别?
+> git pull 与 git pull --rebase的联系、区别?
 
 Answer: 这两个操作的区别
 git pull = git fetch + git merge
@@ -209,44 +186,50 @@ git pull --rebase = git fetch + git rebase
 rebase翻译为“变基”*(这翻译有点意思...)*。
 
 具体示例:
+
 * 假设你现在基于远程分支”origin“，创建一个叫”mywork“的分支。
-```bash
-$ git checkout -b mywork origin
-```
-结果如下所示 -
-![](http://www.yiibai.com/uploads/images/201707/1307/842100748_44775.png)
-* 现在我们在这个分支(mywork)做一些修改，然后生成两个提交(commit).
-```bash
-$ vi file.txt
-$ git commit
-$ vi otherfile.txt
-$ git commit
-... ...
-```
-但是与此同时，有些人也在”origin“分支上做了一些修改并且做了提交了，这就意味着”origin“和”mywork“这两个分支各自”前进”了，它们之间”分叉”了。
-![](http://www.yiibai.com/uploads/images/201707/1307/810100749_17109.png)
-此时如果直接提交，会发生冲突。解决方法如下： 
-  1. **git merge**
-  用`pull`命令把`origin`分支上的修改拉下来并且和你的修改合并； 结果看起来就像一个新的”合并的提交”(merge commit)。但这样会形成图中的菱形，让人很困惑。
-  ![](http://www.yiibai.com/uploads/images/201707/1307/350100750_71786.png)
-  2. **git rebase**
-  如果你想让`mywork`分支历史看起来像没有经过任何合并一样，也可以用 `git rebase`，如下所示:
+  
   ```bash
-  $ git checkout mywork
-  $ git rebase origin
+  $ git checkout -b mywork origin
   ```
-  这些命令会把你的`mywork`分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到`.git/rebase`目录中),然后把`mywork`分支更新 到最新的`origin`分支，最后把保存的这些补丁应用到`mywork`分支上。
-  ![](http://www.yiibai.com/uploads/images/201707/1307/845100751_76810.png)
-  当`mywork`分支更新之后，它会指向这些新创建的提交(commit),而那些老的提交会被丢弃。 如果运行垃圾收集命令(pruning garbage collection), 这些被丢弃的提交就会删除.
-  ![](http://www.yiibai.com/uploads/images/201707/1307/141100752_31232.png)
-
-
+  
+  结果如下所示 -
+  ![](http://www.yiibai.com/uploads/images/201707/1307/842100748_44775.png)
+* 现在我们在这个分支(mywork)做一些修改，然后生成两个提交(commit).
+  
+  ```bash
+  $ vi file.txt
+  $ git commit
+  $ vi otherfile.txt
+  $ git commit
+  ... ...
+  ```
+  
+  但是与此同时，有些人也在”origin“分支上做了一些修改并且做了提交了，这就意味着”origin“和”mywork“这两个分支各自”前进”了，它们之间”分叉”了。
+  ![](http://www.yiibai.com/uploads/images/201707/1307/810100749_17109.png)
+  此时如果直接提交，会发生冲突。解决方法如下： 
+  1. **git merge**
+     用`pull`命令把`origin`分支上的修改拉下来并且和你的修改合并； 结果看起来就像一个新的”合并的提交”(merge commit)。但这样会形成图中的菱形，让人很困惑。
+     ![](http://www.yiibai.com/uploads/images/201707/1307/350100750_71786.png)
+  2. **git rebase**
+     如果你想让`mywork`分支历史看起来像没有经过任何合并一样，也可以用 `git rebase`，如下所示:
+     
+     ```bash
+     $ git checkout mywork
+     $ git rebase origin
+     ```
+     
+     这些命令会把你的`mywork`分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到`.git/rebase`目录中),然后把`mywork`分支更新 到最新的`origin`分支，最后把保存的这些补丁应用到`mywork`分支上。
+     ![](http://www.yiibai.com/uploads/images/201707/1307/845100751_76810.png)
+     当`mywork`分支更新之后，它会指向这些新创建的提交(commit),而那些老的提交会被丢弃。 如果运行垃圾收集命令(pruning garbage collection), 这些被丢弃的提交就会删除.
+     ![](http://www.yiibai.com/uploads/images/201707/1307/141100752_31232.png)
 
 ==稍微深入==
 **多主题分支变基(git rebase --onto)**
 只要你一直使用Git,早晚会遇到这样一种情况：从主干切出了某一分支issue1，进行了一些提交后，有另一个需求，我们在issue1分支切出新分支issue2，进行了提交，这期间其他成员对master主干分支进行了更新，结构图如下：
 ![](https://pic2.zhimg.com/80/v2-d1445858b3f221eeb17d18e528e4e275_720w.png)
 现在，issue2分支开发完，我们需要将其变更并入主线，但是issue1分支的变更还是继续保持独立，如果直接进行简单变基，cec214,d4eb57也将被并入主线，这不是我们想要的结果，我们只希望将issue2分支上进行的变更和提交并入主线，即5f3776,ac5c08，这时需要使用git rebase --onto指令：
+
 ```bash
 $ git rebase --onto master issue1 issue2
 ```
