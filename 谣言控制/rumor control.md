@@ -235,18 +235,21 @@ counterexample：[n]反例
 > > 函数$\theta,\theta^R$是$V\rightarrow(0,1]$的映射，为$u\in V$中的点分配阈值，influence threshold $\theta_u\in(0,1]$(被影响的概率)，decision threshold $\theta_u^R\in(0,1]$(被影响后发生改变的概率)；
 > > 
 > > 函数$W$是$V\times V\rightarrow (0,1]$的映射，为图中的边分配权重，$W(u,v)\in(0,1]$,
->
->
-> $$ 
->	\left\{
->    \begin{aligned}
->    &W(u,v)=0,(u,v)\notin V \\
->    &\sum_{u\in V}W(u,v)=1,\text{for all }v\in V
->    \end{aligned}
->	\right.
+> 
+> 
+> 
 > $$
->
->
+> \left\{
+\begin{aligned}
+&W(u,v)=0,(u,v)\notin V \\
+&\sum_{u\in V}W(u,v)=1,\text{for all }v\in V
+\end{aligned}
+\right.
+> $$
+> 
+> 
+> 
+> 
 > * **扩散动力（diffusion dynamic）**
 > 
 > > 每个节点有3种状态：inactive、R-active（adopting R）、T-active（adopting T），一个转移状态：influenced。*（R、T代表两种观点、事物，如谣言和真相）*
@@ -268,16 +271,16 @@ counterexample：[n]反例
 > * **激活流程（activation process）**
 > 
 > > influence stage：未激活的点u的已激活的入邻居（active in-neighbors）权重之和，大于等于$\theta_u$，那么点u就变为 influenced。*(决定是否进入激活状态)*
->
->$$
->\text{u is influenced}\Leftrightarrow \sum_{v\in N_u^{in}\cap\Phi_{t-1}}W(v,u)\ge \theta_u
->$$
->
->$$
+> 
+> $$
+> \text{u is influenced}\Leftrightarrow \sum_{v\in N_u^{in}\cap\Phi_{t-1}}W(v,u)\ge \theta_u
+> $$
+> 
+> $$
 > u\in \phi_t^R \Leftrightarrow 
 \frac{\sum_{v\in N^{in}_u \cap \Phi_{t-1}^R}W(v,u)}
 {\sum_{v\in N^{in}_u \cap \Phi_{t-1}}W(v,u)} \ge \theta_u^R
->$$
+> $$
 
 > > decision stage：顶点 u 的 R-active in-neighbors 的权重之和比上顶点u的 active in-neighbors 的权重之和，大于等于\theta_u^R，那么顶点u就会接收 R。**否则接收T**，u\in \phi_t^T。
 > > 
