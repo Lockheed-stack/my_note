@@ -32,7 +32,7 @@ monotone：[n]单调；[adj]单调的
 
 > "边际效用递减" 的形式化说法。
 > 
-> 对于给定一个集合函数$f:2^V \rightarrow \R$，若$S\subseteq V$，那么在S中增加一个元素所增加的收益要小于等于在 S 的子集中增加一个元素所增加的收益。
+> 对于给定一个集合函数$f:2^V \rightarrow R$，若$S\subseteq V$，那么在S中增加一个元素所增加的收益要小于等于在 S 的子集中增加一个元素所增加的收益。
 > 
 > 即对于函数 f，若$A\subseteq B \subseteq V \ and \ e\in V-B$，则$f(A\cup\{e\})-f(A) \ge f(B \cup \{e\})-f(B)$。
 
@@ -48,7 +48,7 @@ monotone：[n]单调；[adj]单调的
 > 
 > 但谣言遏制问题是限制谣言的影响。下图中灰色的顶点是已感染的节点，白色顶点是未感染的顶点。如果只选一个顶点去阻止，那么选 u 这个顶点是最好的选择，可以纠正更多的被感染的点。对于 v 点，选它可以激活更多点，对于影响最大化问题来说是最佳选择。==突发奇想：能不能像森林防火一样挖一条 “防火带”，阻止谣言的传播？==
 > 
-> ![image-20220519212932695](H:\school_materal_temp\硕士\MK笔记\谣言控制\rumor control.assets\image-20220519212932695.png)
+> ![](rumor%20control.assets/image-20220519212932695.png)
 > 
 > 本文选取两种顶点集，来研究Rumor Correction Maximization problem，这两个集合分别为：seed nodes、boost nodes。
 > 
@@ -86,7 +86,7 @@ monotone：[n]单调；[adj]单调的
 > 
 > **证明BRCM是NP-hard:**
 > 
-> ![image-20220523155117977](rumor control.assets/image-20220523155117977.png)
+> ![image-20220523155117977](rumor%20control.assets/image-20220523155117977.png)
 > 
 > 从集合覆盖进行规约。设$U=\{u_1,u_2,..,u_n\}$为所有节点（全集），$S=\{S_1,S_2,..S_m\}$为子集合的集合。
 > 
@@ -123,7 +123,7 @@ monotone：[n]单调；[adj]单调的
 > * 称一条路径是 *live-upon-boost*：该路径不是 live，但这条路径上的边是 live 或者是 live-upon-boost。
 >   下图是一个 7个点6条边的图。r 是感染点，真相节点$T=\{t_1,t_2,t_3\}$。其中 live、live-upon-boost 和 block 边分别用实线、虚线、带x的点线表示。方框中表示一个 2-PRR图，路径 $t_1$到 r 是 *live-upon-boost*。
 >   
->   ![image-20220521162853236](H:\school_materal_temp\硕士\MK笔记\谣言控制\rumor control.assets\image-20220521162853236.png)
+>   ![image-20220521162853236](rumor%20control.assets/image-20220521162853236.png)
 > 
 > * $d[v]$：所有点 v 至 点 r 的路径中，live-upon-boost 边的数量的最小值。
 > 
@@ -135,28 +135,28 @@ monotone：[n]单调；[adj]单调的
 > 
 > * *就是使用了广度优先的方法，更新 d[u] 的值，并且其小于 k 时，将边放入 g 中。*
 > 
-> ![image-20220521165316540](H:\school_materal_temp\硕士\MK笔记\谣言控制\rumor control.assets\image-20220521165316540.png)
+> ![image-20220521165316540](rumor%20control.assets/image-20220521165316540.png)
 
 假设真相集T是已知的，并且k-PRR图的数量θ足够大。使用贪心算法获得次模下界$f_R^-(T,B)$的近似解。在每个迭代中，它选择具有最大边际覆盖率的节点。之后的算法3会调用该算法。
 
-> * $\Phi_g=\{v\in V:I^-_g(\{v\})-I^-_g(\empty)=1\}$：即对于$v \in \Phi_g$，g 为 k-PRR图，存在一条 live upon boosting v的路径。
+> * $\Phi_g=\{v\in V:I^-_g(\{v\})-I^-_g(\emptyset)=1\}$：即对于$v \in \Phi_g$，g 为 k-PRR图，存在一条 live upon boosting v的路径。
 > * 用$\mathcal{G}$表示k-PRR 图的集合，$|\mathcal{G}|=\theta,\mathcal{G}=\{g_1,g_2,..,g_\theta\}$，相应的有$\Phi=\{\Phi_{g_1},\Phi_{g_2},..,\Phi_{g_\theta}\}$
 > 
-> ![image-20220521170723355](H:\school_materal_temp\硕士\MK笔记\谣言控制\rumor control.assets\image-20220521170723355.png)
+> ![image-20220521170723355](rumor%20control.assets/image-20220521170723355.png)
 
 为了最小化运行时间，使用一个近似的解决方案。其基本思想见于算法3。它首先根据k-PRR图创建两个集合$\Phi_1$和$\Phi_2$。接下来，根据Algorithmm2得到一个集合$B_L$，它是$\Phi_1$的最大覆盖集合。接下来，使用集合$B_L$的下限和最优解$B^∗_L$的上限之间的分数来计算近似比率。下限和上限分别由$\Phi_2$和$\Phi_1$产生。如果比率小于$1 -1/e -\epsilon$，它就向$\Phi_1$和$\Phi_2$插入新的集合。否则，它返回结果。
 
-> ![image-20220521201856817](rumor control.assets/image-20220521201856817.png)
+> ![image-20220521201856817](rumor%20control.assets/image-20220521201856817.png)
 > 
-> ![image-20220524111704596](rumor control.assets/image-20220524111704596.png)
+> ![image-20220524111704596](rumor%20control.assets/image-20220524111704596.png)
 > 
-> ![image-20220522111615067](rumor control.assets/image-20220522111615067.png)
+> ![image-20220522111615067](rumor%20control.assets/image-20220522111615067.png)
 > 
-> ![image-20220524105625756](rumor control.assets/image-20220524105625756.png)
+> ![image-20220524105625756](rumor%20control.assets/image-20220524105625756.png)
 
 整合影响反向采样（Influence Reverse Sampling，RIS）技术和三明治近似（sandwich approximation，SA）策略得到算法4。使用算法3，我们首先得到一个k-size 的结点集$B_L$。此外，我们只用$\Psi_1$和$\Psi_2$来代替算法3中的$\Phi_1$和$\Phi_2$。然后，我们可以有其他节点集$B_U$。我们选择在$\Psi_1$中具有最大覆盖率的 top k 节点作为原始问题的解决方案$B_O$。最后，在$B_O$、$B_L$和$B_U$三个集合中，我们返回具有最大估计的谣言修正的集合作为最终解决方案。
 
-> ![image-20220521202903654](rumor control.assets/image-20220521202903654.png)
+> ![image-20220521202903654](rumor%20control.assets/image-20220521202903654.png)
 
 在大多数情况下，我们不知道seed nodes和boost nodes的确切数量。因此，我们希望研究在seed 和 boost 上分配预算的策略。给定一个参数$\alpha \in [0, 1]$，我们在下文中提出最小种子选择（MSS）问题。该参数代表了真相集 T 所纠正的感染性节点的最小部分。MSS问题试图给出真相集 T 的最小尺寸，使 T 能够纠正至少 $\alpha-|R|$ 个感染节点。
 
@@ -166,9 +166,9 @@ monotone：[n]单调；[adj]单调的
 > 
 > $\Lambda_S(T)$：T 所覆盖的 S 中的 RR集的比例。是对$f_R(T)$的无偏估计(unbiased estimation)。
 > 
-> ![image-20220522113033011](rumor control.assets/image-20220522113033011.png)
+> ![image-20220522113033011](rumor%20control.assets/image-20220522113033011.png)
 > 
-> ![image-20220521204443720](rumor control.assets/image-20220521204443720.png)
+> ![image-20220521204443720](rumor%20control.assets/image-20220521204443720.png)
 
 ### Containment of rumor spread in complex social networks
 
@@ -235,16 +235,18 @@ counterexample：[n]反例
 > > 函数$\theta,\theta^R$是$V\rightarrow(0,1]$的映射，为$u\in V$中的点分配阈值，influence threshold $\theta_u\in(0,1]$(被影响的概率)，decision threshold $\theta_u^R\in(0,1]$(被影响后发生改变的概率)；
 > > 
 > > 函数$W$是$V\times V\rightarrow (0,1]$的映射，为图中的边分配权重，$W(u,v)\in(0,1]$,
-> > 
-> > $$
-> > \left\{
-    \begin{aligned}
-    &W(u,v)=0,(u,v)\notin V \\
-    &\sum_{u\in V}W(u,v)=1,\text{for all }v\in V
-    \end{aligned}
-\right.
-> > $$
-> 
+>
+>
+> $$ 
+>	\left\{
+>    \begin{aligned}
+>    &W(u,v)=0,(u,v)\notin V \\
+>    &\sum_{u\in V}W(u,v)=1,\text{for all }v\in V
+>    \end{aligned}
+>	\right.
+> $$
+>
+>
 > * **扩散动力（diffusion dynamic）**
 > 
 > > 每个节点有3种状态：inactive、R-active（adopting R）、T-active（adopting T），一个转移状态：influenced。*（R、T代表两种观点、事物，如谣言和真相）*
@@ -266,20 +268,20 @@ counterexample：[n]反例
 > * **激活流程（activation process）**
 > 
 > > influence stage：未激活的点u的已激活的入邻居（active in-neighbors）权重之和，大于等于$\theta_u$，那么点u就变为 influenced。*(决定是否进入激活状态)*
-> > 
-> > $$
-> > \text{u is influenced}\Leftrightarrow \sum_{v\in N_u^{in}\cap\Phi_{t-1}}W(v,u)\ge \theta_u
-> > $$
-> > 
-> > decision stage：顶点 u 的 R-active in-neighbors 的权重之和比上顶点u的 active in-neighbors 的权重之和，大于等于$\theta_u^R$，那么顶点u就会接收 R。**否则接收T**，$u\in \phi_t^T$。
-> > 
-> > **~~发现一个问题：假设 node A 达到了 influence threshold，其邻居都是 R-active，没有 T-active。但没有达到 decision threshold，即 node A 会接收 T。但这合理吗？其周围没有 T-active邻居，却能变成 T-active？~~** (感觉又没问题了。。。)
-> > 
-> > $$
-> > u\in \phi_t^R \Leftrightarrow 
+>
+>$$
+>\text{u is influenced}\Leftrightarrow \sum_{v\in N_u^{in}\cap\Phi_{t-1}}W(v,u)\ge \theta_u
+>$$
+>
+>$$
+> u\in \phi_t^R \Leftrightarrow 
 \frac{\sum_{v\in N^{in}_u \cap \Phi_{t-1}^R}W(v,u)}
 {\sum_{v\in N^{in}_u \cap \Phi_{t-1}}W(v,u)} \ge \theta_u^R
-> > $$
+>$$
+
+> > decision stage：顶点 u 的 R-active in-neighbors 的权重之和比上顶点u的 active in-neighbors 的权重之和，大于等于\theta_u^R，那么顶点u就会接收 R。**否则接收T**，u\in \phi_t^T。
+> > 
+> > **~~发现一个问题：假设 node A 达到了 influence threshold，其邻居都是 R-active，没有 T-active。但没有达到 decision threshold，即 node A 会接收 T。但这合理吗？其周围没有 T-active邻居，却能变成 T-active？~~** (感觉又没问题了。。。)
 > 
 > * **系统动态分析(Analysis of the system’s dynamics)**
 > 
@@ -299,7 +301,7 @@ counterexample：[n]反例
 > > 
 > > 设$S_R=\{1\},W(u,v)=\frac{1}{|N_v^{in}|}$,$\theta_2,\theta_3 \in (0.5,1],\theta_5 \in (0,0.5),\theta_2^R,\theta_3^R\in(0,0.5),\theta_5^R\in(0.5,1]$
 > > 
-> > 不设置T时：$\Phi_R^*(S_R,\empty)=\{1,2,5,6\}$；
+> > 不设置T时：$\Phi_R^*(S_R,\emptyset)=\{1,2,5,6\}$；
 > > 
 > > 设置 $S_T=\{6\}$时：$\Phi_R^*=\{1,2\},\Phi_T^*=\{5,6\}$，减小了 R 的扩散；
 > > 
@@ -312,13 +314,15 @@ counterexample：[n]反例
 > > 谣言遏制的问题是选择一组合适的节点来传播真相，以尽量减少最终接受谣言的节点数量。
 > > 
 > > *给定 LT1DT 模型，谣言种子节点 $S_R$。给定整数 ，在 $V/S_R$中找到真相种子节点 $S_T=X$,满足$|S_T|\le k$，使得最终 R 接收者数量最小。*
-> > 
-> > $$
-> > \min |\Phi_R^*(S_R,X)| \\
+> 
+> $$
+> \begin{array} {}
+\min |\Phi_R^*(S_R,X)| \\
 \text{s.t. } X \subseteq V/S_R \\
 |X|\leq k
-> > $$
-> 
+\end{array}
+> $$
+
 > * 从最大覆盖问题(Maximum Coverage Problem,MCP)归约到本问题。
 > 
 > > $MCP\le MRS$
@@ -326,49 +330,51 @@ counterexample：[n]反例
 > > 按照MCP的定义构建了一个MRS的实例。
 > > 
 > > **MCP**:集合 $O=\{o_1,o_2,\dots,o_q\}$ 含有 q 个元素, 集合的集合$\mathcal{X}=\{X_1,X_2,...,X_p\}$,其中$X_i$是元素为$o_j\in O$的集合。给定一个正的常数 $l$，找到一个 $\mathcal{X}^\prime \subset \mathcal{X}$, 满足$|\mathcal{X}^\prime|\le l$, 使得$|\bigcup_{X_i\in \mathcal{X}^\prime}X_i|$覆盖 $O$ 中的元素数量最大。
-> > 
-> > $$
-> > \max |\bigcup_{X_i\in \mathcal{X}^\prime}X_i| \\
+> 
+> $$
+> \begin{array}{}
+\max |\bigcup_{X_i\in \mathcal{X}^\prime}X_i| \\
 \text{s.t. } \mathcal{X}^\prime \subset \mathcal{X} \\
 |\mathcal{X}^\prime|\le l
-> > $$
-> > 
-> > 归约证明：
-> > 
-> > ![](assets/2022-08-30-15-36-15-image.png)
-> > 
-> > 给定MCP的一个实例$\mathcal{I}=(O,\mathcal{X},l,\lambda)$,相应地构建一个MRS实例$\mathcal{M}=(V,E,\theta,\theta^R,W,S_R,k,\rho)$。
-> > 
-> > 编号从0开始（图示是从 1 开始，可能原文有误），为每个子集 $X_i\in \mathcal{X}$ 添加一个节点 $u_i$, 为$O$中的每个元素添加一个节点$o_j$,以及一个特殊节点 x 。
-> > 
-> > 然后将 x 连接到每个节点$o_j$，并为每个$o_j∈X_i$添加一条边$(u_i,o_j)$。
-> > 
-> > 以节点$o_3$为例，它至少有3条入射边(来自$u_1,u_2,u_p$)，这意味着$o_i$至少存在于相应的子集$X_1 , X_2 , X_p$中。
-> > 
-> > 每个节点 $o_i$ 给定了相同的influence threshold $\theta_{o_i}=1/q$ 和 decision threshold $\theta_{o_i}^R = \frac{d_{o_i}}{q-1}$, 正整数$d_{o_i}$为元素$o_i$所属的子集$X_i$的数量。
-> > 
-> > 从节点x到节点$o_i$的弧的权重被设定为1/q，即$W(x,o_i)=1/q$。从$u_j$到$o_i$的弧的权重是同质的，设置为$（1 -1 /q ）/d_{o_i}$，即$W(u_j,o_i)=(1-1/q)/d_{o_i}$。然后，对于每个$o_i$，从x和$u_j$传入的权重之和为1。
-> > 
-> > 最后设置$S_R=\{x\},k=l,\rho=q-\lambda+1$。
-> > 
-> > <mark>证明：</mark>
-> > 
-> > > 假设$\mathcal{X}^*$是实例$\mathcal{I}$的一个解，$|\mathcal{X}^*|\le l$，能够覆盖$O$中至少$\lambda$个元素。我们可以选择对应于子集$X_j∈\mathcal{X}^∗$的所有节点$u_j$作为真相种子集$S_T$,因此$|S_T|=k=l$。
-> > > 
-> > > 因为$\mathcal{X}^*$可以覆盖$O$中至少$\lambda$个$o_i$元素,即$O$中至少有$\lambda$个节点相信真相。这是因为对于任何被覆盖的$o_i$，让$d^∗_{o_i}$为$o_i$所属的子集$X_j∈\mathcal{X}^∗$的数量，那么我们有$1 ≤d^∗_{o_i} ≤d_{o_i}$。
-> > > 
-> > > 那么，来自谣言和真相的总影响为$1/q+d^*_{o_i}(\frac{1-1/q}{d_{o_i}})\ge \theta_{o_i}=1/q$。来自其R-active邻居的权重之和为1/q。因此$o_i$会相信真相，因为
-> > > 
-> > > $$
-> > > \frac{1/q}{1/q+d^*_{o_i}(\frac{1-1/q}{d_{o_i}})}
+\end{array}
+> $$
+> 
+> 归约证明：
+> 
+> ![](assets/2022-08-30-15-36-15-image.png)
+> 
+> 给定MCP的一个实例$\mathcal{I}=(O,\mathcal{X},l,\lambda)$,相应地构建一个MRS实例$\mathcal{M}=(V,E,\theta,\theta^R,W,S_R,k,\rho)$。
+> 
+> 编号从0开始（图示是从 1 开始，可能原文有误），为每个子集 $X_i\in \mathcal{X}$ 添加一个节点 $u_i$, 为$O$中的每个元素添加一个节点$o_j$,以及一个特殊节点 x 。
+> 
+> 然后将 x 连接到每个节点$o_j$，并为每个$o_j∈X_i$添加一条边$(u_i,o_j)$。
+> 
+> 以节点$o_3$为例，它至少有3条入射边(来自$u_1,u_2,u_p$)，这意味着$o_i$至少存在于相应的子集$X_1 , X_2 , X_p$中。
+> 
+> 每个节点 $o_i$ 给定了相同的influence threshold $\theta_{o_i}=1/q$ 和 decision threshold $\theta_{o_i}^R = \frac{d_{o_i}}{q-1}$, 正整数$d_{o_i}$为元素$o_i$所属的子集$X_i$的数量。
+> 
+> 从节点x到节点$o_i$的弧的权重被设定为1/q，即$W(x,o_i)=1/q$。从$u_j$到$o_i$的弧的权重是同质的，设置为$（1 -1 /q ）/d_{o_i}$，即$W(u_j,o_i)=(1-1/q)/d_{o_i}$。然后，对于每个$o_i$，从x和$u_j$传入的权重之和为1。
+> 
+> 最后设置$S_R=\{x\},k=l,\rho=q-\lambda+1$。
+> 
+> <mark>证明：</mark>
+> 
+> 假设$\mathcal{X}^*$是实例$\mathcal{I}$的一个解，$|\mathcal{X}^*|\le l$，能够覆盖$O$中至少$\lambda$个元素。我们可以选择对应于子集$X_j∈\mathcal{X}^∗$的所有节点$u_j$作为真相种子集$S_T$,因此$|S_T|=k=l$。
+> 
+> 因为$\mathcal{X}^*$可以覆盖$O$中至少$\lambda$个$o_i$元素,即$O$中至少有$\lambda$个节点相信真相。这是因为对于任何被覆盖的$o_i$，让$d^∗_{o_i}$为$o_i$所属的子集$X_j∈\mathcal{X}^∗$的数量，那么我们有$1 ≤d^∗_{o_i} ≤d_{o_i}$。
+> 
+> 那么，来自谣言和真相的总影响为$1/q+d^*_{o_i}(\frac{1-1/q}{d_{o_i}})\ge \theta_{o_i}=1/q$。来自其R-active邻居的权重之和为1/q。因此$o_i$会相信真相，因为
+> 
+> $$
+> \frac{1/q}{1/q+d^*_{o_i}(\frac{1-1/q}{d_{o_i}})}
 \le \frac{1/q}{1/q+\frac{1-1/q}{d_{o_i}}}
 = \frac{d_{o_i}}{d_{o_i}+q-1}
 < \theta^R_{o_i}= \frac{d_{o_i}}{q-1}
-> > > $$
-> > > 
-> > > 因此，在MRS问题中，T-final adopter set的基数至少是λ+ k，R-final adopter set的cardinality最多是ρ= q -λ+ 1。
-> > > 
-> > > **反之**，假设$S_T^*$是实例$\mathcal{M}$的一个解，即，$|S^∗_T| = k$，这样R-final adopter 集的基数最多为$\rho$。这意味着T-final adopter集合的基数至少是$q-(\rho-1)+k$。那么$\mathcal{X}^∗$可以是一个子集$X_i$的集合，对应于那些$u_i∈S^∗_T$。因此，$\mathcal{X}^∗$的大小为k，因为根据假设，$l = k$，并且至少可以覆盖$O$中的$q -\rho+ 1$个元素。
+> $$
+
+> 因此，在MRS问题中，T-final adopter set的基数至少是λ+ k，R-final adopter set的cardinality最多是ρ= q -λ+ 1。
+> 
+> **反之**，假设$S_T^*$是实例$\mathcal{M}$的一个解，即，$|S^∗_T| = k$，这样R-final adopter 集的基数最多为$\rho$。这意味着T-final adopter集合的基数至少是$q-(\rho-1)+k$。那么$\mathcal{X}^∗$可以是一个子集$X_i$的集合，对应于那些$u_i∈S^∗_T$。因此，$\mathcal{X}^∗$的大小为k，因为根据假设，$l = k$，并且至少可以覆盖$O$中的$q -\rho+ 1$个元素。
 
 #### 5、启发式算法
 
@@ -386,25 +392,25 @@ counterexample：[n]反例
 > 
 > * PageRank
 > 
-> > $$
-> > \bold{p}=(1-\gamma)\hat A \bold{p} + \frac{\gamma}{n} \bold{1}
-> > $$
-> > 
+> $$
+> \textbf{p}=(1-\gamma)\hat A \textbf{p} + \frac{\gamma}{n} \textbf{1}
+> $$
+
 > > [知乎文章](https://zhuanlan.zhihu.com/p/137561088#:~:text=PageRank%E7%AE%97%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%83%B3%E6%B3%95%E6%98%AF%E5%9C%A8%E6%9C%89%E5%90%91%E5%9B%BE%E4%B8%8A%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0%E6%A8%A1%E5%9E%8B%EF%BC%8C%E5%8D%B3%E4%B8%80%E9%98%B6%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE%EF%BC%8C%E6%8F%8F%E8%BF%B0%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0%E8%80%85%E6%B2%BF%E7%9D%80%E6%9C%89%E5%90%91%E5%9B%BE%E9%9A%8F%E6%9C%BA%E8%AE%BF%E9%97%AE%E5%90%84%E4%B8%AA%E7%BB%93%E7%82%B9%E7%9A%84%E8%A1%8C%E4%B8%BA%E3%80%82,%E5%9C%A8%E4%B8%80%E5%AE%9A%E6%9D%A1%E4%BB%B6%E4%B8%8B%EF%BC%8C%E6%9E%81%E9%99%90%E6%83%85%E5%86%B5%E8%AE%BF%E9%97%AE%E6%AF%8F%E4%B8%AA%E7%BB%93%E7%82%B9%E7%9A%84%E6%A6%82%E7%8E%87%E6%94%B6%E6%95%9B%E5%88%B0%E5%B9%B3%E7%A8%B3%E5%88%86%E5%B8%83%EF%BC%8C%E8%BF%99%E6%97%B6%E5%90%84%E4%B8%AA%E7%BB%93%E7%82%B9%E7%9A%84%E5%B9%B3%E7%A8%B3%E6%A6%82%E7%8E%87%E5%80%BC%E5%B0%B1%E6%98%AF%E5%85%B6PageRank%E5%80%BC%EF%BC%8C%E8%A1%A8%E7%A4%BA%E7%BB%93%E7%82%B9%E7%9A%84%E9%87%8D%E8%A6%81%E5%BA%A6%E3%80%82)
 > > 
 > > 使用 teleportation model 计算PageRank value。（即对于没有出度的点，使其出度的概率为1，如下图中的 m 点）
 > > 
 > > ![](assets/2022-08-31-20-28-12-ab8839d4a4c31921787bfe3e170bcea7_985935-20200206231904537-329829314.png)
 > > 
-> > 带重启的随机游走,每一步选择相邻节点，或者开始节点,重启概率 $\gamma=0.15$。$\bold{p}$ 为 PageRank向量，$\sum_{i=1}^n p_i=1$，$p_i$为节点 i 的pagerank value。$\bold{1}$为所有分量为 1 的向量。*(文章没有给初始的 P，但我感觉每个点的初始值应该相同，即 1/N，N为顶点总数。)*
+> > 带重启的随机游走,每一步选择相邻节点，或者开始节点,重启概率 $\gamma=0.15$。$\textbf{p}$ 为 PageRank向量，$\sum_{i=1}^n p_i=1$，$p_i$为节点 i 的pagerank value。$\textbf{1}$为所有分量为 1 的向量。*(文章没有给初始的 P，但我感觉每个点的初始值应该相同，即 1/N，N为顶点总数。)*
 > > 
 > > ![](assets/2022-08-31-16-33-31-image.png)
 > > 
-> > $\hat A(i,j)=A(i,j)/(\bold{1}^T A(:,j))$ 。$\hat A$是邻接矩阵 A 的缩放,即对应元素除以该列之和，也就是<mark>百分比，就是个状态转移矩阵</mark>。原文（如上图）对$\hat A$的定义感觉不太严谨，因该加个括号。
+> > $\hat A(i,j)=A(i,j)/(\textbf{1}^T A(:,j))$ 。$\hat A$是邻接矩阵 A 的缩放,即对应元素除以该列之和，也就是<mark>百分比，就是个状态转移矩阵</mark>。原文（如上图）对$\hat A$的定义感觉不太严谨，因该加个括号。
 > > 
 > > PageRank在$V/S_R$中选择了 k 个具有最高pagerank值的节点作为真相种子。
 > > 
-> > 由于缩放的邻接矩阵$\hat A$是一个稀疏矩阵，每行平均有d个非零元素（所谓的网络平均度），矩阵和向量的乘法可以在$O ( nd ) $的时间内完成。
+> > 由于缩放的邻接矩阵$\hat A$是一个稀疏矩阵，每行平均有d个非零元素（所谓的网络平均度），矩阵和向量的乘法可以在 $O ( nd )$ 的时间内完成。
 > > 
 > > 因此，pagerank值的计算需要时间$O(n(d+1)I)$，其中I是p收敛到合理近似值的迭代次数。最终需要选 k 个真相点，因此时间复杂度为$O(n(d+1)I+nk)$。
 > 
@@ -414,12 +420,12 @@ counterexample：[n]反例
 > > 
 > > 在 $t_v$ 时刻被激活的节点 v 的 contribution ，定义为其在任何 $t > t_v $ 被激活的外邻的数量。
 > > 
-> > 首先模拟谣言传播，谣言种子集$S_R$，真相种子集$S_T=\empty$，记录从$1\sim T_s$每一步激活的节点集，$T_s$为网络进入最终稳定状态的时刻。令$L$为最长 simple path 的长度，有$T_s \le L$，因为扩散过程至多 L steps。对于每个点 $v\in \phi_t^R$，有
-> > 
-> > $$
-> > Ctr(v)=|(\cup_{i=t+1}^{T_s}\phi_i^R)\cap N_v^{out}|
-> > $$
-> > 
+> > 首先模拟谣言传播，谣言种子集$S_R$，真相种子集$S_T=\emptyset$，记录从$1\sim T_s$每一步激活的节点集，$T_s$为网络进入最终稳定状态的时刻。令$L$为最长 simple path 的长度，有$T_s \le L$，因为扩散过程至多 L steps。对于每个点 $v\in \phi_t^R$，有
+> 
+> $$
+> Ctr(v)=|(\cup_{i=t+1}^{T_s}\phi_i^R)\cap N_v^{out}|
+> $$
+> 
 > > 对于 inactive 节点，贡献设置为 0 。
 > 
 > **Constrainted**：约束版本（称为ProxMinGreedy、ProxPageRank和ProxContrId），将搜索空间限制在谣言种子集的附近。
@@ -431,12 +437,12 @@ counterexample：[n]反例
 > * ProxMinGreedy
 > 
 > > 每次迭代中，在$\mathcal{N}^{out}(S_R)$中选最大限度地减少谣言传播的节点u添加到真相种子集$S_T$中，共选k个点。算法还是algorithm 1，只是第5行换成：
-> > 
-> > $$
-> > u=\argmin\limits_{i\in \mathcal{N}^{out}(S_R)}
-|\Phi_R^*(S_R,S_T\cup \{i\})|
-> > $$
 > 
+> $$
+> u=\mathop{argmin}\limits_{i\in \mathcal{N}^{out}(S_R)}
+|\Phi_R^*(S_R,S_T\cup \{i\})|
+> $$
+
 > * ProxPageRank
 > 
 > > 同PageRank，只是在$\mathcal{N}^{out}(S_R)$中选k个PageRank value最高的点作为 truth seed。
@@ -467,7 +473,7 @@ counterexample：[n]反例
 > 
 > * 参数
 > 
-> > 权重 $W(u,v)=1/|N_v^{in}|$; $\theta_u,\theta_u^R$ 在$(0,1]$间均匀随机(uniformly at random)
+> > 权重 $W(u,v)=1/|N_v^{in}|$; $\theta_u,\theta_u^R$ 在$(0,1]$间均匀随机(uniformly at random);$|S_R|=3$,$|S_T|\in[1,10]$。
 > 
 > * 结果
 > 

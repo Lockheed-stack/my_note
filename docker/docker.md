@@ -8,11 +8,11 @@ Docker
 
 ​                               3.启动慢。
 
-<img src="https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210923161538494.png" alt="image-20210923161538494" style="zoom:80%;" />
+<img src="https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210923161538494.png" alt="image-20210923161538494" style="zoom:80%;" />
 
 容器化技术：不是模拟一个完整的操作系统。
 
-<img src="https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210923161626449.png" alt="image-20210923161626449" style="zoom:80%;" />
+<img src="https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210923161626449.png" alt="image-20210923161626449" style="zoom:80%;" />
 
 **docker和虚拟机技术的不同**
 
@@ -44,7 +44,7 @@ Docker是内核级别的虚拟化，可以在一个物理机上运行很多容�
 
 ### 2.docker基本组成
 
-![image-20210924154311561](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924154311561.png)
+![image-20210924154311561](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924154311561.png)
 
 > **镜像（image）：**docker镜像类似模板，可以通过这个模板来创建容器服务。通过这个镜像可以创建多个容器（最终服务运行或者项目运行是在容器中的）。
 > 
@@ -58,7 +58,7 @@ Docker是内核级别的虚拟化，可以在一个物理机上运行很多容�
 
 ### 3.运行hello world镜像的流程
 
-![image-20210924153824117](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924153824117.png)
+![image-20210924153824117](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924153824117.png)
 
 *run 的运行流程*
 
@@ -72,14 +72,14 @@ docker是一个CS结构的系统，docker的守护进程（或者称为服务）
 
 DockerServer接收到DockerClient的指令，就执行这个命令。
 
-![image-20210924161252373](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924161252373.png)
+![image-20210924161252373](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924161252373.png)
 
 **docker为什么比VM快**
 
 1. docker有着比虚拟机更少的抽象层。
 2. docker利用的是宿主机的内核，vm需要是Guest OS
 
-![image-20210924162116699](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924162116699.png)
+![image-20210924162116699](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924162116699.png)
 
 *hypervisor：物理层和OS之间的中间件，允许多个操作系统和应用共享硬件。*
 
@@ -156,7 +156,7 @@ docker pull [OPTIONS] NAME[:TAG|@DIGEST]
 
 To download a particular image, or set of images (i.e., a repository), use `docker pull`. If no tag is provided, Docker Engine uses the `:latest` tag as a default. This command pulls the `debian:latest` image:
 
-![image-20210924202718970](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924202718970.png)
+![image-20210924202718970](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924202718970.png)
 
 *（默认下载 latest 版本，digest为签名信息）*
 
@@ -164,7 +164,7 @@ Docker images can consist of multiple layers. In the example above, the image co
 
 Layers can be reused by images. For example, the `debian:jessie` image shares both layers with `debian:latest`. Pulling the `debian:jessie` image therefore only pulls its metadata, but not its layers, because all layers are already present locally:
 
-![image-20210924203111272](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924203111272.png)
+![image-20210924203111272](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924203111272.png)
 
 **相同的镜像层（layer）可以重复利用，节省内存**
 
@@ -317,7 +317,7 @@ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 
 This example runs a container named `test` using the `debian:latest` image. The `-it` instructs Docker to allocate a pseudo-TTY connected to the container’s stdin; creating an interactive `bash` shell in the container. In the example, the `bash` shell is quit by entering `exit 13`.
 
-![image-20210924220930747](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20210924220930747.png)
+![image-20210924220930747](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20210924220930747.png)
 
 * 列出所有运行的容器
   
@@ -404,7 +404,7 @@ This example runs a container named `test` using the `debian:latest` image. The 
 
   In order to retrieve logs before a specific point in time, run:
 
-  ![image-20211006213955750](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/image-20211006213955750.png)
+  ![image-20211006213955750](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/image-20211006213955750.png)
 
 * 查看容器中的进程信息
   
@@ -491,7 +491,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 
 #### 小结
 
-![image-20220220210704987](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220220210704987.png)
+![image-20220220210704987](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220220210704987.png)
 
 --------------------
 
@@ -549,7 +549,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >    docker exec -it nginx01 /bin/bash
 >    ```
 >    
->     ![image-20220220212838124](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220220212838124.png)
+>     ![image-20220220212838124](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220220212838124.png)
 > 
 > 6. 问题：每次改动nginx配置文件，都需要进入容器内部修改。是否可以在容器外部提供一个映射路径，使得在容器外修改文件，容器内即可自动修改？` 答：数据卷技术volumn，后面讲`。
 
@@ -631,7 +631,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > > 
 > > rootfs(root file system)，在bootfs之上，包含的就是典型Linux系统中的/dev，/proc，/bin，/etc等标准目录和文件，rootfs就是各种不同的操作系统发行版，比如Ubuntu、centos等。
 > 
-> ![img](https://www.erlo.vip/joke?src=https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610104201926-841982810.png)
+> ![img](https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610104201926-841982810.png)
 > 
 > ----------
 > 
@@ -641,7 +641,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 但是，此时的每一层rootfs都是read-only的，我们此时还不能对其进行操作。当我们创建一个容器，也就是将Docker镜像进行实例化，系统会在一层或是多层read-only的rootfs之上分配一层空的read-write的rootfs。
 > 
-> ![img](https://www.erlo.vip/joke?src=https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610105404291-1224869556.png)
+> ![img](https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610105404291-1224869556.png)
 > 
 > ------------
 > 
@@ -649,7 +649,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 所以Docker将readonly的FS层称作"image" - 对于container而言整个rootfs都是read-write的，但事实上所有的修改都写入最上层的writeable层中，image不保存用户状态，只用于模版、新建和复制使用。
 > 
-> ![img](https://www.erlo.vip/joke?src=https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610105837781-1145664389.png)
+> ![img](https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610105837781-1145664389.png)
 > 
 > ![img](http://dockone.io/uploads/article/20190626/a20b70e3e4ca61faa2c3436e1bb2d93a.png)
 > 
@@ -661,7 +661,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 即使这个ubuntu容器不再运行，我们依旧能够在主机的文件系统上找到这个新文件。
 > 
-> ![image-20220221195259840](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220221195259840.png)
+> ![image-20220221195259840](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220221195259840.png)
 > 
 > *注：在Docker version 20.10.12中，没有aufs这个目录了，取而代之的是overlay2目录。*
 > 
@@ -669,7 +669,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 上层的image依赖下层的image称作base image。因此想要从一个image启动一个container,Docker会先加载这个image和依赖的父images以及base image,用户的进程运行在writeable的layer中。所有parent image中的数据信息以及ID、网络和lxc管理的资源限制等具体container的配置，构成一个Dokcer概念上的container。
 > 
-> ![img](https://www.erlo.vip/joke?src=https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610110218450-1804104016.png)
+> ![img](https://images2018.cnblogs.com/blog/1011251/201806/1011251-20180610110218450-1804104016.png)
 
 ### commit镜像
 
@@ -696,7 +696,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > * 发现没有这个没有webapps应用
 > * 我自己拷贝了一些文件放入webapps
 > * 将操作过的容器通过commit提交，产生一个新镜像
-> * ![image-20220221211924675](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220221211924675.png)通过命令，发现多了一个“tomcat02”的镜像。
+> * ![image-20220221211924675](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220221211924675.png)通过命令，发现多了一个“tomcat02”的镜像。
 
 ### 容器数据卷
 
@@ -706,7 +706,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 容器之间可以有一个数据共享的技术，docker容器中产生的数据，同步到本地（宿主机）
 > 
-> ![image-20220221213738074](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220221213738074.png)
+> ![image-20220221213738074](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220221213738074.png)
 > 
 > **总结：容器的持久化和同步操作**
 
@@ -720,9 +720,9 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 测试：
 > 
-> * 新运行一个容器Ubuntu02，映射关系为/home/lee/docker_volume_sync : /home，并在Ubuntu02中/home目录下创建创建一个文件![image-20220221215012650](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220221215012650.png)
-> * 回到主机中查看，确认同步成功。![image-20220221215213851](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220221215213851.png)
-> * 反之，在主机中创建一个文件，容器Ubuntu02中也出现了，确认同步成功。![image-20220221215643290](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220221215643290.png)
+> * 新运行一个容器Ubuntu02，映射关系为/home/lee/docker_volume_sync : /home，并在Ubuntu02中/home目录下创建创建一个文件![image-20220221215012650](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220221215012650.png)
+> * 回到主机中查看，确认同步成功。![image-20220221215213851](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220221215213851.png)
+> * 反之，在主机中创建一个文件，容器Ubuntu02中也出现了，确认同步成功。![image-20220221215643290](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220221215643290.png)
 
 #### 练习：安装MySQL
 
@@ -756,7 +756,7 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 使用命令`docker volume ls`查看：
 > 
-> ![image-20220222201820556](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222201820556.png)
+> ![image-20220222201820556](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220222201820556.png)
 > 
 > 卷名volume name是一串随机生成的字符串
 > 
@@ -772,11 +772,11 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 > 
 > 通过命令查看，发现多了一个“volume_nginx”的卷。
 > 
-> ![image-20220222202641077](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222202641077.png)
+> ![image-20220222202641077](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220222202641077.png)
 > 
 > 再具体点，使用命令`docker volume inspect`查看，可以看到具体挂载的地方。
 > 
-> ![image-20220222203048458](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222203048458.png)
+> ![image-20220222203048458](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220222203048458.png)
 > 
 > 其实都是放在`/var/lib/docker/volume`当中。
 > 
@@ -810,16 +810,16 @@ docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 >    ```
 > 
 > 2. 执行命令`docker build -f dockerfile1 -t buildtest:1.0.0 ./`，输出以下结果：
->    ![image-20220222212225672](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222212225672.png)
+>    ![image-20220222212225672](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@master/docker/docker.assets/image-20220222212225672.png)
 >    不难看出，是一层层构建的。通过命令可以看到自己新建的镜像：
->    ![image-20220222212955426](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222212955426.png)
+>    ![image-20220222212955426](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220222212955426.png)
 > 
 > 3. 运行并进入容器，可以看到有volume1和volume2
->    ![image-20220222213813386](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222213813386.png)
+>    ![image-20220222213813386](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220222213813386.png)
 >    这两个卷肯定和外部有关联。由于是匿名挂载，所以是一串随机字符串。
 > 
 > 4. 用`docker inspect`查看容器，可看到挂载的地方
->    ![image-20220222215055138](https://cdn.statically.io/gh/Lockheed-stack/my_note/488e4ef3/docker/docker.assets/image-20220222215055138.png)
+>    ![image-20220222215055138](https://cdn.jsdelivr.net/gh/Lockheed-stack/my_note@488e4ef39bc29ea1a9fd27738ec9ba4d768ec465/docker/docker.assets/image-20220222215055138.png)
 
 #### 数据卷容器
 

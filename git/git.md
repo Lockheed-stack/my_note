@@ -166,7 +166,7 @@ git branch -dr [remote/branch]
 
   Answer：就是远程仓库链接的别名，github默认叫origin，即使用命令 git remote add [\<option>]\<name>\<url> 时，对应的name，叫阿猫，阿狗都行。
 
-<br></br>
+<br> </br>
 
 > 命令“git branch --set-upstream master origin/next”中的选项“--set-upstream”是什么意思？
 
