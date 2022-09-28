@@ -1,4 +1,4 @@
-### Rumor correction maximization problem in social networks
+## Rumor correction maximization problem in social networks
 
 **社会网络中的谣言纠正最大化问题**
 
@@ -170,9 +170,10 @@ monotone：[n]单调；[adj]单调的
 > 
 > ![image-20220521204443720](rumor%20control.assets/image-20220521204443720.png)
 
-### Containment of rumor spread in complex social networks
+## Containment of rumor spread in complex social networks
 
 **遏制复杂社会网络中的谣言传播**
+Yang L, Li Z, Giua A. Containment of rumor spread in complex social networks[J]. Information Sciences, 2020, 506: 113-130.
 
 #### 1、名词概念
 
@@ -479,9 +480,7 @@ counterexample：[n]反例
 > > 权重 $W(u,v)=1/|N_v^{in}|$; $\theta_u,\theta_u^R$ 在$(0,1]$间均匀随机(uniformly at random);$|S_R|=3$,$|S_T|\in[1,10]$。
 > 
 > * 结果
-> 
-> <img title="" src="assets/2022-09-01-21-07-01-image.png" alt="" width="616">
-> 
+> ![](assets/2022-09-01-21-07-01-image.png)
 > ![](assets/2022-09-01-21-11-28-image.png)
 > 
 > ![](assets/2022-09-01-21-28-19-image.png)
@@ -503,3 +502,87 @@ counterexample：[n]反例
 > 1. 由于人类活动的异质性，影响从一个人传播到他的朋友可能有一定的时间延迟，而且个人之间的影响也可能随着时间的推移而衰减。
 > 
 > 2. 另一个有趣的话题或趋势是分析有符号的社会网络(signed social network)中的扩散动态，即弧线(arc)与正(positive)或负(negtive)符号相关的网络。社会个体有可能与他们的朋友（与正弧连接）做出相同的决定，而与他们的敌人（与负弧连接）做出相反的决定。
+
+
+
+## Fast controlling of rumors with limited cost in social networks
+**以有限的成本快速控制社交网络中的谣言**
+Yao X, Gu Y, Gu C, et al. Fast controlling of rumors with limited cost in social networks[J]. Computer Communications, 2022, 182: 41-51.
+
+#### 1、名词概念
+
+extent: [n] 程度，范围，长度
+conduct: [n] 开展，指挥，举办
+contagion: [n] 传染
+state-of-the art: [n] 最先进的事物 [adj]最先进的
+acnode：[n] 孤立点
+  ##### 优化问题（optimization problem）
+>  优化问题的本质是要选择一组变量或参数，满足一系列有关的约束条件下，使设计目标达到最优值。
+>  最优化问题一般由三个要素构成：
+>  1. 决策变量（decision variable）:  $x=(x_1,x_2,...,x_n)^T \in R^n$,表示在最优化问题中要求解的变量。
+>  2. 目标函数（object function）：$f:R^n \rightarrow R$, 表示需要最大化或最小化的表达式。是最终需要优化的函数，同样也是决策变量 x 的函数。
+>  3. 约束条件（constraint）: $c_i:R^n \rightarrow R$, 表示需要满足的==等式==条件或者==不等式==条件。
+
+#### 2、关于本文
+>谣言控制可以分成 3 类：
+>1. 移除用户之间的联系以阻断谣言。*( Removing associations between users to block rumors)*
+>2. 封禁被（谣言）影响的用户。*( Blocking influential users)*
+>3. 传播真相来澄清谣言。*( Spreading truth to clarify rumors)*
+>
+>**但大多数研究都只采用一种方法来控制谣言。**
+>本文提到**对不同的人采用不同的方法**，如：
+>* 接收谣言又传播谣言者，封。
+>* 容易被谣言影响者，给他真相或者阻断它接受信息。
+>* 不容易被谣言影响者，只需打个标签(tag)，跟踪后续。
+>
+>因此对用户进行分类。怎么分？文章提出`contact coefficient`对用户进行分类。
+
+#### 3、其他
+> 1. C.J. Kuhlman 等人提到了移除edge来阻止谣言扩散。
+> 	Kuhlman C J, Tuli G, Swarup S, et al. Blocking simple and complex contagion by edge removal[C]//2013 IEEE 13th International Conference on Data Mining. IEEE, 2013: 399-408.  [链接](https://ieeexplore.ieee.org/document/6729524)
+>2. G. Tong 等人提出随机近似算法 randomized approximation algorithm，说是比现有的方法在时间上更快。
+>   Tong G, Wu W, Guo L, et al. An efficient randomized algorithm for rumor blocking in online social networks[J]. IEEE Transactions on Network Science and Engineering, 2017, 7(2): 845-854. [链接](https://ieeexplore.ieee.org/abstract/document/8194896)
+>
+
+#### 4、传播模型
+>基于独立级联模型的改进——多概率独立级联模型(multi-probability independent cascade model，MPIC)
+>顶点的状态有2种：True or False
+>$$
+>\left\{
+>	\begin{aligned}
+>	&\text{True},v \text{ is influenced by rumors} \\
+>	&\text{False},v \text{ is not influenced by rumors}
+>	\end{aligned}
+>\right.
+>$$
+>
+>顶点分成 5 类：$H_i(i\in\{1,2,3,4,5\})$
+>* $H_5$：表示删除用户账户的集合。
+>* $H_4$：表示传播真相的集合。
+>* $H_3$：阻断获取信息的集合。
+>* $H_2$：标记用户的集合。
+>* $H_1$：不需要采取行动的集合。
+>
+>处于$H_5$中的用户无法接受/传播谣言，其他处于$H_1 \to H_4$的用户可以被谣言影响，只是概率不同。
+>由于$H_5$直接删号了，因此对于$H_1 \to H_4$，共有4种阻断影响率(blocking influence rates)，用$\alpha_i(i\in \set{1,2,3,4})$表示。
+>**定义：**$0\le \alpha_1 <\alpha_2 <\alpha_3 <\alpha_4 <p_{(u,v)} \le 1$。其中$p_{(u,v)}$表示在不采取任何措施时，点u对点v的影响概率。采取措施后的概率如下：
+>![](assets/Pasted%20image%2020220928170156.png)
+>
+>
+>传播过程如下：
+>1. t=0 时，k 个点为谣言节点(True nodes)，其他 (n-k)个点为 False nodes，分属于各自的类别。
+>2. $t\ge 1$时，u 在 t 时刻被谣言影响，那么它可以通过影响概率 $g_{(u,v)}$ 去影响邻居 v。如果 u 成功影响了，那么 v 在 t+1 时刻成为 True node，并且它的 v 状态就不会再发生改变了。否则 v 只能被 t 时刻之后的其他 rumor 节点影响。
+>3. 最后，没有节点可以再被影响。
+>
+>**具体例子如下：**
+> 总共 9个点，初始时 $v_5,v_9$ 为True node。
+> 假设每条边的影响概率为 $p_{(u,v)}=1$，令 $\alpha_1=0.1,\alpha_2=0.2,\alpha_3=0.3,\alpha_4=0.4$。
+> $H_{t,i}$ 表示 t 时刻属于 $H_i$ 的用户的*集合*。
+> 假设$H_{0,1}=\set{v_2,v_7},H_{0,2}=\set{v_3,v_8},H_{0,3}=\set{v_1,v_6},H_{0,4}=\set{v_4},H_{0,5}=\set{v_5,v_9}$。
+> * t = 0 时，$v_5,v_9$ 会以 ($1-\alpha_4=0.6$)的概率去影响 $v_4$ ; $v_5$ 会以 ($1-\alpha_3=0.7$) 的概率去影响 $v_1$ 和 $v_6$ 。
+> * t = 1 时，$v_4,v_6$ 被 $v_5$ 成功激活, 删掉 $v_5,v_9$ ，令$H_{1,5}=\set{v_4,v_6}$ 。令 $H_{1,2}=\set{v_2,v_7},H_{1,3}=\set{v_3,v_8}$，$H_{1,1}=\set{v_1},H_{1,4}=\emptyset$ 。因为 $v_1$ 是孤立点，不会去影响其他点；而 $v_6$ 将尝试以概率 ( $1-\alpha_3=0.7$) 去影响 $v_3,v_8$ 。
+> * t = 2 时，$v_8$ 被 $v_6$ 成功影响，删掉 $v_4,v_6$ ，
+>   令$H_{2,5} = \set{v_8},H_{2,3}=\set{v_7},H_{2,1}=\set{v_1,v_2,v_3},H_{2,2}=H_{2,4}=\emptyset$ 。 $v_8$ 将尝试以概率 ( $1-\alpha_3=0.7$) 去影响 $v_7$ 。
+>   * t = 3 时，$v_7$ 没有被 $v_8$ 影响，删除 $v_8$ ，此时再没有点可被影响，传播结束。
+>![](assets/Pasted%20image%2020220928163716.png)
+>
