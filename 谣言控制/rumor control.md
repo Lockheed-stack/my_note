@@ -20,7 +20,7 @@ monotone：[n]单调；[adj]单调的
 
 ##### 集合函数（set function）
 
-> 有限集合$V=\{1,2,..,n\}$，集合函数 $f:2^V \rightarrow \R$。
+> 有限集合$V=\{1,2,..,n\}$，集合函数 $f:2^V \rightarrow \mathbb{R}$。
 > 
 > $2^V$是集合 V 的幂集，是 V 的所有子集组成的集合。
 > 
@@ -30,7 +30,7 @@ monotone：[n]单调；[adj]单调的
 
 ##### 次模函数 submodular function
 
-> "边际效用递减" 的形式化说法。
+> "边际效用递减" 的形式化说法
 > 
 > 对于给定一个集合函数$f:2^V \rightarrow R$，若$S\subseteq V$，那么在S中增加一个元素所增加的收益要小于等于在 S 的子集中增加一个元素所增加的收益。
 > 
@@ -523,6 +523,11 @@ acnode：[n] 孤立点
 >  2. 目标函数（object function）：$f:R^n \rightarrow R$, 表示需要最大化或最小化的表达式。是最终需要优化的函数，同样也是决策变量 x 的函数。
 >  3. 约束条件（constraint）: $c_i:R^n \rightarrow R$, 表示需要满足的==等式==条件或者==不等式==条件。
 
+##### sharp-p 问题（#-p）
+> 在计算复杂性理论中，复杂性类#P（"sharp P"，或者， "number P " 或 "hash P"）是与集合NP中的决策问题相关的计数问题的集合。
+> 换言之，对于一个NP问题，不是去问有没有，而是问有多少，就会转化为一个 sharp-p 问题。[来源](https://www.douban.com/group/topic/12959835/?_i=4886251Q6j1nw_)
+
+
 #### 2、关于本文
 >谣言控制可以分成 3 类：
 >1. 移除用户之间的联系以阻断谣言。*( Removing associations between users to block rumors)*
@@ -536,6 +541,8 @@ acnode：[n] 孤立点
 >* 不容易被谣言影响者，只需打个标签(tag)，跟踪后续。
 >
 >因此对用户进行分类。怎么分？文章提出`contact coefficient`对用户进行分类。
+>一些标记：
+>![](assets/Pasted%20image%2020220929205905.png)
 
 #### 3、其他
 > 1. C.J. Kuhlman 等人提到了移除edge来阻止谣言扩散。
@@ -563,7 +570,7 @@ acnode：[n] 孤立点
 >* $H_2$：标记用户的集合。
 >* $H_1$：不需要采取行动的集合。
 >
->处于$H_5$中的用户无法接受/传播谣言，其他处于$H_1 \to H_4$的用户可以被谣言影响，只是概率不同。
+>处于$H_5$中的用户无法接受/传播谣言，其他处于$H_1 \sim H_4$的用户可以被谣言影响，只是概率不同。
 >由于$H_5$直接删号了，因此对于$H_1 \to H_4$，共有4种阻断影响率(blocking influence rates)，用$\alpha_i(i\in \set{1,2,3,4})$表示。
 >**定义：**$0\le \alpha_1 <\alpha_2 <\alpha_3 <\alpha_4 <p_{(u,v)} \le 1$。其中$p_{(u,v)}$表示在不采取任何措施时，点u对点v的影响概率。采取措施后的概率如下：
 >![](assets/Pasted%20image%2020220928170156.png)
@@ -586,3 +593,253 @@ acnode：[n] 孤立点
 >   * t = 3 时，$v_7$ 没有被 $v_8$ 影响，删除 $v_8$ ，此时再没有点可被影响，传播结束。
 >![](assets/Pasted%20image%2020220928163716.png)
 >
+>**那么用户是怎么分类的？** 接触系数 *contact coefficient*
+> t 时刻点  $v_j$  的接触系数定义如下：
+> $$
+> \beta_{t,j} = \omega_1 x +\omega_2 y + \omega_3 z + \omega_4 \lambda
+>$$
+>  $\omega_1 \sim \omega_4$  为给定的权重系数，x 表示节点 $v_j$ 的第一跳的 True node 数量，y 为第二跳的 True node 数量，z 为第三跳 True node 数量。对于第四跳或更多，$\lambda$ 定义为:
+>  $$
+>  \lambda = \left\{
+>  \begin{aligned}
+>  & 0, \text{ no True node in it's 4th or more hops} \\
+>  & 1, \text{ have True node in it's 4th or more hops}
+>  \end{aligned}
+>  \right.
+>  $$
+>  这个 *“跳数”* 就是走几步能到的点。如果 $v_j$ 是一个孤立的点，则$\beta_{t,j}=0$ 。
+>  
+>  有了这个评价指标，要界定区分边界。令 $\theta_1,\theta_2,\theta_3(0\le \theta_1 < \theta_2 < \theta_3)$ 为分界点，==其中一个目标就是找到分界点。==分类规则如下：
+>  ![](assets/Pasted%20image%2020220929201200.png)
+>  **具体例子如下：**
+>  黑点表示 True node 。设 $\omega_1 =2 ,\omega_2=1,\omega_3=0.5,\omega_4=0.1,\theta_1 = 0.9,\theta_2 = 1.9,\theta_3 = 3.5$ 。
+>  * t = 0 时，$v_5,v_9$ 为 True node，则$H_{0,5} = \set{v_5,v_9}$ 。
+>    $\beta_{0,4} = \omega_1\cdot 2 + \omega_2 \cdot 0 +\omega_3 \cdot 0 + \omega_4 \cdot 0 = 2\times 2=4$  ;
+>    $\beta_{0,1}=\beta_{0,6} = 2 \times 1 +1 \times 1 = 3$ ; *( 这里原文中写错了 )*
+>    $\beta_{0,3}=\beta_{0,8} = 1,5$ ;
+>    $\beta_{0,2}=\beta_{0,7} = 0.6$ .
+>    分类结果如图 (a-3)所示。因此有$H_{0,1}=\set{v_2,v_7},H_{0,2}=\set{v_3,v_8},H_{0,3}=\set{v_1,v_6},H_{0,4}=\set{v_4},H_{0,5}=\set{v_5,v_9}$ 。
+>    
+>  ![](assets/Pasted%20image%2020220929201326.png)
+
+#### 5、问题定义
+> **快速控制谣言问题（Fast Controlling Rumor problem, FCR）**:
+> >给定 n 个点的图 G ，k 个 True nodes，影响概率 $p_{(u,v)}$ , 阻断影响率  $(\alpha_1,\alpha_2,\alpha_3,\alpha_4)$，开销 $(C_1,C_2,C_3,C_4,C_5)$，找到分界点 $\theta_1,\theta_2,\theta_3$，在预算 $C_{\text{total}}$ 内使得 $\tau$ 最小。
+> 实际开销 $H_{\theta_1\theta_2\theta_3(\text{cost})}$ ，是指从时间0到时间𝑡采取不同措施的成本之和。
+> ![](assets/Pasted%20image%2020220929211347.png)
+
+#### 6、算法
+> **Withdraw Bedeckung-Greedy Algorithm，WB-GA**
+> ![](assets/Pasted%20image%2020220930104815.png)
+> 概括一下：目标是找$\theta_1,\theta_2,\theta_3$ 。
+> 1. 对接触系数相同的点进行降序排序。
+> 2. 随机选择$\theta_1,\theta_2,\theta_3$ ，需要满足一些条件。
+> 3. 如果 $H_{\theta_1\theta_2\theta_3(\text{cost})} \le C_{\text{total}}$，则输出$\theta_1,\theta_2,\theta_3$ 。（case 1）
+> 4. 否则，case2。在成本约束下，将具有相同接触系数的节点，连续的放入$H_4,H_3,H_2 \text{ 至 } H_1$ 的集合中，如果开销小于 $C_{total}$ ，则将 $H_4$ 中==最小==接触系数的点放入 $H_3$ 中；将 $H_1$ 中接触系数==最大==的点放入 $H_2$ 中，直到有更好的解。最后，节点$H_1$，$H_2$和 $H_3$  的最大接触系数，就分别为$\theta_1$，$\theta_2$ 和 $\theta_3$ 。
+> 
+> 计算 $H_{\theta_1\theta_2\theta_3(\text{cost})}$ ：
+> ![](assets/Pasted%20image%2020221004162824.png)
+> 还是以 fig1 为例：
+> 1. t=0 时
+>    $$
+>    \begin{aligned}
+>    \text{cost}_0 &= C_1\cdot |H_{0,1}|+C_2\cdot |H_{0,2}|+C_3\cdot |H_{0,3}|+C_4\cdot |H_{0,4}|+C_5\cdot |H_{0,5}| \\
+>    & = 2C_1+2C_2+2C_3+C_4+2C_5
+>    \end{aligned}
+>  $$
+> 2. t=1 时，删除了 True node
+>    $$
+>    \begin{aligned}
+>    \text{cost}_1 &= C_1\cdot |H_{1,1}|+C_2\cdot |H_{1,2}|+C_3\cdot |H_{1,3}|+C_5\cdot |H_{1,5}| \\
+>    &= C_1+2C_2+2C_3+2C_5
+>    \end{aligned}
+>  $$
+>  3. t=2 时
+>     $$
+>     \begin{aligned}
+>     \text{cost}_2 &= C_1 \cdot|H_{2,1}|+C_3 \cdot|H_{2,3}|+C_5 \cdot|H_{2,5}| \\
+>     &=3C_1+C_3+C_5
+>     \end{aligned}
+>  $$
+>  4. t=3 时，没有更多的 True node ，传播停止了，$\text{cost}_3 = 0$ ，因此
+>     $H_{\theta_1\theta_2\theta_3\text{(cost)}} = \text{cost}_0+\text{cost}_1+\text{cost}_2 = 6C_1+4C_2+5C_3+2C_4+5C_5$
+
+
+#### 7、实验
+> 数据集来自 SNAP。
+> ![](assets/Pasted%20image%2020221004210115.png)
+> 两个图的密度分别为 0.001, 0.0002 。
+> edge 的概率可以统一设置为 𝑝(𝑢,𝑣)=0.05 或 𝑝(𝑢,𝑣)=0.1 或其他值。 *( 出处来自笔记中的第一篇论文，谣言纠正最大化 )*
+> 
+> 其他参数：
+> ![](assets/Pasted%20image%2020221004211026.png)
+> 对于每种算法，用1000次蒙特卡洛来估计谣言的预期传播时间（𝜏）和受谣言影响的预期节点数的结果。
+> 
+> **用于比较的算法：(文章这里写的很简略模糊，之后也没有具体解释)**
+> 1. Proximity。启发式算法，赋予顶点index值，选择和分类有最高 index 值的rumor nodes。
+> 2. Degree。基于顶点度进行挑选和分类。
+> 3. IMRank。通过计算基于排名的边际影响传播(marginal influence spread)，和排名之间的相互作用，来选择和分类顶点。
+> 4. Unblocking。啥也不干。
+> 
+> **结果图如下：**
+> 随着初始rumor nodes 的增加(k 的增加)，都展现出上升趋势，但WB-GA上升的幅度不大。图 Fig 4，当 k<800 时，WB-GA算法的扩散时间小于其他算法；k=800时，可以推断，WB-GA效果不好，因为初始谣言节点太多，而且在实践中，𝑘通常很小。
+> 原文说：*“我们可以推断，𝑘越小，我们的算法的性能就越好。”*
+> ![](assets/Pasted%20image%2020221005170815.png)
+> ![](assets/Pasted%20image%2020221005173036.png)
+> ![](assets/Pasted%20image%2020221005172724.png)
+> 
+> 
+> 当𝑘相同时，算法WB-GA的实际成本要比其他算法高。这是因为设定的其他算法的 $H_i$ 的数量很少。
+> ![](assets/Pasted%20image%2020221005203334.png)
+> 
+> 在不同的数据集下，WB-GA在不同的𝑝(𝑢,𝑣)下的运行时间，它包括1000次蒙特卡罗模拟的运行时间。
+> ![](assets/Pasted%20image%2020221005203356.png)
+
+
+
+## Minimizing rumor influence in multiplex online social networks based on human individual and social behaviors
+基于人的个体和社会行为，尽量减少多人在线社交网络中的谣言影响
+Hosni A I E, Li K, Ahmad S. Minimizing rumor influence in multiplex online social networks based on human individual and social behaviors[J]. Information Sciences, 2020, 512: 1458-1480.
+
+#### 1、名词概念
+
+word-of-mouth: [n]口碑
+herd mentality: [n]从众心理
+oscillation:[n]震荡
+eye-catching: [adj] 吸引眼球的
+latent:[adj]潜在的
+partial derivative: [n] 偏导数
+manifest:[v]显示，表明；[adj]明显的，显而易见的；[n]旅客清单，载货清单
+neutral:[adj]中立的，中性的
+
+#### 2、关于本文
+> 主要工作：
+> 1. 提出一个新的谣言传播模型 HISBmodel，综合考虑了人类的个人和社会行为。
+> 2. 提出 "真理运动策略（truth campaign strategy）"，来最小化谣言的影响。
+> 3. 通过实验证明，该策略平均减少了 69%的可能被谣言影响的人。
+> 
+> 文章将现有的研究方法分为两类：
+> 1. 宏观方面（Macroscopic approaches）：
+>    主要是基于Epidemic模型[(文章链接)](https://www.nature.com/articles/2041118a0)来研究谣言传播的问题。最近的研究集中在人类个体和社会行为的作用上；这些研究调查了不同人类因素在谣言传播过程中的影响。有几项工作侧重于研究人类的个体行为，如遗忘和记忆 ，犹豫不决 ，不完整的阅读，以及个体的教育 。其他的工作集中在人类社会行为的影响上，如信任机制，羊群心态，以及社会强化在网络行为传播中的作用。这些工作研究了不同因素在不同类型网络中的影响，如 "无标度网络" 和 "小世界网络" 。他们认为，所有的用户都具有不可区分的特征，具有相同的影响他人的能力。此外，在人类行为和人类互动中观察到的超出我们想象的多样性和复杂性被忽略了，这使得对谣言传播这样的现象进行建模具有挑战性。**此外，谣言的传播和流行病的传播是不同的**，因为个人在这里可以选择在任何时候退出谣言的传播过程；但是在流行病中，感染过程是相对被动的。最后，由于其研究问题的宏观性，用Epidemic模型研究RIM问题具有挑战性。
+> 2. 微观方面（Microscopic approaches）：多年来，在微观方法中提出了几个模型，例子包括：
+>    * 概率模型，如著名的独立级联（IC）和线性阈值（LT）模型，或Galam模型[(文章)](https://www.sciencedirect.com/science/article/abs/pii/S0378437102015820?via%3Dihub)；
+>    * 自然启发（nature-inspired）的模型，如能量模型（energy model）[(文章)](https://www.sciencedirect.com/science/article/abs/pii/S0378437113009680?via%3Dihub)；
+>    * 推理的概率模型(probabilistic models of inference)[(文章)](http://proceedings.mlr.press/v28/gomez-rodriguez13.html)；
+>    * 状态转换模型（state transition models）[(文章)](https://academic.oup.com/comnet/article-abstract/6/2/215/4060524?redirectedFrom=fulltext)
+>    这个方向的研究主要集中在设计限制谣言传播的策略上，其中对传播模型的关注很少。此外，这些模型仍然缺乏一些重要的细节，因为它们未能捕捉到某些方面，如个人意见的传播。
+>    最后，这些策略都是在封闭世界的假设下提出的；**然而，个人经常加入多个OSN，其中的谣言会同时在多个网络中传播。** 因此，所提出的RIM方法不能直接应用于多路OSN的传播；此外，据我们所知，很少有[文章](https://link.springer.com/chapter/10.1007/978-3-030-04224-0_9)研究多路OSN中的这个问题。
+>    
+
+##### 简谐阻尼运动
+
+##### 生存理论
+
+
+
+#### 3、传播模型
+##### 多重在线社交网络（online social networks，OSN）的表示
+> 简单来说，一个人可能同时使用多个社交网络，因此信息不单单只在一个网络上传播。
+> **定义：** 多重OSNs，有 n 个网络，用集合 $\mathbb{G}^n = (I,G^n)$ 表示，其中 $I=(V,C)$ 表示用户的集合。对于 $i\in I$ 中的每个用户，用点 $v\in V$ 与特点集合 $c\in C$ 表示，其中特点定义为用户所响应的谣言。$G^n = \set{G_1 = (V,E_1),G_2 = (V,E_2),...,G_n = (V,E_n)}$ ，具体示例见下图。
+> ![](assets/Pasted%20image%2020221008110018.png)
+##### 个人对谣言表述的行为(Individual behavior toward a rumor formulation)
+> ==三大因素：== 
+> 1. 个人背景知识(individual's background knowledge, IBK)。关于谣言了解的越多，即 IBK 越高，越快失去对谣言的兴趣。
+> 2. 犹豫机制（hesitating mechanism，HM）。一个人在传播谣言之前，最终会拥有一个潜伏期。这与个人对复兴的谣言的怀疑程度相对相关。
+> 3. 遗忘-记忆（forgetting-remembering，FR）因素。谣言可能被OSN中的其他信息所掩盖，个人可以停止并重新开始传播该谣言。
+> 
+> 作者研究发现：**个体对谣言的吸引在偏离平衡位置时类似于一个振荡系统。**
+> ![](assets/Pasted%20image%2020221008155006.png)
+> IBK现象如上图(a)所示；HM现象如上图(c)所示；FR现象如上图(b)所示。
+> 因此定义个人对谣言的吸引力为：
+> $$
+> A(t)=A_{int}e^{-\beta t}\cos(\omega t+\delta)
+> $$
+> 其中 A(t) 为个人在 t 时刻对谣言的吸引力；$A_{int}$ 为初始的谣言吸引力；$\beta$ 表示 IBK；$\omega$ 表示 FR 因素；$\delta$ 表示对谣言来源的信任程度，即HM。
+> 
+> 文章提出了一个命题：*谣言在网络中的影响对 FR和 HM因素的依赖性越来越大，而对 IBK 因素和谣言影响的依赖性却越来越小。*
+> 具体证明过程就不写了，大致就是**求偏导数**。
+> 令：
+> $$
+> \phi(\omega,\beta,\delta) = \int_0^\infty A_{int}e^{-\beta t}|\sin(\omega t + \delta)|dt,\quad \text{for } \beta>0
+> 
+> $$
+> 一通推导后有：
+> $$
+> \phi(\omega,\beta,\delta)=A_{int}\frac{\omega e^{\frac{\delta}{\omega}}(e^{\frac{-\beta\pi}{\omega}}+1)}{(\beta^2+\omega^2)(1-e^{\frac{-\beta\pi}{\omega}})}
+> $$
+> ![](assets/Pasted%20image%2020221008212533.png)
+> 上图证实了 $\phi( \omega, \beta, \delta)$ 的峰值是在 β 值较低、ω 和 δ 值较高时达到的。此外，我们可以看到 β 对下降趋势有更大的影响，这与关于IBK在传播过程中的重要性的假设相一致。
+> 最后，为了方便，将个人对谣言的吸引力记为： #公式2
+> $$
+> A(t)=A_{int}e^{-\beta t}|\sin(\omega t+\delta)|\tag{2}
+> $$
+
+##### 个人观点表述（Individual opinion formulation）
+> 个人对同一谣言的认定不同，个人可以确认、反驳、质疑或讨论感兴趣的事项。
+> 本文通过一个加法模型来评估个人 v 对谣言的态度： #公式3 
+> $$
+> B_v(t)=\sum_{u\in \mathbb{N}^v}\sum_{j=1}^n \frac{B_u(t-1)}{j},\quad \text{for } t>0 \tag{3}
+> $$
+> 其中 $\mathbb{N}^v$ 为 点 v 的邻居们，n 表示点 v 从一个邻居处收到的谣言的次数。
+> 不同值对应不同态度：
+> $$
+> B_v \in
+> \left\{
+> \begin{aligned}
+> &[-\infty,0],\text{ denial}\\
+> &[0,10],\text{ neutral}\\
+> &[10,20],\text{ questioning}\\
+> &[20,+\infty],\text{ supporting}
+> \end{aligned}
+> \right.
+> $$
+> [文章](https://www.sciencedirect.com/science/article/pii/S0378437115010328)中提出，大多数人是从众心理，盲目跟从他人观点；然而，当个人**不止一次**收到相同的信息时，由于信息冗余，它对他们的影响可能没有最初那么大。
+
+##### 谣言传播规则（Rumor transmission rules)
+> 确立一下谣言是怎么在多重OSN上传播的。
+> 分三部分：什么时候传播谣言？什么时候接收？选择那个网络？
+> 因此有了网络选择概率、谣言发送概率、谣言接收概率。
+> 对于第 k 层网络，点 u 向 v 传播谣言的概率为： #公式1
+> $$
+> \begin{align*}
+> p_{u,v}^k(t) = p_u^k \cdot p_u^{send}(t) \cdot p_{v,u}^{acc} \tag{1}
+> \end{align*}
+> $$
+> *网络选择概率*：与顶点的度有关，一个节点的入度代表了在OSN中的权威。其中 $d_{in}^i(u)$ 表示点 u 在 $\mathbb{G}^n$ 中的第 i 层的入度。
+> $$
+> p_u^k=\frac{d_{in}^k(u)}{\sum_{i=1}^n d_{in}^i(u)}
+> $$
+> *谣言发送概率：* 人为因素很大，即之前分析的。
+> $$
+> p_u^{send}(t) = e^{-\beta t}|\sin(\omega t + \delta)|
+> $$
+> *谣言接收概率：* 由于名人效应，度大的点不容易被影响。因此设计了一个平衡权重概率。其中 P 是在传播过程中设置的概率参数。
+> $$
+> p_{v,u} = \frac{1}{1+\frac{d_{in}^k(v)}{d_{in}^k(u)}}\cdot P
+> $$
+
+##### HISBmodel 传播流程
+> 给定一个 $\mathbb{G}^n=(I,G^n)$。
+> * t=0 时，给定一组传播者，在不同层中传播，并将不同的 “信念（belief）” 随机分配给这些点。其余点的状态为 “无知（ignorant）”。
+> * 在传播过程中，一个无知点满足 #公式1 ，那么它就成为传播者，并服从对谣言的行为，如 #公式2 所示。
+> * 在每个时刻，一个人接收谣言后，根据 #公式3 ，更新它对谣言的态度。
+> * 一个人可以接受一个以上的谣言。但是，他们对每个被接受的谣言只能传播一次。当传播者对谣言的兴趣减弱时，就不再参与传播过程。
+> * 最后，当谣言 “流行度恶化（rumor popularity deteriorates）” 时，传播过程就会结束。进一步定义如下：
+>   $$
+>   R(t) = \sum\limits_{i=1}^n R_i(t) \quad \text{where} \quad R_i(t)=\sum\limits_{v\in V}A_v(t)\cdot d_{in}^i(v)
+>   $$
+>   其中 $R_i(t)$ 是每层中所有个体的累积吸引力。
+
+### 4、谣言影响最小化
+> **问题定义：** 考虑多路 OSN，$\mathbb{G}^n = (I,G^n)$ 。假设在时刻 $t_{det}$ 时，在网络的第i层检测到一个谣言。目标是选择 k 个个体来发起真相运动，以使相信谣言的个体数量最小。
+
+##### 解决方法（算法）
+> 当谣言被检测到时，将顶点 V 分成两个集合：$V=V_{B^+} \cup V_{B^-}$ 。其中 $V_{B^-}$ 表示持负面态度的个体的集合，$V_{B^+}$ 表示剩余的集合。
+> 目标是从 $V_{B^+}$ 中选择 k 个最有影响力的节点来宣传，防止个人采用该谣言。提出了一个加法生存模型，其中节点 u 被激活的概率是由 #公式1 表示的传播概率**之和**。因此，节点被一个节点 v 感染的概率如下：
+> $$
+> \begin{aligned}
+>  h_v(t) &= \sum\limits_{i=1}^n \sum\limits_{u\in \mathbb{N}_i^v} p^i_{u,v}(t) \\
+>  &= p_v^{\text{send}}(t)\sum\limits_{i=1}^n \sum\limits_{u\in \mathbb{N}_i^v}p_v^i p_{v,u}^{\text{acc}}
+>  \end{aligned}
+> $$
+> 
